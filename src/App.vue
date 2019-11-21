@@ -13,7 +13,7 @@
             <v-list-item-title>HOME</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item link>
+        <v-list-item link :to="{name: 'respondedores'}">
           <v-list-item-action>
             <v-icon>mdi-contact-mail</v-icon>
           </v-list-item-action>
