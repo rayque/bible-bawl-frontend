@@ -47,6 +47,20 @@
         </v-col>
       </v-row>
     </v-container>
+
+    <v-container fluid >
+      <v-row>
+        <v-col cols="12">
+          <v-data-table
+            :headers="headers"
+            :items="respondedores"
+            :items-per-page="10"
+            class="elevation-1"
+          ></v-data-table>
+        </v-col>
+      </v-row>
+    </v-container>
+
   </div>
 </template>
 <script>
@@ -60,6 +74,16 @@
       dialog: false,
       nome: '',
       campoObrigadorio: [v => !!v || "Campo obrigatório"],
+      respondedores: [],
+      headers: [
+        {
+          text: 'Nome',
+          align: 'left',
+          value: 'nome',
+        },
+        { text: 'Codigo de Acesso', value: 'cod_acesso' },
+
+      ],
     }),
     methods: {
       salvarRespondedor() {
@@ -84,8 +108,9 @@
         `,
         result(res) {
           /* eslint-disable no-console */
-          console.log(res);
+          // console.log(res.data.getRespondedores);
           /* eslint-enable no-console */
+          this.respondedores = res.data.getRespondedores || [];
         }
       }
     }
