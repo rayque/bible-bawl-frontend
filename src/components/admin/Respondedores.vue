@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Header titulo="foo"  sub-titulo="bar" />
+    <Header titulo="foo"/>
 
     <v-container fluid class="grey lighten-5">
       <v-row>
@@ -37,8 +37,8 @@
               </v-card-text>
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="blue darken-1" text @click="dialog = false">Fechar</v-btn>
-                <v-btn color="blue darken-1" text @click="salvarRespondedor">Salvar</v-btn>
+                <v-btn color="grey darken-1" text @click="dialog = false">Fechar</v-btn>
+                <v-btn  color="green text-white"  @click.prevent="salvarRespondedor">Salvar</v-btn>
               </v-card-actions>
             </v-card>
           </v-dialog>
@@ -54,12 +54,26 @@
           <v-data-table
             :headers="headers"
             :items="respondedores"
-            :items-per-page="10"
+            :items-per-page="8"
             class="elevation-1"
           ></v-data-table>
         </v-col>
       </v-row>
     </v-container>
+
+    <v-snackbar
+      v-model="snackbar"
+      top
+      color="success"
+    >
+      Respondedor Cadastrdo com sucesso
+      <v-btn
+        text
+        @click="snackbar = false"
+      >
+        Fechar
+      </v-btn>
+    </v-snackbar>
 
   </div>
 </template>
@@ -72,6 +86,7 @@
     },
     data: () => ({
       dialog: false,
+      snackbar: false,
       nome: '',
       campoObrigadorio: [v => !!v || "Campo obrigatório"],
       respondedores: [],
@@ -88,9 +103,21 @@
     methods: {
       salvarRespondedor() {
         if (this.$refs.cadastroRespondedor.validate()) {
-          this.nome = this.nome;
+          this.$apollo.mutate({
+            mutation: gql`
+            mutation ($nome: String!) {
+              novoRespondedor(nome: $nome) {
+              id nome cod_acesso
+              }
+            }
+        `,
+            variables: {nome: this.nome}
+          }).then(() => {
+            this.snackbar = true
+            this.$apollo.queries.getRespondedores.refetch();
+            this.$refs.cadastroRespondedor.reset()
+          });
         }
-
       }
     },
     apollo: {
