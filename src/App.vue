@@ -1,5 +1,6 @@
 <template>
   <v-app id="inspire">
+
     <v-navigation-drawer
       v-model="drawer"
       app
@@ -15,10 +16,10 @@
         </v-list-item>
         <v-list-item link :to="{name: 'respondedores'}">
           <v-list-item-action>
-            <v-icon>mdi-contact-mail</v-icon>
+            <v-icon>mdi-cellphone-nfc</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>Contact</v-list-item-title>
+            <v-list-item-title>Respondedores</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -29,8 +30,9 @@
       color="indigo"
       dark
     >
+
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <v-toolbar-title>Bible Bawl</v-toolbar-title>
+      <v-toolbar-title>Sys</v-toolbar-title>
     </v-app-bar>
 
     <v-content>
