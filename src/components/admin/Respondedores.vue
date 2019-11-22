@@ -51,6 +51,7 @@
 </template>
 <script>
   import Header from "./../layouts/Header"
+  import gql from 'graphql-tag'
   export default {
     components: {
       Header
@@ -66,6 +67,26 @@
           this.nome = this.nome;
         }
 
+      }
+    },
+    apollo: {
+      // They key is the name of the data property
+      // on the component that you intend to populate.
+      getRespondedores: {
+        // Yes, this looks confusing.
+        // It's just normal GraphQL.
+        query: gql`
+          query getRespondedores {
+            getRespondedores {
+              id nome cod_acesso
+            }
+          }
+        `,
+        result(res) {
+          /* eslint-disable no-console */
+          console.log(res);
+          /* eslint-enable no-console */
+        }
       }
     }
   }
