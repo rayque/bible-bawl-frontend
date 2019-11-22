@@ -17,11 +17,21 @@
               </v-card-title>
               <v-card-text>
                 <v-container>
-                  <v-row>
-                    <v-col cols="12">
-                      <v-text-field label="Nome completo *" required></v-text-field>
-                    </v-col>
-                  </v-row>
+                  <v-form ref="cadastroRespondedor">
+
+                    <v-row>
+                      <v-col cols="12">
+                        <v-text-field
+                          label="Nome completo *"
+                          required
+                          :rules="campoObrigadorio"
+                          v-model="nome"
+                        ></v-text-field>
+                      </v-col>
+                    </v-row>
+
+
+                  </v-form>
                 </v-container>
                 <small>*Indica campo obrigatório</small>
               </v-card-text>
@@ -48,10 +58,14 @@
     data: () => ({
       dialog: false,
       nome: '',
+      campoObrigadorio: [v => !!v || "Campo obrigatório"],
     }),
     methods: {
       salvarRespondedor() {
-        
+        if (this.$refs.cadastroRespondedor.validate()) {
+          this.nome = this.nome;
+        }
+
       }
     }
   }
