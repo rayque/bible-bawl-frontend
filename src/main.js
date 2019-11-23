@@ -3,6 +3,12 @@ import App from './App.vue'
 import vuetify from './plugins/vuetify';
 import VueRouter from "vue-router";
 import { routes}  from './routes';
+import store from './store';
+import * as Helper from './Helpers';
+
+Vue.prototype.Helper = Helper;
+
+
 
 // This is everything we need to work with Apollo 2.0.
 import { ApolloClient } from 'apollo-client';
@@ -54,6 +60,7 @@ new Vue({
   // Inject apolloProvider for components to use.
   provide: apolloProvider.provide(),
   vuetify,
+  store,
   router,
   render: h => h(App)
 }).$mount('#app')

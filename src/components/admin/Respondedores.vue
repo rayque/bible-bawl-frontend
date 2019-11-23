@@ -16,12 +16,14 @@
                 <span class="headline">Respondedor</span>
               </v-card-title>
               <v-card-text>
-                <v-container>
+                <v-container >
                   <v-form ref="cadastroRespondedor">
 
                     <v-row>
                       <v-col cols="12">
                         <v-text-field
+                          ref="nomeInput"
+                          v-if="dialog"
                           label="Nome completo *"
                           required
                           :rules="campoObrigadorio"
@@ -60,21 +62,6 @@
         </v-col>
       </v-row>
     </v-container>
-
-    <v-snackbar
-      v-model="snackbar"
-      top
-      color="success"
-    >
-      Respondedor Cadastrdo com sucesso
-      <v-btn
-        text
-        @click="snackbar = false"
-      >
-        Fechar
-      </v-btn>
-    </v-snackbar>
-
   </div>
 </template>
 <script>
@@ -86,7 +73,6 @@
     },
     data: () => ({
       dialog: false,
-      snackbar: false,
       nome: '',
       campoObrigadorio: [v => !!v || "Campo obrigatório"],
       respondedores: [],
@@ -103,20 +89,28 @@
     methods: {
       salvarRespondedor() {
         if (this.$refs.cadastroRespondedor.validate()) {
-          this.$apollo.mutate({
-            mutation: gql`
-            mutation ($nome: String!) {
-              novoRespondedor(nome: $nome) {
-              id nome cod_acesso
-              }
-            }
-        `,
-            variables: {nome: this.nome}
-          }).then(() => {
-            this.snackbar = true
-            this.$apollo.queries.getRespondedores.refetch();
-            this.$refs.cadastroRespondedor.reset()
-          });
+          this.$apollo
+            .mutate({
+              mutation: gql`
+                  mutation ($nome: String!) {
+                    novoRespondedor(nome: $nome) {
+                    id nome cod_acesso
+                    }
+                  }
+              `,
+              variables: {nome: this.nome}
+            })
+            .then(() => {
+              this.Helper.exibirMensagem("deu certo", 'success', 3000);
+              // this.snackbar = true
+              this.$apollo.queries.getRespondedores.refetch();
+              this.$refs.cadastroRespondedor.reset()
+            })
+            .catch(e => {
+              const msg = e.graphQLErrors[0].message || "Ocorreu um erro. Tente novamente.";
+              this.Helper.exibirMensagem(msg, 'error', 3000);
+            });
+
         }
       }
     },

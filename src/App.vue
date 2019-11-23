@@ -1,6 +1,8 @@
 <template>
   <v-app id="inspire">
 
+    <snack-bar></snack-bar>
+
     <v-navigation-drawer
       v-model="drawer"
       app
@@ -50,7 +52,11 @@
 </template>
 
 <script>
+  import SnackBar from "./components/utils/SnackBar"
   export default {
+    components: {
+      SnackBar
+    },
     props: {
       source: String,
     },
