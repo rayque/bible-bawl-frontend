@@ -24,6 +24,17 @@
             <v-list-item-title>Respondedores</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+
+
+        <v-list-item link :to="{name: 'equipes'}">
+          <v-list-item-action>
+            <v-icon>mdi-account-group</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Equipes</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
       </v-list>
     </v-navigation-drawer>
 

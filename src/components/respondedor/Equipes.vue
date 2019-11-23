@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Header titulo="foo"/>
+    <Header titulo="Bar"/>
 
     <v-container fluid class="grey lighten-5">
       <v-row>
@@ -8,12 +8,12 @@
           cols="12"
         >
           <v-dialog v-model="dialog" persistent max-width="600px">
-              <template v-slot:activator="{ on }">
-              <v-btn color="primary" dark v-on="on">Cadastrar Respondedor</v-btn>
+            <template v-slot:activator="{ on }">
+              <v-btn color="primary" dark v-on="on">Cadastrar Equipe</v-btn>
             </template>
             <v-card>
               <v-card-title>
-                <span class="headline">Respondedor</span>
+                <span class="headline">Equipe</span>
               </v-card-title>
               <v-card-text>
                 <v-container >
@@ -21,14 +21,55 @@
 
                     <v-row>
                       <v-col cols="12">
+
                         <v-text-field
-                          ref="nomeInput"
-                          v-if="dialog"
                           label="Nome completo *"
                           required
                           :rules="campoObrigadorio"
                           v-model="nome"
                         ></v-text-field>
+
+                        <v-text-field
+                          label="Data nascimento *"
+                          required
+                          :rules="campoObrigadorio"
+                          v-model="dtNascimento"
+                          v-mask="'##/##/####'"
+                        ></v-text-field>
+
+
+
+
+                        <v-menu
+                          ref="menu"
+                          v-model="menu"
+                          :close-on-content-click="false"
+                          transition="scale-transition"
+                          offset-y
+                          full-width
+                          min-width="290px"
+                        >
+                          <template v-slot:activator="{ on }">
+                            <v-text-field
+                              locale="pt-br"
+                              v-model="date"
+                              label="Data Nascimento"
+                              readonly
+                              v-on="on"
+                            ></v-text-field>
+                          </template>
+                          <v-date-picker
+                            locale="pt-br"
+                            ref="picker"
+                            v-model="date"
+                            :max="new Date().toISOString().substr(0, 10)"
+                            min="01/01/1950"
+                            @change="save"
+                          ></v-date-picker>
+                        </v-menu>
+
+
+
                       </v-col>
                     </v-row>
 
@@ -67,13 +108,16 @@
 <script>
   import Header from "./../layouts/Header"
   import gql from 'graphql-tag'
+  import {mask} from 'vue-the-mask'
   export default {
+    directives: {mask},
     components: {
       Header
     },
     data: () => ({
       dialog: false,
       nome: '',
+      dtNascimento: '',
       campoObrigadorio: [v => !!v || "Campo obrigatório"],
       respondedores: [],
       headers: [
@@ -85,8 +129,15 @@
         { text: 'Codigo de Acesso', value: 'cod_acesso' },
 
       ],
+
+      date: null,
+      menu: false,
     }),
     methods: {
+
+      save (date) {
+        this.$refs.menu.save(date)
+      },
       salvarRespondedor() {
         if (this.$refs.cadastroRespondedor.validate()) {
           this.$apollo
@@ -112,6 +163,12 @@
 
         }
       }
+    },
+
+    watch: {
+      menu (val) {
+        val && setTimeout(() => (this.$refs.picker.activePicker = 'DAY'))
+      },
     },
     apollo: {
       // They key is the name of the data property
