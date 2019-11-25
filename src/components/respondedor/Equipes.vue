@@ -17,62 +17,36 @@
               </v-card-title>
               <v-card-text>
                 <v-container >
-                  <v-form ref="cadastroRespondedor">
+                  <v-form ref="formCadEquipes">
 
                     <v-row>
                       <v-col cols="12">
+                        <div
+                          v-for="n in 4"  :key="n" >
 
-                        <v-text-field
-                          label="Nome completo *"
-                          required
-                          :rules="campoObrigadorio"
-                          v-model="nome"
-                        ></v-text-field>
+                          <div class="mb-2 pa-2  blue-grey lighten-5" >
 
-                        <v-text-field
-                          label="Data nascimento *"
-                          required
-                          :rules="campoObrigadorio"
-                          v-model="dtNascimento"
-                          v-mask="'##/##/####'"
-                        ></v-text-field>
+                            <h3 class="text-center" >Participante {{ n }}</h3>
 
-
-
-
-                        <v-menu
-                          ref="menu"
-                          v-model="menu"
-                          :close-on-content-click="false"
-                          transition="scale-transition"
-                          offset-y
-                          full-width
-                          min-width="290px"
-                        >
-                          <template v-slot:activator="{ on }">
                             <v-text-field
-                              locale="pt-br"
-                              v-model="date"
-                              label="Data Nascimento"
-                              readonly
-                              v-on="on"
+                              label="Nome completo *"
+                              required
+                              :rules="rules.campoObrigatorio"
+                              v-model="novaEquipe[n-1].nome"
                             ></v-text-field>
-                          </template>
-                          <v-date-picker
-                            locale="pt-br"
-                            ref="picker"
-                            v-model="date"
-                            :max="new Date().toISOString().substr(0, 10)"
-                            min="01/01/1950"
-                            @change="save"
-                          ></v-date-picker>
-                        </v-menu>
 
+                            <v-text-field
+                              label="Data nascimento *"
+                              required
+                              :rules="[rules.validarData]"
+                              v-mask="'##/##/####'"
+                              v-model="novaEquipe[n-1].data_nascimento"
+                            ></v-text-field>
 
-
+                          </div>
+                        </div>
                       </v-col>
                     </v-row>
-
 
                   </v-form>
                 </v-container>
@@ -81,7 +55,7 @@
               <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn color="grey darken-1" text @click="dialog = false">Fechar</v-btn>
-                <v-btn  color="green text-white"  @click.prevent="salvarRespondedor">Salvar</v-btn>
+                <v-btn  color="green text-white"  @click.prevent="salvarEquipe">Salvar</v-btn>
               </v-card-actions>
             </v-card>
           </v-dialog>
@@ -109,6 +83,7 @@
   import Header from "./../layouts/Header"
   import gql from 'graphql-tag'
   import {mask} from 'vue-the-mask'
+  import moment from 'moment'
   export default {
     directives: {mask},
     components: {
@@ -118,8 +93,8 @@
       dialog: false,
       nome: '',
       dtNascimento: '',
-      campoObrigadorio: [v => !!v || "Campo obrigatório"],
       respondedores: [],
+      novaEquipe: [],
       headers: [
         {
           text: 'Nome',
@@ -133,28 +108,52 @@
       date: null,
       menu: false,
     }),
+    beforeMount() {
+      this.novaEquipe = this.setEquipe();
+    },
     methods: {
-
-      save (date) {
-        this.$refs.menu.save(date)
+      setEquipe() {
+        const participantes = [];
+        for (let n = 0; n <4; n += 1) {
+          participantes.push({nome: '', data_nascimento: ''})
+        }
+        return participantes;
       },
-      salvarRespondedor() {
-        if (this.$refs.cadastroRespondedor.validate()) {
+      async formatarDataNascimento() {
+        return await  Object.values(this.novaEquipe).map(participante => {
+          const data_nascimento = moment(participante.data_nascimento, 'DD/MM/YYYY').format("YYYY-MM-DD");
+          return {
+            ...participante,
+            data_nascimento
+          }
+        });
+      },
+      async salvarEquipe() {
+        if (this.$refs.formCadEquipes.validate()) {
+
+          const dados = await this.formatarDataNascimento();
+
           this.$apollo
             .mutate({
               mutation: gql`
-                  mutation ($nome: String!) {
-                    novoRespondedor(nome: $nome) {
-                    id nome cod_acesso
+                  mutation ($dados: [ParticipanteInput]) {
+                    novaEquipe(dados: $dados) {
+                      id
+                      nome
+                      participantes {
+                        id
+                        nome
+                        data_nascimento
+                      }
                     }
                   }
               `,
-              variables: {nome: this.nome}
+              variables: {dados: dados}
             })
             .then(() => {
-              this.Helper.exibirMensagem("Respondedor cadastrado com sucesso!", 'success', 3000);
+              this.Helper.exibirMensagem("Equipe cadastrada com sucesso!", 'success', 3000);
               this.$apollo.queries.getRespondedores.refetch();
-              this.$refs.cadastroRespondedor.reset()
+              this.$refs.formCadEquipes.reset()
             })
             .catch(e => {
               const msg = e.graphQLErrors[0].message || "Ocorreu um erro. Tente novamente.";
@@ -164,11 +163,21 @@
         }
       }
     },
-
-    watch: {
-      menu (val) {
-        val && setTimeout(() => (this.$refs.picker.activePicker = 'DAY'))
-      },
+    computed: {
+      rules() {
+        return {
+          campoObrigatorio: [v => !!v || "Campo obrigatório"],
+          validarData: v => {
+            if (v === "" || v === undefined) {
+              return "Campo Obrigatório";
+            }
+            if (v != undefined && v.length >= 8) {
+              return this.Helper.validarData(v || "") || "Fomato inválido";
+            }
+            return true;
+          }
+        };
+      }
     },
     apollo: {
       // They key is the name of the data property
