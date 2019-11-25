@@ -6,8 +6,6 @@ export const exibirMensagem = (mensagem, color, timeout) => {
   store.commit("habilitarSnackBar", snackbar);
 };
 
-
-
 export const validarData = data => {
   if (!verificarTamanhoData(data)) {
     return false;
