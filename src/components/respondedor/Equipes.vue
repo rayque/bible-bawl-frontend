@@ -8,7 +8,7 @@
 
           <v-data-table
             :headers="headers"
-            :items="desserts"
+            :items="listaEquipes"
             sort-by="calories"
             class="elevation-1"
           >
@@ -118,17 +118,14 @@
       Header
     },
     data: () => ({
+      equipes: [],
       dialog: false,
-      nome: '',
-      dtNascimento: '',
-      respondedores: [],
       novaEquipe: [],
-      dialogTable: false,
       headers: [
         {
           text: 'Equipe',
           align: 'left',
-          value: 'name',
+          value: 'nome',
         },
         { text: 'Categoria', value: 'categoria' },
         { text: 'Ações', value: 'action', sortable: false },
@@ -136,15 +133,6 @@
 
       desserts: [],
       editedIndex: -1,
-      editedItem: {
-        name: '',
-        calories: 0,
-        fat: 0,
-        carbs: 0,
-        protein: 0,
-      },
-
-
       date: null,
       menu: false,
     }),
@@ -197,7 +185,7 @@
             })
             .then(() => {
               this.Helper.exibirMensagem("Equipe cadastrada com sucesso!", 'success', 3000);
-              this.$apollo.queries.getRespondedores.refetch();
+              this.$apollo.queries.getEquipes.refetch();
               this.$refs.formCadEquipes.reset()
             })
             .catch(e => {
@@ -223,13 +211,12 @@
 
       editItem (item) {
         this.editedIndex = this.desserts.indexOf(item)
-        this.editedItem = Object.assign({}, item)
         this.dialog = true
       },
 
       deleteItem (item) {
         const index = this.desserts.indexOf(item)
-        confirm('Are you sure you want to delete this item?') && this.desserts.splice(index, 1)
+        confirm('Are you sure you want to delete this team?') && this.desserts.splice(index, 1)
       },
 
       close () {
@@ -244,6 +231,26 @@
     },
 
     computed: {
+      listaEquipes() {
+        return this.equipes.map(equipe => {
+
+
+          /* eslint-disable no-console */
+          console.log(equipe);
+          /* eslint-enable no-console */
+
+          let categoria = equipe.categoria || null;
+          if (categoria) {
+            categoria = categoria.descricao;
+          }
+
+          return {
+            id: equipe.id,
+            nome: equipe.nome,
+            categoria: categoria,
+          }
+        })
+      },
       formTitle () {
         return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
       },
@@ -265,13 +272,26 @@
     apollo: {
       // They key is the name of the data property
       // on the component that you intend to populate.
-      getRespondedores: {
+      getEquipes: {
         // Yes, this looks confusing.
         // It's just normal GraphQL.
         query: gql`
-          query getRespondedores {
-            getRespondedores {
-              id nome cod_acesso
+          query getEquipes {
+              getEquipes{
+              id
+              nome
+              categoria {
+                id
+                nome
+                descricao
+                idade_min
+                idade_max
+              }
+              participantes {
+                id
+                nome
+                data_nascimento
+              }
             }
           }
         `,
@@ -279,7 +299,7 @@
           /* eslint-disable no-console */
           // console.log(res.data.getRespondedores);
           /* eslint-enable no-console */
-          this.respondedores = res.data.getRespondedores || [];
+          this.equipes = res.data.getEquipes || [];
         }
       }
     }
