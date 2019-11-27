@@ -5,7 +5,6 @@
       <v-row>
         <v-col cols="12">
 
-
           <v-data-table
             :headers="headers"
             :items="listaEquipes"
@@ -196,18 +195,6 @@
         }
       },
 
-      initialize () {
-        this.desserts = [
-          {
-            name: 'Frozen Yogurt',
-            categoria: 1,
-          },
-          {
-            name: 'Ice cream sandwich',
-            categoria: 2
-          },
-        ]
-      },
 
       editItem (item) {
         this.editedIndex = this.desserts.indexOf(item)
