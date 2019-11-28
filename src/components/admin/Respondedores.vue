@@ -287,16 +287,21 @@
         return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
       },
       listEquipes() {
-        let equipesRespondedor = [];
+        let equipesRespondedores = [];
         this.respondedores.forEach(respondedor => {
           respondedor.equipes.forEach(equipe => {
-            equipesRespondedor.push(equipe.id);
+            equipesRespondedores.push(equipe.id);
           });
         });
+        /* eslint-disable no-console */
+        // console.log(this.equipesSelecionadas);
 
-        return this.equipes.filter(equipe => {
-          return equipesRespondedor.indexOf(equipe.id)
+        const equipesDisponiveis = this.equipes.filter(equipe => {
+          return !equipesRespondedores.includes(equipe.id) || this.equipesSelecionadas.includes(equipe.id);
         });
+
+        return equipesDisponiveis;
+
       }
     },
 
