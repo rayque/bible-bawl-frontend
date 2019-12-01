@@ -1,5 +1,5 @@
 <template>
-  <v-app id="inspire">
+  <v-app id="inspire" >
 
     <snack-bar></snack-bar>
 
@@ -35,6 +35,16 @@
           </v-list-item-content>
         </v-list-item>
 
+        <v-list-item link :to="{name: 'copa'}">
+          <v-list-item-action>
+            <v-icon>mdi-account-multiple-check</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Copa</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
+
       </v-list>
     </v-navigation-drawer>
 
@@ -48,7 +58,7 @@
       <v-toolbar-title>Sys</v-toolbar-title>
     </v-app-bar>
 
-    <v-content>
+    <v-content class="grey lighten-3">
 
       <router-view/>
 
