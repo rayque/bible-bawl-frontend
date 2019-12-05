@@ -17,7 +17,7 @@
             </v-row>
 
             <v-row no-gutters  v-if="perguntaAtual">
-                <v-col :cols="equipes/12" v-for="(equipe, indexEquipe) in equipes" :key="indexEquipe">
+                <v-col :cols="equipes/12" v-for="(equipe, indexEquipe) in listaEquipes" :key="indexEquipe">
 
                     <v-card flat class="text-center white--text">
                         <v-dialog
@@ -128,11 +128,67 @@
         methods: {
             salvarRespota(participante) {
                 /* eslint-disable no-console */
-                participante.respota = true;
-                console.log(participante);
+                // participante.respota = true;
+
+                this.equipes.forEach(equipe => {
+                    equipe.participantes.forEach(p => {
+                        if (participante.id === p.id) {
+                            p.resposta = !p.resposta;
+                            // resposta = p.resposta;
+                        }
+                    })
+                })
+
+                // const equipes = this.equipes.map(equipe => {
+                //     return equipe.participantes.map(p => {
+                //         if (participante.id === p.id) {
+                //             p.resposta = !p.resposta;
+                //             // resposta = p.resposta;
+                //         }
+                //         return p;
+                //     })
+                // })
+                //
+                // this.equipes = equipes;
+                // this.$apollo
+                //     .mutate({
+                //         mutation: gql`
+                //           mutation ($dados: RespostaInput!) {
+                //             setResposta(dados: $dados)
+                //           }
+                //       `,
+                //         variables: {dados: {
+                //                 participante_id: participante.id,
+                //                 pergunta_id: this.perguntaAtual,
+                //                 resposta: resposta
+                //             }}
+                //     })
+                //     .then(() => {
+                //
+                //         const equipes = this.equipes.map(equipe => {
+                //             return equipe;
+                //         })
+                //
+                //         this.equipes = Object.assign(equipes);
+                //     })
+                //     .catch(e => {
+                //         const msg = e.graphQLErrors[0].message || "Ocorreu um erro. Tente novamente.";
+                //         this.Helper.exibirMensagem(msg, 'error', 3000);
+                //     });
+
+
+
+
+            },
+
+            resetEquipes() {
+                this.equipes.forEach(equipe => {
+                    equipe.participantes.forEach(participante => {
+                        participante.resposta = false;
+                    })
+                })
             }
         },
-
         watch: {
             loader() {
                 const l = this.loader
@@ -143,42 +199,47 @@
                 this.loader = null
             },
         },
+        computed: {
+            listaEquipes() {
+                return this.equipes;
+            }
+        },
         apollo: {
             getRespondedor: {
                 // Yes, this looks confusing.
                 // It's just normal GraphQL.
                 query: gql`
-          query getRespondedor {
-            getRespondedor(id: 1){
-                id
-                nome
-                cod_acesso
-                equipes {
-                    id
-                    nome
-                    categoria {
-                        id 
-                        nome
-                        descricao
-                    }
-                    participantes {
+                  query getRespondedor {
+                    getRespondedor(id: 1){
                         id
                         nome
+                        cod_acesso
+                        equipes {
+                            id
+                            nome
+                            categoria {
+                                id
+                                nome
+                                descricao
+                            }
+                            participantes {
+                                id
+                                nome
+                            }
+                        }
                     }
-                }
-            }
-          }
-        `,
+                  }
+                `,
                 result(res) {
                     /* eslint-disable no-console */
                     /* eslint-enable no-console */
                     this.respondedor = res.data.getRespondedor || [];
                     this.equipes = this.respondedor.equipes || [];
+                    this.resetEquipes();
                 },
                 catch() {
                     this.Helper.exibirMensagem("error", 'error', 3000);
                 }
-
             },
             getPerguntaAtual: {
                 query: gql`
