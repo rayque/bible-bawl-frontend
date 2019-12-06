@@ -66,29 +66,30 @@
                             </v-card>
                         </v-dialog>
 
+
+
                         <v-row no-gutters>
                             <v-col cols="12" class="text-center"
                                    v-for="(participante, indexParticipante) in equipe.participantes"
                                    :key="indexParticipante">
 
-                                <!-- <v-btn text class="mt-3 mb-3" @click="salvarRespota(participante)"  elevation="6" icon color="grey lighten-1"> -->
-                                <!-- <v-icon>mdi-account</v-icon> -->
-                                <v-btn  v-if="!participante.resposta"
-                                        @click="salvarRespota(participante)"
+                                <v-btn
+                                        v-if="respostasCertas.indexOf(participante.id) === -1"
+                                        @click="salvarRespota(participante.id)"
                                         color="grey lighten-1"
                                         class="mt-3 mb-3"
                                         icon
-                                        elevation="6"
                                 >
                                     <v-icon indigo>mdi-account</v-icon>
                                 </v-btn>
 
-                                <v-btn  v-if="participante.resposta"
+
+                                <v-btn  v-if="respostasCertas.indexOf(participante.id) !== -1"
+                                        @click="salvarRespota(participante.id)"
                                         color="green darken-1"
                                         class="mt-3 mb-3"
                                         icon
                                         elevation="6"
-                                        @click="salvarRespota(participante)"
                                 >
                                     <v-icon>mdi-account</v-icon>
                                 </v-btn>
@@ -123,58 +124,42 @@
             perguntaAtual: null,
             loader: null,
             loading5: false,
-
+            respostasCertas: [],
         }),
         methods: {
-            salvarRespota(participante) {
+            salvarRespota(id) {
                 /* eslint-disable no-console */
                 // participante.respota = true;
+                const indexTemResposta = this.respostasCertas.indexOf(id);
+                const resposta = indexTemResposta === -1;
 
-                this.equipes.forEach(equipe => {
-                    equipe.participantes.forEach(p => {
-                        if (participante.id === p.id) {
-                            p.resposta = !p.resposta;
-                            // resposta = p.resposta;
+
+
+                this.$apollo
+                    .mutate({
+                        mutation: gql`
+                          mutation ($dados: RespostaInput!) {
+                            setResposta(dados: $dados)
+                          }
+                      `,
+                        variables: {dados: {
+                                participante_id: id,
+                                pergunta_id: this.perguntaAtual,
+                                resposta: resposta
+                            }}
+                    })
+                    .then(() => {
+
+                        if (indexTemResposta === -1) {
+                            this.respostasCertas.push(id);
+                        } else {
+                            this.respostasCertas.splice(indexTemResposta, 1);
                         }
                     })
-                })
-
-                // const equipes = this.equipes.map(equipe => {
-                //     return equipe.participantes.map(p => {
-                //         if (participante.id === p.id) {
-                //             p.resposta = !p.resposta;
-                //             // resposta = p.resposta;
-                //         }
-                //         return p;
-                //     })
-                // })
-                //
-                // this.equipes = equipes;
-                // this.$apollo
-                //     .mutate({
-                //         mutation: gql`
-                //           mutation ($dados: RespostaInput!) {
-                //             setResposta(dados: $dados)
-                //           }
-                //       `,
-                //         variables: {dados: {
-                //                 participante_id: participante.id,
-                //                 pergunta_id: this.perguntaAtual,
-                //                 resposta: resposta
-                //             }}
-                //     })
-                //     .then(() => {
-                //
-                //         const equipes = this.equipes.map(equipe => {
-                //             return equipe;
-                //         })
-                //
-                //         this.equipes = Object.assign(equipes);
-                //     })
-                //     .catch(e => {
-                //         const msg = e.graphQLErrors[0].message || "Ocorreu um erro. Tente novamente.";
-                //         this.Helper.exibirMensagem(msg, 'error', 3000);
-                //     });
+                    .catch(e => {
+                        const msg = e.graphQLErrors[0].message || "Ocorreu um erro. Tente novamente.";
+                        this.Helper.exibirMensagem(msg, 'error', 3000);
+                    });
 
 
 
