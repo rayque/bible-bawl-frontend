@@ -4,6 +4,8 @@
 
         <v-container fluid>
 
+
+            {{ novaPerguntaAtual }}
             <v-alert v-if="!perguntaAtual" type="info">
                 Não há perguntas disponíveis.
             </v-alert>
@@ -125,6 +127,7 @@
             loader: null,
             loading5: false,
             respostasCertas: [],
+            novaPerguntaAtual: '-------'
         }),
         methods: {
             salvarRespota(id) {
@@ -233,14 +236,31 @@
                   }
                 `,
                 result(res) {
-                    /* eslint-enable no-console */
                     this.perguntaAtual = res.data.getPerguntaAtual;
                 },
                 catch() {
                     this.Helper.exibirMensagem("error", 'error', 3000);
                 }
 
-            }
+            },
+            // Subscriptions
+            $subscribe: {
+                // When a user is added
+                novaPerguntaAtual: {
+                    query: gql`
+                    subscription {
+                          novaPerguntaAtual
+                    }
+                    `,
+                    // Result hook
+                    result (data) {
+                        /* eslint-enable no-console */
+
+                        // Let's update the local data
+                        this.novaPerguntaAtual = data
+                    },
+                },
+            },
         }
     }
 </script>
