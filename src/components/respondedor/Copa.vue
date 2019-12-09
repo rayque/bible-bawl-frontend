@@ -4,8 +4,6 @@
 
         <v-container fluid>
 
-
-            {{ novaPerguntaAtual }}
             <v-alert v-if="!perguntaAtual" type="info">
                 Não há perguntas disponíveis.
             </v-alert>
@@ -136,8 +134,6 @@
                 const indexTemResposta = this.respostasCertas.indexOf(id);
                 const resposta = indexTemResposta === -1;
 
-
-
                 this.$apollo
                     .mutate({
                         mutation: gql`
@@ -163,10 +159,6 @@
                         const msg = e.graphQLErrors[0].message || "Ocorreu um erro. Tente novamente.";
                         this.Helper.exibirMensagem(msg, 'error', 3000);
                     });
-
-
-
-
             },
 
             resetEquipes() {
@@ -175,7 +167,15 @@
                         participante.resposta = false;
                     })
                 })
+            },
+
+            setNovaPergunta() {
+                if (this.novaPerguntaAtual) {
+                    this.respostasCertas = [];
+                    this.perguntaAtual = this.novaPerguntaAtual
+                }
             }
+
         },
         watch: {
             loader() {
@@ -255,9 +255,11 @@
                     // Result hook
                     result (data) {
                         /* eslint-enable no-console */
-
                         // Let's update the local data
-                        this.novaPerguntaAtual = data
+                        this.novaPerguntaAtual = data.data.novaPerguntaAtual;
+
+                        this.setNovaPergunta()
+
                     },
                 },
             },
