@@ -170,10 +170,8 @@
             },
 
             setNovaPergunta() {
-                if (this.novaPerguntaAtual) {
-                    this.respostasCertas = [];
-                    this.perguntaAtual = this.novaPerguntaAtual
-                }
+                this.respostasCertas = [];
+                this.perguntaAtual = this.novaPerguntaAtual
             }
 
         },
