@@ -1,14 +1,12 @@
 <template>
   <div>
-    <Header titulo="foo"/>
+    <Header titulo="Administrar Respondedores"/>
 
     <v-container fluid class="grey lighten-5">
       <v-row>
         <v-col
           cols="12"
         >
-
-
           <v-data-table
             :headers="headers"
             :items="respondedores"
@@ -17,7 +15,7 @@
           >
             <template v-slot:top>
               <v-toolbar flat color="white">
-                <v-toolbar-title>My CRUD</v-toolbar-title>
+                <v-toolbar-title>Respondedores</v-toolbar-title>
                 <v-divider
                   class="mx-4"
                   inset
@@ -26,7 +24,9 @@
                 <v-spacer></v-spacer>
                 <v-dialog v-model="dialog" persistent max-width="600px">
                   <template v-slot:activator="{ on }">
-                    <v-btn color="primary" dark v-on="on">Cadastrar Respondedor</v-btn>
+                    <v-btn color="primary" dark v-on="on">
+                      <v-icon>mdi-plus-box-multiple</v-icon>
+                    </v-btn>
                   </template>
                   <v-card>
                     <v-card-title>
@@ -117,11 +117,6 @@
                 mdi-account-group
               </v-icon>
             </template>
-
-
-            <!--<template v-slot:no-data>-->
-              <!--<v-btn color="primary" >Reset</v-btn>-->
-            <!--</template>-->
 
           </v-data-table>
 

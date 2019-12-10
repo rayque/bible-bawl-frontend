@@ -16,6 +16,17 @@
             <v-list-item-title>HOME</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+
+
+        <v-list-item link :to="{name: 'GerenciarCopa'}">
+          <v-list-item-action>
+            <v-icon>mdi-clipboard-multiple-outline</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Gerenciar Copa</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
         <v-list-item link :to="{name: 'respondedores'}">
           <v-list-item-action>
             <v-icon>mdi-cellphone-nfc</v-icon>
@@ -40,7 +51,7 @@
             <v-icon>mdi-account-multiple-check</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>Copa</v-list-item-title>
+            <v-list-item-title>Responder Perguntas</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
 
@@ -60,8 +71,9 @@
 
     <v-content class="grey lighten-3">
 
-      <router-view/>
-
+      <v-container>
+        <router-view/>
+      </v-container>
     </v-content>
     <v-footer
       color="indigo"

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Header titulo="Bar"/>
+    <Header titulo="Administrar Equipes"/>
     <v-container fluid >
       <v-row>
         <v-col cols="12">
@@ -24,9 +24,7 @@
                   <template v-slot:activator="{ on }">
                     <v-btn color="primary" dark v-on="on" title="Cadastrar Equipe" >
 
-                      <v-icon>
-                        mdi-account-multiple-plus
-                      </v-icon>
+                      <v-icon>mdi-plus-box-multiple</v-icon>
 
                     </v-btn>
                   </template>
