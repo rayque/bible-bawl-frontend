@@ -7,7 +7,18 @@
             <v-divider></v-divider>
         </div>
 
-        <v-row dense class="pa-4">
+        <v-row dense class="pa-4"   v-if="!perguntaAtual">
+            <v-col sm="6">
+                <v-alert  type="info">
+                    Não há perguntas disponíveis.
+                </v-alert>
+            </v-col>
+            <v-col sm="6">
+                <v-btn  @click="setPergunta(primeiraPerguntaNaoRespondida)" x-large block color="success" dark>Iniciar</v-btn>
+            </v-col>
+        </v-row>
+
+        <v-row dense  v-if="perguntaAtual" class="pa-4">
             <v-col cols="4">
                 <v-card
                     class="pa-2"
@@ -51,9 +62,10 @@
 
         <v-divider></v-divider>
 
-        <v-row dense class="pa-4">
+        <v-row dense class="pa-4"  v-if="perguntaAtual" >
             <v-col cols="4">
-                <v-btn  @click="setPergunta(perguntaAnterior)"  x-large block color="grey" >Anterior</v-btn>
+                <v-btn  v-if="perguntaAnterior"  @click="setPergunta(perguntaAnterior)"  x-large block color="grey" >Anterior</v-btn>
+                <v-btn  v-if="!perguntaAnterior" disabled  x-large block color="grey" >Anterior</v-btn>
             </v-col>
             <v-col cols="4">
                 <v-btn  @click="setPergunta(0)"  x-large block color="red" >Bloquear</v-btn>
@@ -63,8 +75,8 @@
             </v-col>
         </v-row>
 
-        <v-row dense class="pa-4">
-            <v-col cols="2">
+        <v-row dense class="pa-4"  v-if="perguntaAtual" >
+            <v-col md="2"  sm="12">
                 <v-text-field
                     v-model="perguntaEspecifica"
                     label="Pergunta Específica"
@@ -72,7 +84,7 @@
                     type="number"
                 ></v-text-field>
             </v-col>
-            <v-col cols="2">
+            <v-col md="2"  sm="12">
                 <v-btn  v-if="perguntaEspecifica" @click="setPergunta(perguntaEspecifica)" x-large block color="primary" dark>Selecionar</v-btn>
                 <v-btn  disabled v-if="!perguntaEspecifica" x-large block color="primary" dark>Selecionar</v-btn>
             </v-col>
@@ -91,11 +103,10 @@
         data: () => ({
             perguntaAtual: null,
             perguntaEspecifica: null,
+            primeiraPerguntaNaoRespondida: null,
         }),
         methods: {
-          setPergunta(p) {
-              const pergunta =  parseInt(p);
-
+          setPergunta(pergunta) {
               this.$apollo
                   .mutate({
                       mutation: gql`
@@ -103,7 +114,11 @@
                          setPerguntaAtual(pergunta: $pergunta)
                       }
                   `,
-                  variables: {pergunta: pergunta}
+                  variables: {pergunta:  parseInt(pergunta)}
+                  })
+                  .then(() => {
+                      this.perguntaEspecifica = null;
+                      this.$apollo.queries.getPrimeiraPerguntaNaoRespondida.refetch();
                   })
                   .catch(e => {
                       const msg = e.graphQLErrors[0].message || "Ocorreu um erro. Tente novamente.";
@@ -139,6 +154,20 @@
 
             },
 
+            getPrimeiraPerguntaNaoRespondida: {
+                query: gql`
+                  query getPrimeiraPerguntaNaoRespondida {
+                    getPrimeiraPerguntaNaoRespondida
+                  }
+                `,
+                result(res) {
+                    this.primeiraPerguntaNaoRespondida = res.data.getPrimeiraPerguntaNaoRespondida;
+                },
+                catch() {
+                    this.Helper.exibirMensagem("error", 'error', 3000);
+                }
+
+            },
 
             // Subscriptions
             $subscribe: {
@@ -151,9 +180,9 @@
                     `,
                     // Result hook
                     result (data) {
-                        /* eslint-enable no-console */
                         // Let's update the local data
                         this.perguntaAtual = data.data.novaPerguntaAtual;
+                        /* eslint-enable no-console */
 
 
                     },

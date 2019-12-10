@@ -42,13 +42,27 @@
                                     Informações da equipe
                                 </v-card-title>
 
-                                <v-card-text>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                    incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                                    exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-                                    irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-                                    pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-                                    deserunt mollit anim id est laborum.
+                                <v-card-text class="pa-4">
+                                   <p class="body-1"> <b> Equipe:</b> {{ equipe.nome }}</p>
+                                    <p class="body-1"> <b> Categoria: </b>{{ equipe.categoria.descricao }}</p>
+
+                                    <v-divider></v-divider>
+
+                                    <v-list>
+                                        <p class="subtitle-1">Participantes</p>
+                                        <v-list-item
+                                                v-for="participante in equipe.participantes"
+                                                :key="participante.id"
+                                        >
+                                            <v-list-item-content>
+                                                <v-list-item-title v-text="participante.nome"></v-list-item-title>
+                                            </v-list-item-content>
+
+                                        </v-list-item>
+                                    </v-list>
+
+
+
                                 </v-card-text>
 
                                 <v-divider></v-divider>
