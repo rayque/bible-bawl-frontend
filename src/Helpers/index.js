@@ -2,6 +2,8 @@ import store from "./../store";
 import moment from "moment";
 
 export const exibirMensagem = (mensagem, color, timeout) => {
+  mensagem = mensagem.replace("GraphQL error: ", "");
+
   const snackbar = { mensagem, color, timeout, ativo: true };
   store.commit("habilitarSnackBar", snackbar);
 };

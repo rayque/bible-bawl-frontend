@@ -288,14 +288,10 @@
             equipesRespondedores.push(equipe.id);
           });
         });
-        /* eslint-disable no-console */
-        // console.log(this.equipesSelecionadas);
 
-        const equipesDisponiveis = this.equipes.filter(equipe => {
+        return this.equipes.filter(equipe => {
           return !equipesRespondedores.includes(equipe.id) || this.equipesSelecionadas.includes(equipe.id);
         });
-
-        return equipesDisponiveis;
 
       }
     },

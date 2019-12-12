@@ -3,9 +3,11 @@ import Respondedores from './components/admin/Respondedores'
 import GerenciarCopa from './components/admin/GerenciarCopa'
 import Equipes from './components/respondedor/Equipes'
 import Copa from './components/respondedor/Copa'
+import Login from './components/login/Login'
 
 export const routes = [
   { path: '/', component: Home},
+  { path: '/login', component: Login},
   { path: '/admin/respondedores', component: Respondedores, name: 'respondedores'},
   { path: '/admin/gerenciar-copa', component: GerenciarCopa, name: 'GerenciarCopa'},
   { path: '/respondedor/equipes', component: Equipes, name: 'equipes'},

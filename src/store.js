@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import jwt from 'jsonwebtoken'
 
 Vue.use(Vuex);
 const getDefaultState = () => {
@@ -9,6 +10,13 @@ const getDefaultState = () => {
       mensagem: "",
       color: "",
       timeout: 0
+    },
+    auth: {
+      token: '',
+      nome: '',
+      permissao: '',
+      respondedorId: null,
+      userId: null,
     }
   }
 };
@@ -16,6 +24,8 @@ const getDefaultState = () => {
 const state = getDefaultState();
 const getters = {
   getSnackBar: state => state.snackBar,
+  getNomeUser: state => state.auth.nome,
+  getToken: state => state.auth.token,
 };
 const mutations = {
   habilitarSnackBar(state, dados) {
@@ -31,9 +41,45 @@ const mutations = {
   },
   setarSBAtivo(state, status) {
     state.snackBar.ativo = status;
+  },
+  setAuth(state, payload) {
+    state.auth = payload
   }
 };
-const actions = {};
+const actions = {
+  setAuth({ commit }, token){
+    if(token) {
+      localStorage.setItem('token', token)
+    } else {
+
+      localStorage.removeItem('token')
+    }
+
+    let auth = {
+      token: '',
+      nome: '',
+      permissao: '',
+      respondedorId: null,
+      userId: null,
+    };
+
+    if (token) {
+      console.log(!!token);
+      const dados = jwt.decode(token);
+
+      auth = {
+        token: token,
+        nome: dados.nome,
+        permissao: dados.permissao,
+        respondedorId: dados.respondedorId || null,
+        userId: dados.userId || null,
+      };
+
+    }
+
+    commit("setAuth", auth);
+  }
+};
 
 
 export default new Vuex.Store({state, getters, mutations, actions});

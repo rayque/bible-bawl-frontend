@@ -219,11 +219,6 @@
       listaEquipes() {
         return this.equipes.map(equipe => {
 
-
-          /* eslint-disable no-console */
-          console.log(equipe);
-          /* eslint-enable no-console */
-
           let categoria = equipe.categoria || null;
           if (categoria) {
             categoria = categoria.descricao;
