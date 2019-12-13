@@ -1,8 +1,9 @@
 import Vue from 'vue'
 import App from './App.vue'
 import vuetify from './plugins/vuetify';
-import VueRouter from "vue-router";
-import { routes}  from './routes';
+import acl from './plugins/acl';
+// import VueRouter from "vue-router";
+import router  from './routes';
 import store from './store';
 import * as Helper from './Helpers';
 
@@ -64,12 +65,12 @@ const apolloProvider = new VueApollo({
 
 
 Vue.config.productionTip = false
-Vue.use(VueRouter);
-
-const router = new VueRouter({
-  routes,
-  mode: 'history'
-});
+// Vue.use(VueRouter);
+//
+// const router = new VueRouter({
+//   routes,
+//   mode: 'history'
+// });
 
 new Vue({
   // Inject apolloProvider for components to use.
@@ -77,5 +78,6 @@ new Vue({
   vuetify,
   store,
   router,
+  acl,
   render: h => h(App)
 }).$mount('#app')
