@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Header titulo="Administrar Respondedores"/>
+    <Header titulo="Administrar Auxiliares"/>
 
     <v-container fluid class="grey lighten-5">
       <v-row>
@@ -9,13 +9,13 @@
         >
           <v-data-table
             :headers="headers"
-            :items="respondedores"
+            :items="auxiliares"
             sort-by="calories"
             class="elevation-1"
           >
             <template v-slot:top>
               <v-toolbar flat color="white">
-                <v-toolbar-title>Respondedores</v-toolbar-title>
+                <v-toolbar-title>Auxiliares</v-toolbar-title>
                 <v-divider
                   class="mx-4"
                   inset
@@ -30,11 +30,11 @@
                   </template>
                   <v-card>
                     <v-card-title>
-                      <span class="headline">Respondedor</span>
+                      <span class="headline">Auxiliar</span>
                     </v-card-title>
                     <v-card-text>
                       <v-container>
-                        <v-form ref="cadastroRespondedor">
+                        <v-form ref="cadastroAuxiliar">
 
                           <v-row>
                             <v-col cols="12">
@@ -71,7 +71,7 @@
                     </v-card-title>
                     <v-card-text>
                       <v-container>
-                        <v-form ref="cadastroRespondedor">
+                        <v-form ref="cadastroAuxiliar">
 
                           <v-row>
                             <v-col cols="12">
@@ -159,8 +159,8 @@
       respondedorSelecionado: [],
 
       // nome: '',
-      // campoObrigadorio: [v => !!v || "Campo obrigatório"],
-      respondedores: [],
+      campoObrigadorio: [v => !!v || "Campo obrigatório"],
+      auxiliares: [],
       headers: [
         {
           text: 'Nome',
@@ -174,7 +174,7 @@
     }),
     methods: {
       salvarRespondedor() {
-        if (this.$refs.cadastroRespondedor.validate()) {
+        if (this.$refs.cadastroAuxiliar.validate()) {
           this.$apollo
             .mutate({
               mutation: gql`
@@ -189,7 +189,7 @@
             .then(() => {
               this.Helper.exibirMensagem("Respondedor cadastrado com sucesso!", 'success', 3000);
               this.$apollo.queries.getRespondedores.refetch();
-              this.$refs.cadastroRespondedor.reset()
+              this.$refs.cadastroAuxiliar.reset()
             })
             .catch(e => {
               const msg = e.graphQLErrors[0].message || "Ocorreu um erro. Tente novamente.";
@@ -204,7 +204,7 @@
       },
       salvarEquipes(){
         this.dialogSetEquipe = false;
-        // if (this.$refs.cadastroRespondedor.validate()) {
+        // if (this.$refs.cadastroAuxiliar.validate()) {
           this.$apollo
             .mutate({
               mutation: gql`
@@ -227,7 +227,7 @@
             .then(() => {
               this.Helper.exibirMensagem("Equipes selecionadas com sucesso!", 'success', 3000);
               this.$apollo.queries.getRespondedores.refetch();
-              // this.$refs.cadastroRespondedor.reset()
+              // this.$refs.cadastroAuxiliar.reset()
             })
             .catch(e => {
               const msg = e.graphQLErrors[0].message || "Ocorreu um erro. Tente novamente.";
@@ -272,18 +272,14 @@
         }
         this.close()
       },
-
-
     },
-
-
     computed: {
       formTitle() {
         return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
       },
       listEquipes() {
         let equipesRespondedores = [];
-        this.respondedores.forEach(respondedor => {
+        this.auxiliares.forEach(respondedor => {
           respondedor.equipes.forEach(equipe => {
             equipesRespondedores.push(equipe.id);
           });
@@ -303,11 +299,7 @@
     },
 
     apollo: {
-      // They key is the name of the data property
-      // on the component that you intend to populate.
       getRespondedores: {
-        // Yes, this looks confusing.
-        // It's just normal GraphQL.
         query: gql`
           query getRespondedores {
             getRespondedores {
@@ -322,15 +314,10 @@
           }
         `,
         result(res) {
-          /* eslint-disable no-console */
-          // console.log(res.data.getRespondedores);
-          /* eslint-enable no-console */
-          this.respondedores = res.data.getRespondedores || [];
+          this.auxiliares = res.data.getRespondedores || [];
         }
       },
       getEquipes: {
-        // Yes, this looks confusing.
-        // It's just normal GraphQL.
         query: gql`
           query getEquipes {
               getEquipes{
@@ -340,9 +327,6 @@
           }
         `,
         result(res) {
-          /* eslint-disable no-console */
-          // console.log(res.data.getRespondedores);
-          /* eslint-enable no-console */
           this.equipes = res.data.getEquipes || [];
         }
       }

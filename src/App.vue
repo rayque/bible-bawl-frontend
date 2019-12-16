@@ -84,7 +84,7 @@
                         app
                 >
                     <v-list dense>
-                        <v-list-item link to="/">
+                        <v-list-item   v-if="$acl.check('isLogged')"  link to="/">
                             <v-list-item-action>
                                 <v-icon>mdi-home</v-icon>
                             </v-list-item-action>
@@ -94,7 +94,7 @@
                         </v-list-item>
 
 
-                        <v-list-item link :to="{name: 'GerenciarCopa'}">
+                        <v-list-item   v-if="$acl.check('isAdmin')"  link :to="{name: 'GerenciarCopa'}">
                             <v-list-item-action>
                                 <v-icon>mdi-clipboard-multiple-outline</v-icon>
                             </v-list-item-action>
@@ -103,17 +103,17 @@
                             </v-list-item-content>
                         </v-list-item>
 
-                        <v-list-item link :to="{name: 'respondedores'}">
+                        <v-list-item  v-if="$acl.check('isAdmin')"  link :to="{name: 'auxiliares'}">
                             <v-list-item-action>
                                 <v-icon>mdi-cellphone-nfc</v-icon>
                             </v-list-item-action>
                             <v-list-item-content>
-                                <v-list-item-title>Respondedores</v-list-item-title>
+                                <v-list-item-title>Auxiliares</v-list-item-title>
                             </v-list-item-content>
                         </v-list-item>
 
 
-                        <v-list-item link :to="{name: 'equipes'}">
+                        <v-list-item  v-if="$acl.check('isLogged')"  link :to="{name: 'equipes'}">
                             <v-list-item-action>
                                 <v-icon>mdi-account-group</v-icon>
                             </v-list-item-action>
@@ -122,7 +122,7 @@
                             </v-list-item-content>
                         </v-list-item>
 
-                        <v-list-item link :to="{name: 'copa'}">
+                        <v-list-item   v-if="$acl.check('isLogged')"  link :to="{name: 'copa'}">
                             <v-list-item-action>
                                 <v-icon>mdi-account-multiple-check</v-icon>
                             </v-list-item-action>
@@ -145,7 +145,7 @@
                     <v-toolbar-title>Sys</v-toolbar-title>
                     <v-spacer></v-spacer>
 
-
+                    {{ $acl.get }}
                     <v-toolbar-items>
                         <v-btn text>{{ getNomeUser }}</v-btn>
                     </v-toolbar-items>

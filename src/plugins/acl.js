@@ -7,19 +7,19 @@ Vue.use(AclInstaller)
 export default new AclCreate({
     initial: 'public',
     notfound: {
-        path: '/copa',
-        forwardQueryParams: true,
+        path: '/error'
     },
     router,
     acceptLocalRules: true,
     globalRules: {
         isAdmin: new AclRule('admin'),
-        isRespondedor: new AclRule('respondedor'),
-        isPublic: new AclRule('*')
+        isRespondedor: new AclRule('auxiliar').generate(),
+        isLogged: new AclRule('admin').or('auxiliar').generate(),
+        isPublic: new AclRule('*'),
+
     },
     middleware: async acl => {
         console.log(acl);
-        // await timeout(2000) // call your api
-        acl.change('*')
+        acl.change('admin')
     }
 })

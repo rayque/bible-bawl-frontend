@@ -79,14 +79,14 @@
             <v-col md="2"  sm="12">
                 <v-text-field
                     v-model="perguntaEspecifica"
-                    label="Pergunta Específica"
+                    label="ir para pergunta específica"
                     outlined
                     type="number"
                 ></v-text-field>
             </v-col>
             <v-col md="2"  sm="12">
                 <v-btn  v-if="perguntaEspecifica" @click="setPergunta(perguntaEspecifica)" x-large block color="primary" dark>Selecionar</v-btn>
-                <v-btn  disabled v-if="!perguntaEspecifica" x-large block color="primary" dark>Selecionar</v-btn>
+                <v-btn  disabled v-if="!perguntaEspecifica" x-large block >Selecionar</v-btn>
             </v-col>
         </v-row>
 
