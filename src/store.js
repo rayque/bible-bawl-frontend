@@ -7,8 +7,8 @@ const getDefaultState = () => {
   return {
     snackBar: {
       ativo: false,
-      mensagem: "",
-      color: "",
+      mensagem: '',
+      color: '',
       timeout: 0
     },
     auth: {
@@ -26,6 +26,7 @@ const getters = {
   getSnackBar: state => state.snackBar,
   getNomeUser: state => state.auth.nome,
   getToken: state => state.auth.token,
+  getAuth: state => state.auth,
 };
 const mutations = {
   habilitarSnackBar(state, dados) {

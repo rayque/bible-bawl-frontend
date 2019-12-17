@@ -148,17 +148,10 @@
         carbs: 0,
         protein: 0,
       },
-      defaultItem: {
-        name: '',
-        calories: 0,
-        fat: 0,
-        carbs: 0,
-        protein: 0,
-      },
+      nome: '',
       equipesSelecionadas: [],
       respondedorSelecionado: [],
 
-      // nome: '',
       campoObrigadorio: [v => !!v || "Campo obrigatório"],
       auxiliares: [],
       headers: [

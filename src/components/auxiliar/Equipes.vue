@@ -245,11 +245,7 @@
       }
     },
     apollo: {
-      // They key is the name of the data property
-      // on the component that you intend to populate.
       getEquipes: {
-        // Yes, this looks confusing.
-        // It's just normal GraphQL.
         query: gql`
           query getEquipes {
               getEquipes{
@@ -271,9 +267,6 @@
           }
         `,
         result(res) {
-          /* eslint-disable no-console */
-          // console.log(res.data.getRespondedores);
-          /* eslint-enable no-console */
           this.equipes = res.data.getEquipes || [];
         }
       }

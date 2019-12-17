@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import { AclInstaller, AclCreate, AclRule } from 'vue-acl'
 import router from './../routes'
+import store from './../store'
+import jwt from "jsonwebtoken";
 
 Vue.use(AclInstaller)
 
@@ -13,12 +15,14 @@ export default new AclCreate({
     acceptLocalRules: true,
     globalRules: {
         isAdmin: new AclRule('admin'),
-        isRespondedor: new AclRule('auxiliar').generate(),
+        isAuxiliar: new AclRule('auxiliar').generate(),
         isLogged: new AclRule('admin').or('auxiliar').generate(),
         isPublic: new AclRule('*'),
 
     },
     middleware: async acl => {
-        acl.change('admin')
+        const dados = jwt.decode(localStorage.token);
+        let permissao =  dados ? dados.permissao : 'public';
+        acl.change(permissao)
     }
 })

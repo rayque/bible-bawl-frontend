@@ -79,6 +79,8 @@
             <v-app id="inspire">
 
 
+
+                <snack-bar></snack-bar>
                 <v-navigation-drawer
                         v-model="drawer"
                         app
@@ -146,6 +148,7 @@
                     <v-spacer></v-spacer>
 
                     {{ $acl.get }}
+
                     <v-toolbar-items>
                         <v-btn text>{{ getNomeUser }}</v-btn>
                     </v-toolbar-items>
@@ -179,6 +182,7 @@
     import SnackBar from "./components/utils/SnackBar"
     import {mapActions, mapGetters} from "vuex";
     import gql from "graphql-tag";
+    import jwt from "jsonwebtoken";
 
     export default {
         components: {
@@ -200,6 +204,7 @@
             if (localStorage.token) {
                 this.isAuth = true;
                 this.setAuth(localStorage.token);
+                this.setLogin(localStorage.token);
             }
         },
         methods: {
@@ -215,6 +220,13 @@
                 }
 
                 this.$apollo.queries.login.refetch();
+            },
+
+            setLogin(token) {
+                this.setAuth(token);
+                const dados = jwt.decode(token);
+                let permissao =  dados ? dados.permissao : 'public';
+                this.$acl.change(permissao);
             }
         },
         watch: {
@@ -268,10 +280,8 @@
                 },
                 result(res) {
                     const login =  res.data && res.data.login || null;
-
                     if (login) {
-                        this.setAuth(login.token);
-                        // location.reload();
+                        this.setLogin(login.token);
 
                         this.email = null;
                         this.password = null;

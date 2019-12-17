@@ -168,23 +168,15 @@
                 }
 
             },
-
-            // Subscriptions
             $subscribe: {
-                // When a user is added
                 novaPerguntaAtual: {
                     query: gql`
                     subscription {
                           novaPerguntaAtual
                     }
                     `,
-                    // Result hook
                     result (data) {
-                        // Let's update the local data
                         this.perguntaAtual = data.data.novaPerguntaAtual;
-                        /* eslint-enable no-console */
-
-
                     },
                 },
             },

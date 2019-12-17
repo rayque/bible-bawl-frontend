@@ -126,6 +126,7 @@
     import Header from "./../layouts/Header"
     import gql from 'graphql-tag'
     import {mask} from 'vue-the-mask'
+    import {mapGetters} from 'vuex';
 
     export default {
         directives: {mask},
@@ -140,12 +141,10 @@
             loader: null,
             loading5: false,
             respostasCertas: [],
-            novaPerguntaAtual: '-------'
+            novaPerguntaAtual: ''
         }),
         methods: {
             salvarRespota(id) {
-                /* eslint-disable no-console */
-                // participante.respota = true;
                 const indexTemResposta = this.respostasCertas.indexOf(id);
                 const resposta = indexTemResposta === -1;
 
@@ -201,17 +200,16 @@
             },
         },
         computed: {
+            ...mapGetters(['getAuth']),
             listaEquipes() {
                 return this.equipes;
             }
         },
         apollo: {
             getRespondedor: {
-                // Yes, this looks confusing.
-                // It's just normal GraphQL.
                 query: gql`
-                  query getRespondedor {
-                    getRespondedor(id: 1){
+                  query getRespondedor($id: Int!) {
+                    getRespondedor(id: $id){
                         id
                         nome
                         cod_acesso
@@ -231,9 +229,13 @@
                     }
                   }
                 `,
+                variables() {
+                    return {
+                        id: this.getAuth.respondedorId
+                    };
+                },
                 result(res) {
-                    /* eslint-disable no-console */
-                    /* eslint-enable no-console */
+                    console.log(this.getAuth);
                     this.respondedor = res.data.getRespondedor || [];
                     this.equipes = this.respondedor.equipes || [];
                     this.resetEquipes();
@@ -256,21 +258,15 @@
                 }
 
             },
-            // Subscriptions
             $subscribe: {
-                // When a user is added
                 novaPerguntaAtual: {
                     query: gql`
                     subscription {
                           novaPerguntaAtual
                     }
                     `,
-                    // Result hook
                     result (data) {
-                        /* eslint-enable no-console */
-                        // Let's update the local data
                         this.novaPerguntaAtual = data.data.novaPerguntaAtual;
-
                         this.setNovaPergunta()
 
                     },
