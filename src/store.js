@@ -51,20 +51,18 @@ const actions = {
     if(token) {
       localStorage.setItem('token', token)
     } else {
-
       localStorage.removeItem('token')
     }
 
     let auth = {
       token: '',
       nome: '',
-      permissao: '',
+      permissao: 'public',
       respondedorId: null,
       userId: null,
     };
 
     if (token) {
-      console.log(!!token);
       const dados = jwt.decode(token);
 
       auth = {

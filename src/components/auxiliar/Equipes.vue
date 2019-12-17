@@ -94,7 +94,7 @@
               </v-icon>
             </template>
             <template v-slot:no-data>
-              <v-btn color="primary" @click="initialize">Reset</v-btn>
+              <v-btn color="primary" >Reset</v-btn>
             </template>
           </v-data-table>
 
@@ -136,11 +136,6 @@
     beforeMount() {
       this.novaEquipe = this.setEquipe();
     },
-    created () {
-      this.initialize()
-    },
-
-
     methods: {
       setEquipe() {
         const participantes = [];
@@ -150,7 +145,7 @@
         return participantes;
       },
       async formatarDataNascimento() {
-        return await  Object.values(this.novaEquipe).map(participante => {
+        return Object.values(this.novaEquipe).map(participante => {
           const data_nascimento = moment(participante.data_nascimento, 'DD/MM/YYYY').format("YYYY-MM-DD");
           return {
             ...participante,

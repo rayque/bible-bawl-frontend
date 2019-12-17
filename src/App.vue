@@ -199,6 +199,7 @@
         mounted() {
             if (localStorage.token) {
                 this.isAuth = true;
+                this.setAuth(localStorage.token);
             }
         },
         methods: {
@@ -269,8 +270,8 @@
                     const login =  res.data && res.data.login || null;
 
                     if (login) {
-
                         this.setAuth(login.token);
+                        // location.reload();
 
                         this.email = null;
                         this.password = null;

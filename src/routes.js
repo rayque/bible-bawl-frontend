@@ -13,18 +13,18 @@ import PageNotFound from './components/views/PageNotFound'
 import Vue from "vue";
 
 const routes = [
-    {
-        path: '/login',
-        component: Login,
-        meta: {
-            rule: 'isPublic'
-        }
-    },
+    // {
+    //     path: '/login',
+    //     component: Login,
+    //     meta: {
+    //         rule: 'isPublic'
+    //     }
+    // },
     {
         path: '/',
         component: Home,
         meta: {
-            rule: 'isLogged'
+            rule: 'isPublic'
         }
     },
     {

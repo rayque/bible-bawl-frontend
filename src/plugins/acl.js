@@ -7,7 +7,7 @@ Vue.use(AclInstaller)
 export default new AclCreate({
     initial: 'public',
     notfound: {
-        path: '/error'
+        path: '/'
     },
     router,
     acceptLocalRules: true,
@@ -19,7 +19,6 @@ export default new AclCreate({
 
     },
     middleware: async acl => {
-        console.log(acl);
         acl.change('admin')
     }
 })
