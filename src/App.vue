@@ -105,6 +105,16 @@
                             </v-list-item-content>
                         </v-list-item>
 
+
+                        <v-list-item   v-if="$acl.check('isLogged')"  link :to="{name: 'painel'}">
+                            <v-list-item-action>
+                                <v-icon>mdi-view-dashboard</v-icon>
+                            </v-list-item-action>
+                            <v-list-item-content>
+                                <v-list-item-title>Painel</v-list-item-title>
+                            </v-list-item-content>
+                        </v-list-item>
+
                         <v-list-item  v-if="$acl.check('isAdmin')"  link :to="{name: 'auxiliares'}">
                             <v-list-item-action>
                                 <v-icon>mdi-cellphone-nfc</v-icon>
@@ -139,19 +149,19 @@
 
                 <v-app-bar
                         app
-                        color="indigo"
+                        color="blue darken-4"
                         dark
                 >
 
                     <v-app-bar-nav-icon @click.stop="drawer = !drawer"/>
-                    <v-toolbar-title>Sys</v-toolbar-title>
+                    <v-toolbar-title>System</v-toolbar-title>
                     <v-spacer></v-spacer>
 
-                    {{ $acl.get }}
+<!--                    {{ $acl.get }}-->
 
-                    <v-toolbar-items>
-                        <v-btn text>{{ getNomeUser }}</v-btn>
-                    </v-toolbar-items>
+<!--                    <v-toolbar-items>-->
+<!--                        <v-btn text>{{ getNomeUser }}</v-btn>-->
+<!--                    </v-toolbar-items>-->
 
                     <v-btn icon @click="setAuth('')">
                         <v-icon>mdi-logout</v-icon>
@@ -165,10 +175,7 @@
                         <router-view/>
                     </v-container>
                 </v-content>
-                <v-footer
-                        color="indigo"
-                        app
-                >
+                <v-footer color="blue darken-4" app>
                     <span class="white--text">&copy; 2019</span>
                 </v-footer>
             </v-app>

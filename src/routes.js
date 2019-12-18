@@ -6,6 +6,7 @@ import Auxiliares from './components/admin/Auxiliares'
 import GerenciarCopa from './components/admin/GerenciarCopa'
 import Equipes from './components/auxiliar/Equipes'
 import Copa from './components/auxiliar/Copa'
+import PainelGeral from './components/Pergunta/PainelGeral'
 import Login from './components/login/Login'
 
 import PageNotFound from './components/views/PageNotFound'
@@ -41,6 +42,14 @@ const routes = [
         name: 'GerenciarCopa',
         meta: {
             rule: 'isAdmin'
+        }
+    },
+    {
+        path: '/painel',
+        component: PainelGeral,
+        name: 'painel',
+        meta: {
+            rule: 'isLogged'
         }
     },
     {
