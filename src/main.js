@@ -30,7 +30,7 @@ Vue.use(VueApollo);
 // Create a WebSocket link:
 const link = new WebSocketLink({
   // uri: 'wss://learn.hasura.io/graphql',
-  uri: `ws://localhost:4000/graphql`,
+  uri: `ws://192.168.108.14:4000/graphql`,
   options: {
     reconnect: true,
     timeout: 30000,
@@ -74,7 +74,7 @@ Vue.config.productionTip = false
 
 new Vue({
   // Inject apolloProvider for components to use.
-  provide: apolloProvider.provide(),
+  apolloProvider,
   vuetify,
   store,
   router,

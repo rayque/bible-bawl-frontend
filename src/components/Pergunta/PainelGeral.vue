@@ -79,7 +79,8 @@
             </v-col>
         </v-row>
 
-        <v-row>
+        <v-row v-if="perguntaAtual">
+
             <v-col>
 
                 <v-card >
@@ -93,10 +94,10 @@
                     <v-divider></v-divider>
 
                     <v-row no-gutters  >
-                        <v-col md="4" v-for="i in 20">
+                        <v-col md="4" v-for="equipe in pontuacao">
                             <v-row no-gutters justify="center" class="title">
-                                <v-col md="8"> Diulianne, mariana: </v-col>
-                                <v-col md="2"> 40 </v-col>
+                                <v-col md="8"> {{ equipe.nome }} </v-col>
+                                <v-col md="2"> {{ equipe.pontuacao }} </v-col>
                             </v-row>
                         </v-col>
                     </v-row>
@@ -116,9 +117,10 @@
     export default {
         name: "PainelPerguntas",
         data: () => ({
-            perguntaAtual: null,
+            perguntaAtual: false,
             perguntaEspecifica: null,
             primeiraPerguntaNaoRespondida: null,
+            pontuacao: []
         }),
         methods: {
             setPergunta(pergunta) {
@@ -153,7 +155,6 @@
         },
 
         apollo: {
-
             getPerguntaAtual: {
                 query: gql`
                   query getPerguntaAtual {
@@ -181,8 +182,31 @@
                 catch() {
                     this.Helper.exibirMensagem("error", 'error', 3000);
                 }
+            },
+            getPontuacaoEquipesByResposta: {
+                query: gql`
+                  query getPontuacaoEquipesByResposta($pergunta_id: Int!) {
+                    getPontuacaoEquipesByResposta(pergunta_id: $pergunta_id) {
+                        nome
+                        pontuacao
+                    }
+                  }
+                `,
+                variables() {
+                    return  {pergunta_id: this.perguntaAtual}
+                } ,
+                skip() {
+                    return !this.perguntaAtual
+                },
+                result(res) {
+                    this.pontuacao = res.data.getPontuacaoEquipesByResposta;
+                },
+                catch() {
+                    this.Helper.exibirMensagem("error", 'error', 3000);
+                }
 
             },
+
             $subscribe: {
                 novaPerguntaAtual: {
                     query: gql`
@@ -192,6 +216,19 @@
                     `,
                     result(data) {
                         this.perguntaAtual = data.data.novaPerguntaAtual;
+                    },
+                },
+                getPontuacaoEquipesByResposta: {
+                    query: gql`
+                    subscription {
+                          getPontuacaoEquipesByResposta{
+                            nome
+                            pontuacao
+                          }
+                    }
+                    `,
+                    result(data) {
+                        this.pontuacao = data.data.getPontuacaoEquipesByResposta;
                     },
                 },
             },

@@ -20,10 +20,7 @@
 
         <v-row dense  v-if="perguntaAtual" class="pa-4">
             <v-col cols="4">
-                <v-card
-                    class="pa-2"
-                    tile
-                >
+                <v-card class="pa-2 grey lighten-2 grey--text headline text-center" tile>
                     <div class="mb-2 text-center" >
                         <span class="headline">Anterior</span>
                     </div>
@@ -46,10 +43,7 @@
                 </v-card>
             </v-col>
             <v-col cols="4">
-                <v-card
-                    class="pa-2"
-                    tile
-                >
+                <v-card class="pa-2 grey lighten-2 grey--text headline text-center" tile>
                     <div class="mb-2 text-center" >
                         <span class="headline">Próxima</span>
                     </div>
