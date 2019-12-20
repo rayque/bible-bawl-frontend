@@ -148,6 +148,21 @@
 
             },
 
+            getPerguntaAtual: {
+                query: gql`
+                  query getPerguntaAtual {
+                    getPerguntaAtual
+                  }
+                `,
+                result(res) {
+                    this.perguntaAtual = res.data.getPerguntaAtual;
+                },
+                catch() {
+                    this.Helper.exibirMensagem("error", 'error', 3000);
+                }
+
+            },
+
             getPrimeiraPerguntaNaoRespondida: {
                 query: gql`
                   query getPrimeiraPerguntaNaoRespondida {

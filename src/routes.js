@@ -4,6 +4,7 @@ import {AclRule} from 'vue-acl'
 import Home from './components/HelloWorld'
 import Auxiliares from './components/admin/Auxiliares'
 import GerenciarCopa from './components/admin/GerenciarCopa'
+import Resultados from './components/admin/Resultados'
 import Equipes from './components/auxiliar/Equipes'
 import Copa from './components/auxiliar/Copa'
 import PainelGeral from './components/Pergunta/PainelGeral'
@@ -40,6 +41,14 @@ const routes = [
         path: '/admin/gerenciar-copa',
         component: GerenciarCopa,
         name: 'GerenciarCopa',
+        meta: {
+            rule: 'isAdmin'
+        }
+    },
+    {
+        path: '/admin/resultados',
+        component: Resultados,
+        name: 'resultados',
         meta: {
             rule: 'isAdmin'
         }

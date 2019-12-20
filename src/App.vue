@@ -106,6 +106,16 @@
                         </v-list-item>
 
 
+                        <v-list-item   v-if="$acl.check('isAdmin')"  link :to="{name: 'resultados'}">
+                            <v-list-item-action>
+                                <v-icon>mdi-clipboard-multiple-outline</v-icon>
+                            </v-list-item-action>
+                            <v-list-item-content>
+                                <v-list-item-title>Resultados</v-list-item-title>
+                            </v-list-item-content>
+                        </v-list-item>
+
+
                         <v-list-item   v-if="$acl.check('isLogged')"  link :to="{name: 'painel'}">
                             <v-list-item-action>
                                 <v-icon>mdi-view-dashboard</v-icon>
