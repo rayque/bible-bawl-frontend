@@ -64,6 +64,7 @@
                 </v-col>
             </v-row>
 
+
             <div class="text-center">
                 <h1 class="title pa-2">
                     Resultado Individual
@@ -71,17 +72,54 @@
                 <v-divider></v-divider>
             </div>
             <v-divider></v-divider>
-            <v-row>
+
+            <v-row class="mb-5">
                 <v-col>
                     <v-data-table
                             :headers="headersIndividual"
-                            :items="resultadoEquipeInfantil"
-                            item-key="name"
-                            class="elevation-1"
+                            :items="resultadoIndividualInfantil"
+                            item-key="classificacao"
+                            class="elevation-10"
                     >
                         <template v-slot:top>
                             <v-toolbar flat>
                                 <v-toolbar-title> Categoria: Infantil (de 6 até 12 anos)</v-toolbar-title>
+                            </v-toolbar>
+                        </template>
+                    </v-data-table>
+
+                </v-col>
+            </v-row>
+
+            <v-row class="mb-5">
+                <v-col>
+                    <v-data-table
+                            :headers="headersIndividual"
+                            :items="resultadoIndividualJuvenil"
+                            item-key="classificacao"
+                            class="elevation-10"
+                    >
+                        <template v-slot:top>
+                            <v-toolbar flat>
+                                <v-toolbar-title> Juvenil (de 13 até 25 anos) </v-toolbar-title>
+                            </v-toolbar>
+                        </template>
+                    </v-data-table>
+
+                </v-col>
+            </v-row>
+
+            <v-row class="mb-5">
+                <v-col>
+                    <v-data-table
+                            :headers="headersIndividual"
+                            :items="resultadoIndividualInfantil"
+                            item-key="classificacao"
+                            class="elevation-10"
+                    >
+                        <template v-slot:top>
+                            <v-toolbar flat>
+                                <v-toolbar-title> Adulto (acima de 25) </v-toolbar-title>
                             </v-toolbar>
                         </template>
                     </v-data-table>
@@ -103,7 +141,7 @@
         components: {
             Header
         },
-        data () {
+        data() {
             return {
                 headersEquipe: [
                     {
@@ -151,14 +189,17 @@
                 ],
                 resultadoEquipeInfantil: [],
                 resultadoEquipeJuvenil: [],
-                resultadoEquipeAldulto: [],
+                resultadoEquipeAdulto: [],
+                resultadoIndividualInfantil: [],
+                resultadoIndividualJuvenil: [],
+                resultadoIndividualAldulto: [],
 
 
             }
         },
         apollo: {
 
-            getResultadoInfantil: {
+            getResultadoEquipeInfantil: {
                 query: gql`
                   query getResultadoCopa($nome_categoria: String!, $tipo: String! ) {
                     getResultadoCopa(nome_categoria: $nome_categoria, tipo: $tipo) {
@@ -170,13 +211,14 @@
                     }
                   }
                 `,
-                variables(){
+                variables() {
                     return {
                         nome_categoria: 'infantil',
                         tipo: 'equipe',
                     }
                 },
                 result(res) {
+                    console.log(res.data);
                     this.resultadoEquipeInfantil = res.data.getResultadoCopa;
                 },
                 catch() {
@@ -184,7 +226,7 @@
                 }
             },
 
-            getResultadoJuvenil: {
+            getResultadoEquipeJuvenil: {
                 query: gql`
                   query getResultadoCopa($nome_categoria: String!, $tipo: String! ) {
                     getResultadoCopa(nome_categoria: $nome_categoria, tipo: $tipo) {
@@ -196,7 +238,7 @@
                     }
                   }
                 `,
-                variables(){
+                variables() {
                     return {
                         nome_categoria: 'juvenil',
                         tipo: 'equipe',
@@ -210,7 +252,7 @@
                 }
             },
 
-            getResultadoAdulto: {
+            getResultadoEquipeAdulto: {
                 query: gql`
                   query getResultadoCopa($nome_categoria: String!, $tipo: String! ) {
                     getResultadoCopa(nome_categoria: $nome_categoria, tipo: $tipo) {
@@ -222,7 +264,7 @@
                     }
                   }
                 `,
-                variables(){
+                variables() {
                     return {
                         nome_categoria: 'adulto',
                         tipo: 'equipe',
@@ -235,6 +277,85 @@
                     this.Helper.exibirMensagem("error", 'error', 3000);
                 }
             },
+
+            getResultadoIndividualInfantil: {
+                query: gql`
+                  query getResultadoCopa($nome_categoria: String!, $tipo: String! ) {
+                    getResultadoCopa(nome_categoria: $nome_categoria, tipo: $tipo) {
+                        classificacao
+                        nome
+                        pontuacao
+                        acertos_consecutivos
+                        acertos_50_pontos
+                    }
+                  }
+                `,
+                variables() {
+                    return {
+                        nome_categoria: 'infantil',
+                        tipo: 'individual',
+                    }
+                },
+                result(res) {
+                    this.resultadoIndividualInfantil = res.data.getResultadoCopa;
+                },
+                catch() {
+                    this.Helper.exibirMensagem("error", 'error', 3000);
+                }
+            },
+
+            getResultadoIndividualJuvenil: {
+                query: gql`
+                  query getResultadoCopa($nome_categoria: String!, $tipo: String! ) {
+                    getResultadoCopa(nome_categoria: $nome_categoria, tipo: $tipo) {
+                        classificacao
+                        nome
+                        pontuacao
+                        acertos_consecutivos
+                        acertos_50_pontos
+                    }
+                  }
+                `,
+                variables() {
+                    return {
+                        nome_categoria: 'juvenil',
+                        tipo: 'individual',
+                    }
+                },
+                result(res) {
+                    this.resultadoIndivuJuvenil = res.data.getResultadoCopa;
+                },
+                catch() {
+                    this.Helper.exibirMensagem("error", 'error', 3000);
+                }
+            },
+
+            getResultadoIndividualAdulto: {
+                query: gql`
+                  query getResultadoCopa($nome_categoria: String!, $tipo: String! ) {
+                    getResultadoCopa(nome_categoria: $nome_categoria, tipo: $tipo) {
+                        classificacao
+                        nome
+                        pontuacao
+                        acertos_consecutivos
+                        acertos_50_pontos
+                    }
+                  }
+                `,
+                variables() {
+                    return {
+                        nome_categoria: 'adulto',
+                        tipo: 'individual',
+                    }
+                },
+                result(res) {
+                    this.resultadoIndividualAldulto = res.data.getResultadoCopa;
+                },
+                catch() {
+                    this.Helper.exibirMensagem("error", 'error', 3000);
+                }
+            },
+
             $subscribe: {
                 novaPerguntaAtual: {
                     query: gql`
