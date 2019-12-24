@@ -235,7 +235,6 @@
                     };
                 },
                 result(res) {
-                    console.log(this.getAuth);
                     this.respondedor = res.data.getRespondedor || [];
                     this.equipes = this.respondedor.equipes || [];
                     this.resetEquipes();

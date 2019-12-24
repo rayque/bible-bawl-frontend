@@ -174,9 +174,6 @@
                         equipesRespondedores.push(equipe.id);
                     });
                 });
-                /* eslint-disable no-console */
-                // console.log(this.equipesSelecionadas);
-
                 const equipesDisponiveis = this.equipes.filter(equipe => {
                     return !equipesRespondedores.includes(equipe.id) || this.equipesSelecionadas.includes(equipe.id);
                 });
@@ -212,9 +209,6 @@
           }
         `,
                 result(res) {
-                    /* eslint-disable no-console */
-                    // console.log(res.data.getRespondedores);
-                    /* eslint-enable no-console */
                     this.respondedores = res.data.getRespondedores || [];
                 }
             },
@@ -230,9 +224,6 @@
           }
         `,
                 result(res) {
-                    /* eslint-disable no-console */
-                    // console.log(res.data.getRespondedores);
-                    /* eslint-enable no-console */
                     this.equipes = res.data.getEquipes || [];
                 }
             }

@@ -5,13 +5,13 @@
             <v-app id="inspire">
 
                 <snack-bar></snack-bar>
+
                 <v-content>
                     <v-container
                             class="fill-height"
                             fluid
                     >
                         <v-row
-                                align="center"
                                 justify="center"
                         >
                             <v-col
@@ -19,6 +19,15 @@
                                     sm="8"
                                     md="4"
                             >
+                                <v-card class="elevation-12 mb-4">
+                                    <v-card-text>
+                                        <h1 class="text-center font-weight-bold head">
+                                            <v-icon color="orange">mdi-trophy mdi-36px </v-icon>
+                                            Bible Bawl
+                                            <v-icon color="orange">mdi-trophy mdi-36px </v-icon>
+                                        </h1>
+                                    </v-card-text>
+                                </v-card>
                                 <v-card class="elevation-12">
                                     <v-toolbar
                                             color="primary"
@@ -31,6 +40,9 @@
                                     </v-toolbar>
                                     <v-card-text>
                                         <v-form>
+
+                                            <p class="mt-4 text-center font-weight-bold subtitle-1 elevation-5">Administrador</p>
+
                                             <v-text-field
                                                     label="Email"
                                                     name="email"
@@ -49,6 +61,9 @@
                                                     v-model="password"
                                                     :disabled="cod_acesso ? true : false"
                                             />
+
+                                            <p class="mt-4 text-center font-weight-bold subtitle-1 elevation-5">Auxiliar</p>
+
 
                                             <v-text-field
                                                     id="cod_acesso"
@@ -79,14 +94,13 @@
             <v-app id="inspire">
 
 
-
                 <snack-bar></snack-bar>
                 <v-navigation-drawer
                         v-model="drawer"
                         app
                 >
                     <v-list dense>
-                        <v-list-item   v-if="$acl.check('isLogged')"  link to="/">
+                        <v-list-item v-if="$acl.check('isLogged')" link to="/">
                             <v-list-item-action>
                                 <v-icon>mdi-home</v-icon>
                             </v-list-item-action>
@@ -96,7 +110,7 @@
                         </v-list-item>
 
 
-                        <v-list-item   v-if="$acl.check('isAdmin')"  link :to="{name: 'GerenciarCopa'}">
+                        <v-list-item v-if="$acl.check('isAdmin')" link :to="{name: 'GerenciarCopa'}">
                             <v-list-item-action>
                                 <v-icon>mdi-clipboard-multiple-outline</v-icon>
                             </v-list-item-action>
@@ -106,7 +120,7 @@
                         </v-list-item>
 
 
-                        <v-list-item   v-if="$acl.check('isAdmin')"  link :to="{name: 'resultados'}">
+                        <v-list-item v-if="$acl.check('isAdmin')" link :to="{name: 'resultados'}">
                             <v-list-item-action>
                                 <v-icon>mdi-podium</v-icon>
                             </v-list-item-action>
@@ -116,7 +130,7 @@
                         </v-list-item>
 
 
-                        <v-list-item   v-if="$acl.check('isLogged')"  link :to="{name: 'painel'}">
+                        <v-list-item v-if="$acl.check('isLogged')" link :to="{name: 'painel'}">
                             <v-list-item-action>
                                 <v-icon>mdi-view-dashboard</v-icon>
                             </v-list-item-action>
@@ -125,7 +139,7 @@
                             </v-list-item-content>
                         </v-list-item>
 
-                        <v-list-item  v-if="$acl.check('isAdmin')"  link :to="{name: 'auxiliares'}">
+                        <v-list-item v-if="$acl.check('isAdmin')" link :to="{name: 'auxiliares'}">
                             <v-list-item-action>
                                 <v-icon>mdi-cellphone-nfc</v-icon>
                             </v-list-item-action>
@@ -135,7 +149,7 @@
                         </v-list-item>
 
 
-                        <v-list-item  v-if="$acl.check('isLogged')"  link :to="{name: 'equipes'}">
+                        <v-list-item v-if="$acl.check('isLogged')" link :to="{name: 'equipes'}">
                             <v-list-item-action>
                                 <v-icon>mdi-account-group</v-icon>
                             </v-list-item-action>
@@ -144,7 +158,7 @@
                             </v-list-item-content>
                         </v-list-item>
 
-                        <v-list-item   v-if="$acl.check('isLogged')"  link :to="{name: 'copa'}">
+                        <v-list-item v-if="$acl.check('isLogged')" link :to="{name: 'copa'}">
                             <v-list-item-action>
                                 <v-icon>mdi-account-multiple-check</v-icon>
                             </v-list-item-action>
@@ -164,14 +178,17 @@
                 >
 
                     <v-app-bar-nav-icon @click.stop="drawer = !drawer"/>
-                    <v-toolbar-title>System</v-toolbar-title>
+                    <v-toolbar-title>
+                        <v-icon color="orange">mdi-trophy</v-icon>
+                        Bible Bawl
+                    </v-toolbar-title>
                     <v-spacer></v-spacer>
 
-<!--                    {{ $acl.get }}-->
+                    <!--                    {{ $acl.get }}-->
 
-<!--                    <v-toolbar-items>-->
-<!--                        <v-btn text>{{ getNomeUser }}</v-btn>-->
-<!--                    </v-toolbar-items>-->
+                    <!--                    <v-toolbar-items>-->
+                    <!--                        <v-btn text>{{ getNomeUser }}</v-btn>-->
+                    <!--                    </v-toolbar-items>-->
 
                     <v-btn icon @click="setAuth('')">
                         <v-icon>mdi-logout</v-icon>
@@ -242,7 +259,7 @@
             setLogin(token) {
                 this.setAuth(token);
                 const dados = jwt.decode(token);
-                let permissao =  dados ? dados.permissao : 'public';
+                let permissao = dados ? dados.permissao : 'public';
                 this.$acl.change(permissao);
             }
         },
@@ -264,7 +281,7 @@
                 }
             },
             getToken(val) {
-                 this.isAuth = !!val;
+                this.isAuth = !!val;
             }
         },
         computed: {
@@ -296,7 +313,7 @@
                     return !this.dados;
                 },
                 result(res) {
-                    const login =  res.data && res.data.login || null;
+                    const login = res.data && res.data.login || null;
                     if (login) {
                         this.setLogin(login.token);
 

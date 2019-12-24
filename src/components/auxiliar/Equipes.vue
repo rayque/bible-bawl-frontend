@@ -41,9 +41,9 @@
                               <div
                                 v-for="n in 4"  :key="n" >
 
-                                <div class="mb-2 pa-2  blue-grey lighten-5" >
+                                <div class="mb-2 pa-2" >
 
-                                  <h3 class="text-center" >Participante {{ n }}</h3>
+                                  <h3 class="text-center elevation-5" >Participante {{ n }}</h3>
 
                                   <v-text-field
                                     label="Nome completo *"
@@ -78,21 +78,23 @@
                 </v-dialog>
               </v-toolbar>
             </template>
-            <template v-slot:item.action="{ item }">
-              <v-icon
-                small
-                class="mr-2"
-                @click="editItem(item)"
-              >
-                mdi-pencil
-              </v-icon>
-              <v-icon
-                small
-                @click="deleteItem(item)"
-              >
-                mdi-delete
-              </v-icon>
-            </template>
+
+<!--            <template v-slot:item.action="{ item }">-->
+<!--              <v-icon-->
+<!--                small-->
+<!--                class="mr-2"-->
+<!--                @click="editItem(item)"-->
+<!--              >-->
+<!--                mdi-pencil-->
+<!--              </v-icon>-->
+<!--              <v-icon-->
+<!--                small-->
+<!--                @click="deleteItem(item)"-->
+<!--              >-->
+<!--                mdi-delete-->
+<!--              </v-icon>-->
+<!--            </template>-->
+
             <template v-slot:no-data>
               <v-btn color="primary" >Reset</v-btn>
             </template>
