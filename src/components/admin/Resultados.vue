@@ -113,7 +113,7 @@
                 <v-col>
                     <v-data-table
                             :headers="headersIndividual"
-                            :items="resultadoIndividualInfantil"
+                            :items="resultadoIndividualAdulto"
                             item-key="classificacao"
                             class="elevation-10"
                     >
@@ -192,7 +192,7 @@
                 resultadoEquipeAdulto: [],
                 resultadoIndividualInfantil: [],
                 resultadoIndividualJuvenil: [],
-                resultadoIndividualAldulto: [],
+                resultadoIndividualAdulto: [],
 
 
             }
@@ -201,8 +201,8 @@
 
             getResultadoEquipeInfantil: {
                 query: gql`
-                  query getResultadoCopa($nome_categoria: String!, $tipo: String! ) {
-                    getResultadoCopa(nome_categoria: $nome_categoria, tipo: $tipo) {
+                  query  getResultadoCopa($nome_categoria: String!, $tipo: String! ) {
+                    getResultadoEquipeInfantil: getResultadoCopa(nome_categoria: $nome_categoria, tipo: $tipo) {
                         classificacao
                         nome
                         pontuacao
@@ -217,9 +217,8 @@
                         tipo: 'equipe',
                     }
                 },
-                result(res) {
-                    console.log(res.data);
-                    this.resultadoEquipeInfantil = res.data.getResultadoCopa;
+                result({data}) {
+                    this.resultadoEquipeInfantil = data.getResultadoEquipeInfantil;
                 },
                 catch() {
                     this.Helper.exibirMensagem("error", 'error', 3000);
@@ -229,7 +228,7 @@
             getResultadoEquipeJuvenil: {
                 query: gql`
                   query getResultadoCopa($nome_categoria: String!, $tipo: String! ) {
-                    getResultadoCopa(nome_categoria: $nome_categoria, tipo: $tipo) {
+                    getResultadoEquipeJuvenil: getResultadoCopa(nome_categoria: $nome_categoria, tipo: $tipo) {
                         classificacao
                         nome
                         pontuacao
@@ -244,8 +243,8 @@
                         tipo: 'equipe',
                     }
                 },
-                result(res) {
-                    this.resultadoEquipeJuvenil = res.data.getResultadoCopa;
+                result({data}) {
+                    this.resultadoEquipeJuvenil = data.getResultadoEquipeJuvenil;
                 },
                 catch() {
                     this.Helper.exibirMensagem("error", 'error', 3000);
@@ -255,7 +254,7 @@
             getResultadoEquipeAdulto: {
                 query: gql`
                   query getResultadoCopa($nome_categoria: String!, $tipo: String! ) {
-                    getResultadoCopa(nome_categoria: $nome_categoria, tipo: $tipo) {
+                    getResultadoEquipeAdulto: getResultadoCopa(nome_categoria: $nome_categoria, tipo: $tipo) {
                         classificacao
                         nome
                         pontuacao
@@ -270,8 +269,8 @@
                         tipo: 'equipe',
                     }
                 },
-                result(res) {
-                    this.resultadoEquipeAdulto = res.data.getResultadoCopa;
+                result({data}) {
+                    this.resultadoEquipeAdulto = data.getResultadoEquipeAdulto;
                 },
                 catch() {
                     this.Helper.exibirMensagem("error", 'error', 3000);
@@ -281,7 +280,7 @@
             getResultadoIndividualInfantil: {
                 query: gql`
                   query getResultadoCopa($nome_categoria: String!, $tipo: String! ) {
-                    getResultadoCopa(nome_categoria: $nome_categoria, tipo: $tipo) {
+                    getResultadoIndividualInfantil: getResultadoCopa(nome_categoria: $nome_categoria, tipo: $tipo) {
                         classificacao
                         nome
                         pontuacao
@@ -296,8 +295,8 @@
                         tipo: 'individual',
                     }
                 },
-                result(res) {
-                    this.resultadoIndividualInfantil = res.data.getResultadoCopa;
+                result({data}) {
+                    this.resultadoIndividualInfantil = data.getResultadoIndividualInfantil;
                 },
                 catch() {
                     this.Helper.exibirMensagem("error", 'error', 3000);
@@ -307,7 +306,7 @@
             getResultadoIndividualJuvenil: {
                 query: gql`
                   query getResultadoCopa($nome_categoria: String!, $tipo: String! ) {
-                    getResultadoCopa(nome_categoria: $nome_categoria, tipo: $tipo) {
+                    getResultadoIndividualJuvenil: getResultadoCopa(nome_categoria: $nome_categoria, tipo: $tipo) {
                         classificacao
                         nome
                         pontuacao
@@ -322,8 +321,8 @@
                         tipo: 'individual',
                     }
                 },
-                result(res) {
-                    this.resultadoIndivuJuvenil = res.data.getResultadoCopa;
+                result({data}) {
+                    this.resultadoIndivuJuvenil = data.getResultadoIndividualJuvenil;
                 },
                 catch() {
                     this.Helper.exibirMensagem("error", 'error', 3000);
@@ -333,7 +332,7 @@
             getResultadoIndividualAdulto: {
                 query: gql`
                   query getResultadoCopa($nome_categoria: String!, $tipo: String! ) {
-                    getResultadoCopa(nome_categoria: $nome_categoria, tipo: $tipo) {
+                    getResultadoIndividualAdulto: getResultadoCopa(nome_categoria: $nome_categoria, tipo: $tipo) {
                         classificacao
                         nome
                         pontuacao
@@ -348,8 +347,8 @@
                         tipo: 'individual',
                     }
                 },
-                result(res) {
-                    this.resultadoIndividualAldulto = res.data.getResultadoCopa;
+                result({data}) {
+                    this.resultadoIndividualAdulto = data.getResultadoIndividualAdulto;
                 },
                 catch() {
                     this.Helper.exibirMensagem("error", 'error', 3000);
