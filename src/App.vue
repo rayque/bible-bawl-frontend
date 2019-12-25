@@ -8,7 +8,6 @@
 
                 <v-content>
                     <v-container
-                            class="fill-height"
                             fluid
                     >
                         <v-row
@@ -16,7 +15,7 @@
                         >
                             <v-col
                                     cols="12"
-                                    sm="8"
+                                    sm="6"
                                     md="4"
                             >
                                 <v-card class="elevation-12 mb-4">
@@ -41,9 +40,10 @@
                                     <v-card-text>
                                         <v-form>
 
-                                            <p class="mt-4 text-center font-weight-bold subtitle-1 elevation-5">Administrador</p>
+                                            <p class="mb-0 text-center font-weight-bold subtitle-1 elevation-3">Administrador</p>
 
                                             <v-text-field
+                                                    class="mt-0 mb-0"
                                                     label="Email"
                                                     name="email"
                                                     prepend-icon="mdi-email-outline"
@@ -53,6 +53,7 @@
                                             />
 
                                             <v-text-field
+                                                    class="mt-0 mb-0"
                                                     id="password"
                                                     label="Senha"
                                                     name="password"
@@ -62,10 +63,11 @@
                                                     :disabled="cod_acesso ? true : false"
                                             />
 
-                                            <p class="mt-4 text-center font-weight-bold subtitle-1 elevation-5">Auxiliar</p>
+                                            <p class="mt-0 mb-0  text-center font-weight-bold subtitle-1 elevation-3">Auxiliar</p>
 
 
                                             <v-text-field
+                                                    class="mt-0 mb-0"
                                                     id="cod_acesso"
                                                     label="Código de acesso"
                                                     name="cod_acesso"
@@ -77,9 +79,9 @@
 
                                         </v-form>
                                     </v-card-text>
-                                    <v-card-actions>
+                                    <v-card-actions class="mt-0 mb-0">
                                         <v-spacer/>
-                                        <v-btn color="success" @click="login">Enviar</v-btn>
+                                        <v-btn color="primary" @click="login">Enviar</v-btn>
                                     </v-card-actions>
                                 </v-card>
                             </v-col>
