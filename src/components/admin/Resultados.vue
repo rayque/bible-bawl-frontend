@@ -161,7 +161,7 @@
                     },
                     {
                         text: 'Acertos de 50 Pontos',
-                        value: 'acertos_50_pontos',
+                        value: 'acertos_bonus',
                         align: 'center'
                     },
                 ],
@@ -207,7 +207,7 @@
                         nome
                         pontuacao
                         acertos_consecutivos
-                        acertos_50_pontos
+                        acertos_bonus
                     }
                   }
                 `,
@@ -233,7 +233,7 @@
                         nome
                         pontuacao
                         acertos_consecutivos
-                        acertos_50_pontos
+                        acertos_bonus
                     }
                   }
                 `,
@@ -259,7 +259,7 @@
                         nome
                         pontuacao
                         acertos_consecutivos
-                        acertos_50_pontos
+                        acertos_bonus
                     }
                   }
                 `,
@@ -285,7 +285,7 @@
                         nome
                         pontuacao
                         acertos_consecutivos
-                        acertos_50_pontos
+                        acertos_bonus
                     }
                   }
                 `,
@@ -311,7 +311,7 @@
                         nome
                         pontuacao
                         acertos_consecutivos
-                        acertos_50_pontos
+                        acertos_bonus
                     }
                   }
                 `,
@@ -337,7 +337,7 @@
                         nome
                         pontuacao
                         acertos_consecutivos
-                        acertos_50_pontos
+                        acertos_bonus
                     }
                   }
                 `,

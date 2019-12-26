@@ -1,7 +1,6 @@
 <template>
   <div>
     <Header titulo="Administrar Equipes"/>
-    <v-container fluid >
       <v-row>
         <v-col cols="12">
 
@@ -43,7 +42,7 @@
 
                                 <div class="mb-2 pa-2" >
 
-                                  <h3 class="text-center elevation-5" >Participante {{ n }}</h3>
+                                  <h3 class="text-center elevation-3" >Participante {{ n }}</h3>
 
                                   <v-text-field
                                     label="Nome completo *"
@@ -72,7 +71,7 @@
                     <v-card-actions>
                       <v-spacer></v-spacer>
                       <v-btn color="grey darken-1" text @click="dialog = false">Fechar</v-btn>
-                      <v-btn  color="green text-white"  @click.prevent="salvarEquipe">Salvar</v-btn>
+                      <v-btn  color="primary"  @click.prevent="salvarEquipe">Salvar</v-btn>
                     </v-card-actions>
                   </v-card>
                 </v-dialog>
@@ -95,15 +94,12 @@
 <!--              </v-icon>-->
 <!--            </template>-->
 
-            <template v-slot:no-data>
-              <v-btn color="primary" >Reset</v-btn>
-            </template>
+
           </v-data-table>
 
 
         </v-col>
       </v-row>
-    </v-container>
   </div>
 </template>
 <script>

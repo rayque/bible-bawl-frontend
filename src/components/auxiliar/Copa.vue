@@ -2,7 +2,8 @@
     <div>
         <Header titulo="Copa"/>
 
-        <v-container fluid>
+
+
 
             <v-alert v-if="!perguntaAtual" type="info">
                 Não há perguntas disponíveis.
@@ -117,7 +118,6 @@
 
                 </v-col>
             </v-row>
-        </v-container>
 
 
     </div>
