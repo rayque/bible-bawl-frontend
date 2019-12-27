@@ -31,7 +31,7 @@
                                         class="mt-2 title grey--text"
                                         v-on="on"
                                 >
-                                    Equipe {{equipe.id}}
+                                    Equipe {{equipe.nome}}
                                 </v-btn>
                             </template>
 
