@@ -297,6 +297,7 @@
                 },
                 result({data}) {
                     this.resultadoIndividualInfantil = data.getResultadoIndividualInfantil;
+
                 },
                 catch() {
                     this.Helper.exibirMensagem("error", 'error', 3000);
@@ -322,7 +323,7 @@
                     }
                 },
                 result({data}) {
-                    this.resultadoIndivuJuvenil = data.getResultadoIndividualJuvenil;
+                    this.resultadoIndividualJuvenil = data.getResultadoIndividualJuvenil;
                 },
                 catch() {
                     this.Helper.exibirMensagem("error", 'error', 3000);

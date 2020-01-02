@@ -95,8 +95,8 @@
 
                     <v-row no-gutters  >
                         <v-col md="4" v-for="equipe in pontuacao">
-                            <v-row no-gutters justify="center" class="title">
-                                <v-col md="8"> {{ equipe.nome }} </v-col>
+                            <v-row no-gutters justify="center" class="title" :class="getColor(equipe.pontuacao)"  >
+                                <v-col  md="8"> {{ equipe.nome }} </v-col>
                                 <v-col md="2"> {{ equipe.pontuacao }} </v-col>
                             </v-row>
                         </v-col>
@@ -141,6 +141,9 @@
                         const msg = e.graphQLErrors[0].message || "Ocorreu um erro. Tente novamente.";
                         this.Helper.exibirMensagem(msg, 'error', 3000);
                     });
+            },
+            getColor(pontuacao) {
+                return pontuacao === 50 ? 'orange' : '';
             }
 
         },
@@ -237,6 +240,3 @@
     }
 </script>
 
-<style scoped>
-
-</style>
