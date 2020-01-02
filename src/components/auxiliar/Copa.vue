@@ -3,121 +3,123 @@
         <Header titulo="Copa"/>
 
 
+        <v-alert v-if="!perguntaAtual" type="info">
+            Não há perguntas disponíveis.
+        </v-alert>
 
+        <v-row v-if="perguntaAtual">
+            <v-col cols="12">
+                <v-card>
+                    <v-card-title class="headline">Pergunta {{perguntaAtual}}</v-card-title>
+                </v-card>
+            </v-col>
+        </v-row>
 
-            <v-alert v-if="!perguntaAtual" type="info">
-                Não há perguntas disponíveis.
-            </v-alert>
-
-            <v-row v-if="perguntaAtual">
-                <v-col cols="12">
-                    <v-card>
-                        <v-card-title class="headline">Pergunta {{perguntaAtual}}</v-card-title>
-                    </v-card>
-                </v-col>
-            </v-row>
-
-            <v-row no-gutters  v-if="perguntaAtual">
-                <v-col :cols="equipes/12" v-for="(equipe, indexEquipe) in listaEquipes" :key="indexEquipe">
-
-                    <v-card flat class="text-center white--text">
-                        <v-dialog
-                                v-model="dialog"
-                                width="500"
-                        >
-                            <template v-slot:activator="{ on }">
+        <v-row no-gutters v-if="perguntaAtual">
+            <v-col :cols="equipes/12" v-for="(equipe, indexEquipe) in listaEquipes" :key="indexEquipe" >
+                <v-card flat class="text-center white--text">
+                    <v-dialog
+                            v-model="dialog"
+                            width="500"
+                    >
+                        <template v-slot:activator="{ on }">
+                            <div class="text-center" >
                                 <v-btn
-
-                                        class="mt-2 title grey--text"
+                                        class="mt-2 primary"
                                         v-on="on"
+
+                                        @click="showEquipe(equipe)"
                                 >
-                                    Equipe {{equipe.nome}}
+                                    Equipe {{equipe.sigla}}
                                 </v-btn>
-                            </template>
 
-                            <v-card>
-                                <v-card-title
-                                        class="headline grey lighten-2"
-                                        primary-title
-                                >
-                                    Informações da equipe
-                                </v-card-title>
+                            </div>
+                        </template>
 
-                                <v-card-text class="pa-4">
-                                   <p class="body-1"> <b> Equipe:</b> {{ equipe.nome }}</p>
-                                    <p class="body-1"> <b> Categoria: </b>{{ equipe.categoria.descricao }}</p>
+                        <v-card v-if="dadosEquipe">
+                            <v-card-title
+                                    class="title grey lighten-2"
+                                    primary-title
+                            >
+                                Informações da equipe
+                            </v-card-title>
 
-                                    <v-divider></v-divider>
-
-                                    <v-list>
-                                        <p class="subtitle-1">Participantes</p>
-                                        <v-list-item
-                                                v-for="participante in equipe.participantes"
-                                                :key="participante.id"
-                                        >
-
-                                            <v-list-item-content>
-                                                <v-list-item-title v-text="participante.nome"></v-list-item-title>
-                                            </v-list-item-content>
-
-                                        </v-list-item>
-                                    </v-list>
-
-
-
-                                </v-card-text>
+                            <v-card-text class="pa-4">
+                                <p class="body-1"><b> Equipe:</b> {{ dadosEquipe.nome }}</p>
+                                <p class="body-1"><b> Sigla:</b> {{ dadosEquipe.sigla }}</p>
+                                <p class="body-1"><b> Categoria: </b>{{ dadosEquipe.categoria.descricao }}</p>
 
                                 <v-divider></v-divider>
 
-                                <v-card-actions>
-                                    <v-spacer></v-spacer>
-                                    <v-btn
-                                            color="primary"
-                                            text
-                                            @click="dialog = false"
+                                <v-list>
+                                    <p class="subtitle-1">Participantes</p>
+                                    <v-list-item
+                                            v-for="participante in dadosEquipe.participantes"
+                                            :key="participante.id"
                                     >
-                                        fechar
-                                    </v-btn>
-                                </v-card-actions>
-                            </v-card>
-                        </v-dialog>
+
+                                        <v-list-item-content>
+                                            <v-list-item-title v-text="participante.nome"></v-list-item-title>
+                                        </v-list-item-content>
+
+                                    </v-list-item>
+                                </v-list>
 
 
+                            </v-card-text>
 
-                        <v-row no-gutters>
-                            <v-col cols="12" class="text-center"
-                                   v-for="(participante, indexParticipante) in equipe.participantes"
-                                   :key="indexParticipante">
+                            <v-divider></v-divider>
 
+                            <v-card-actions>
+                                <v-spacer></v-spacer>
                                 <v-btn
-                                        v-if="respostasCertas.indexOf(participante.id) === -1"
-                                        @click="salvarRespota(participante.id)"
-                                        color="grey lighten-1"
-                                        class="mt-3 mb-3"
-                                        icon
+                                        color="primary"
+                                        text
+                                        @click="dialog = false"
                                 >
-                                    <v-icon indigo>mdi-account</v-icon>
+                                    fechar
                                 </v-btn>
+                            </v-card-actions>
+                        </v-card>
+                    </v-dialog>
+
+                    <v-row no-gutters>
+
+                        <v-col cols="12" class="text-center"
+                               v-for="(participante, indexParticipante) in equipe.participantes"
+                               :key="indexParticipante">
 
 
-                                <v-btn  v-if="respostasCertas.indexOf(participante.id) !== -1"
-                                        @click="salvarRespota(participante.id)"
-                                        color="green darken-1"
-                                        class="mt-3 mb-3"
-                                        icon
-                                        elevation="6"
-                                >
-                                    <v-icon>mdi-account</v-icon>
-                                </v-btn>
+                            <v-btn
+                                    v-if="respostasCertas.indexOf(participante.id) === -1"
+                                    @click="salvarRespota(participante.id)"
+                                    color="grey lighten-1"
+                                    class="mt-3 mb-3"
+                                     outlined
+
+                            >
+                                <v-icon left>mdi-account-remove-outline</v-icon> <span class="caption"> {{  getFirstName(participante.nome)}} </span>
+                            </v-btn>
+
+                            <v-btn v-if="respostasCertas.indexOf(participante.id) !== -1"
+                                   @click="salvarRespota(participante.id)"
+                                   color="green darken-1"
+                                   class="mt-3 mb-3"
+                                    outlined
+                                   elevation="6"
+                            >
+                                <v-icon left>mdi-account-check-outline</v-icon> <span class="caption"> {{  getFirstName(participante.nome)}} </span>
+                            </v-btn>
 
 
-                            </v-col>
-                        </v-row>
+                        </v-col>
 
-                    </v-card>
+                    </v-row>
 
-                </v-col>
-            </v-row>
+                </v-card>
+
+            </v-col>
+        </v-row>
 
 
     </div>
@@ -141,7 +143,8 @@
             loader: null,
             loading5: false,
             respostasCertas: [],
-            novaPerguntaAtual: ''
+            novaPerguntaAtual: '',
+            dadosEquipe: null,
         }),
         methods: {
             salvarRespota(id) {
@@ -155,11 +158,13 @@
                             setResposta(dados: $dados)
                           }
                       `,
-                        variables: {dados: {
+                        variables: {
+                            dados: {
                                 participante_id: id,
                                 pergunta_id: this.perguntaAtual,
                                 resposta: resposta
-                            }}
+                            }
+                        }
                     })
                     .then(() => {
 
@@ -174,7 +179,6 @@
                         this.Helper.exibirMensagem(msg, 'error', 3000);
                     });
             },
-
             resetEquipes() {
                 this.equipes.forEach(equipe => {
                     equipe.participantes.forEach(participante => {
@@ -182,10 +186,15 @@
                     })
                 })
             },
-
             setNovaPergunta() {
                 this.respostasCertas = [];
                 this.perguntaAtual = this.novaPerguntaAtual
+            },
+            showEquipe(equipe) {
+                this.dadosEquipe = equipe;
+            },
+            getFirstName(name) {
+                return  name.replace(/ .*/,'');
             }
 
         },
@@ -216,6 +225,7 @@
                         equipes {
                             id
                             nome
+                            sigla
                             categoria {
                                 id
                                 nome
@@ -264,7 +274,7 @@
                           novaPerguntaAtual
                     }
                     `,
-                    result (data) {
+                    result(data) {
                         this.novaPerguntaAtual = data.data.novaPerguntaAtual;
                         this.setNovaPergunta()
 
