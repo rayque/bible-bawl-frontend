@@ -22,7 +22,7 @@
                                     <v-card-text>
                                         <h1 class="text-center font-weight-bold head">
                                             <v-icon color="orange">mdi-trophy mdi-36px </v-icon>
-                                            Bible Bawl
+                                            System
                                             <v-icon color="orange">mdi-trophy mdi-36px </v-icon>
                                         </h1>
                                     </v-card-text>
@@ -181,8 +181,8 @@
 
                     <v-app-bar-nav-icon @click.stop="drawer = !drawer"/>
                     <v-toolbar-title>
-                        <v-icon color="orange">mdi-trophy</v-icon>
-                        Bible Bawl
+<!--                        <v-icon color="orange">mdi-trophy</v-icon>-->
+                        System
                     </v-toolbar-title>
                     <v-spacer></v-spacer>
 

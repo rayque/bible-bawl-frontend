@@ -8,7 +8,7 @@
 
       <v-col md="12" sm="12" xs="12">
         <h1 class="display-2 font-weight-bold mb-3">
-          Bible Bawl
+          System
         </h1>
         <h1>
          Bem-vindo
