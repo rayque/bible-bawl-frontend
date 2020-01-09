@@ -1,83 +1,84 @@
 <template>
     <div>
-<!--        <v-row>-->
-<!--            <v-col>-->
-<!--                <v-card >-->
-<!--                    <div class="text-center">-->
-<!--                        <h1 class="pa-2 display-1">-->
-<!--                            <b>Painel Geral</b>-->
-<!--                        </h1>-->
-<!--                        <v-divider></v-divider>-->
-<!--                    </div>-->
-<!--                </v-card>-->
-<!--            </v-col>-->
-<!--        </v-row>-->
+        
+        <v-row>
+            <v-col>
+                <v-card >
+                    <div class="text-center">
+                        <h1 class="pa-2 display-1">
+                            <b>Painel Geral</b>
+                        </h1>
+                        <v-divider></v-divider>
+                    </div>
+                </v-card>
+            </v-col>
+        </v-row>
 
-<!--        <v-row>-->
-<!--            <v-col>-->
+        <v-row>
+            <v-col>
 
-<!--                <v-card >-->
-<!--                    <div class="text-center">-->
-<!--                        <h1 class="pa-2 display-1">-->
-<!--                            Perguntas-->
-<!--                        </h1>-->
-<!--                        <v-divider></v-divider>-->
-<!--                    </div>-->
+                <v-card >
+                    <div class="text-center">
+                        <h1 class="pa-2 display-1">
+                            Perguntas
+                        </h1>
+                        <v-divider></v-divider>
+                    </div>
 
-<!--                    <v-row dense class="pa-4" v-if="!perguntaAtual">-->
-<!--                        <v-col sm="12">-->
-<!--                            <v-alert-->
-<!--                                    color="primary"-->
-<!--                                    dark-->
-<!--                                    type="info"-->
-<!--                                    border="left"-->
-<!--                                    prominent-->
-<!--                                    class="display-2"-->
-<!--                            >-->
-<!--                                Não há perguntas disponíveis.-->
-<!--                            </v-alert>-->
+                    <v-row dense class="pa-4" v-if="!perguntaAtual">
+                        <v-col sm="12">
+                            <v-alert
+                                    color="primary"
+                                    dark
+                                    type="info"
+                                    border="left"
+                                    prominent
+                                    class="display-2"
+                            >
+                                Não há perguntas disponíveis.
+                            </v-alert>
 
-<!--                        </v-col>-->
-<!--                    </v-row>-->
+                        </v-col>
+                    </v-row>
 
-<!--                    <v-row dense v-if="perguntaAtual" class="pa-4">-->
-<!--                        <v-col cols="4">-->
-<!--                            <v-card class="pa-2 grey lighten-2 grey&#45;&#45;text headline text-center" tile>-->
-<!--                                <div class="mb-2">-->
-<!--                                    <span>Anterior</span>-->
-<!--                                </div>-->
-<!--                                <div class="mb-2">-->
-<!--                                    <span> {{ perguntaAnterior }} </span>-->
-<!--                                </div>-->
-<!--                            </v-card>-->
-<!--                        </v-col>-->
-<!--                        <v-col cols="4">-->
-<!--                            <v-card class="pa-2 display-1" tile>-->
-<!--                                <div class="mb-2 text-center">-->
-<!--                                    <span >Atual</span>-->
-<!--                                </div>-->
-<!--                                <div class="mb-2 text-center">-->
-<!--                                    <span> {{ perguntaAtual }} </span>-->
-<!--                                </div>-->
-<!--                            </v-card>-->
-<!--                        </v-col>-->
-<!--                        <v-col cols="4">-->
-<!--                            <v-card class="pa-2 grey lighten-2 grey&#45;&#45;text headline text-center" tile>-->
-<!--                                <div class="mb-2 ">-->
-<!--                                    <span>Próxima</span>-->
-<!--                                </div>-->
-<!--                                <div class="mb-2">-->
-<!--                                    <span> {{ proximaPergunta }} </span>-->
-<!--                                </div>-->
-<!--                            </v-card>-->
-<!--                        </v-col>-->
-<!--                    </v-row>-->
+                    <v-row dense v-if="perguntaAtual" class="pa-4">
+                        <v-col cols="4">
+                            <v-card class="pa-2 grey lighten-2 grey--text headline text-center" tile>
+                                <div class="mb-2">
+                                    <span>Anterior</span>
+                                </div>
+                                <div class="mb-2">
+                                    <span> {{ perguntaAnterior }} </span>
+                                </div>
+                            </v-card>
+                        </v-col>
+                        <v-col cols="4">
+                            <v-card class="pa-2 display-1" tile>
+                                <div class="mb-2 text-center">
+                                    <span >Atual</span>
+                                </div>
+                                <div class="mb-2 text-center">
+                                    <span> {{ perguntaAtual }} </span>
+                                </div>
+                            </v-card>
+                        </v-col>
+                        <v-col cols="4">
+                            <v-card class="pa-2 grey lighten-2 grey--text headline text-center" tile>
+                                <div class="mb-2 ">
+                                    <span>Próxima</span>
+                                </div>
+                                <div class="mb-2">
+                                    <span> {{ proximaPergunta }} </span>
+                                </div>
+                            </v-card>
+                        </v-col>
+                    </v-row>
 
-<!--                    <v-divider></v-divider>-->
+                    <v-divider></v-divider>
 
-<!--                </v-card>-->
-<!--            </v-col>-->
-<!--        </v-row>-->
+                </v-card>
+            </v-col>
+        </v-row>
 
         <v-row v-if="perguntaAtual">
 
@@ -137,30 +138,31 @@
 
                                 <v-row class="pa-5" >
                                     <v-col
-                                            v-for="(categoria, index) in dados.categorias"
+                                            v-for="(categoria, index) in pontuacao"
                                             sm="4"
                                             :class="getColorCategoria(index)"
                                     >
 
-                                        <div class="text-center">
-                                            <span class="title">  {{ categoria.descricao }} </span>
+                                        <div class="text-center mb-4">
+                                            <span
+                                                class="title"
+                                            >
+                                                {{ categoria.descricao }}
+                                            </span>
                                         </div>
 
                                         <v-row  v-for="equipe in categoria.equipes">
                                             <v-col
-                                                    class="body-2"
-                                                    cols="3"
-                                                    v-for="participante in equipe" >
-                                                <div >Rayq - 10 </div>
-<!--                                                {{ participante.nome }} - {{ participante.pontuacao }}-->
+                                                :class="`${getColor(participante.pontuacao)}  text-center body-2 font-weight-black `"
+                                                cols="3"
+                                                v-for="participante in equipe"
+                                            style="font-family: 'monospace'">
+                                                {{ nomeParticipante(participante.nome) }}
                                             </v-col>
                                         </v-row>
 
-
                                     </v-col>
                                 </v-row>
-
-
 
                             </v-card>
                         </v-col>
@@ -186,209 +188,7 @@
             perguntaEspecifica: null,
             primeiraPerguntaNaoRespondida: null,
             pontuacao: [],
-            dados: {
-              categorias: [
-                  {
-                      nome: "infantil",
-                      descricao: "Infantil",
-                      equipes: [
-                          [
-                              {nome: "Cary", pontuacao: 0},
-                              {nome: "London", pontuacao: 10},
-                              {nome: "Ignacio", pontuacao: 10},
-                              {nome: "Karen", pontuacao: 10}
-                          ],
-                          [
-                              {nome: "Cary", pontuacao: 0},
-                              {nome: "London", pontuacao: 10},
-                              {nome: "Ignacio", pontuacao: 10},
-                              {nome: "Karen", pontuacao: 10}
-                          ],
-                          [
-                              {nome: "Cary", pontuacao: 0},
-                              {nome: "London", pontuacao: 10},
-                              {nome: "Ignacio", pontuacao: 10},
-                              {nome: "Karen", pontuacao: 10}
-                          ],
-                          [
-                              {nome: "Cary", pontuacao: 0},
-                              {nome: "London", pontuacao: 10},
-                              {nome: "Ignacio", pontuacao: 10},
-                              {nome: "Karen", pontuacao: 10}
-                          ],
-                          [
-                              {nome: "Cary", pontuacao: 0},
-                              {nome: "London", pontuacao: 10},
-                              {nome: "Ignacio", pontuacao: 10},
-                              {nome: "Karen", pontuacao: 10}
-                          ],
-                          [
-                              {nome: "Cary", pontuacao: 0},
-                              {nome: "London", pontuacao: 10},
-                              {nome: "Ignacio", pontuacao: 10},
-                              {nome: "Karen", pontuacao: 10}
-                          ],
-                          [
-                              {nome: "Cary", pontuacao: 0},
-                              {nome: "London", pontuacao: 10},
-                              {nome: "Ignacio", pontuacao: 10},
-                              {nome: "Karen", pontuacao: 10}
-                          ],
-                          [
-                              {nome: "Cary", pontuacao: 0},
-                              {nome: "London", pontuacao: 10},
-                              {nome: "Ignacio", pontuacao: 10},
-                              {nome: "Karen", pontuacao: 10}
-                          ],
-                          [
-                              {nome: "Cary", pontuacao: 0},
-                              {nome: "London", pontuacao: 10},
-                              {nome: "Ignacio", pontuacao: 10},
-                              {nome: "Karen", pontuacao: 10}
-                          ],
-                          [
-                              {nome: "Cary", pontuacao: 0},
-                              {nome: "London", pontuacao: 10},
-                              {nome: "Ignacio", pontuacao: 10},
-                              {nome: "Karen", pontuacao: 10}
-                          ],
-                      ]
-                  },
-                  {
-                      nome: "juvenil",
-                      descricao: "Juvenil",
-                      equipes: [
-                          [
-                              {nome: "Cary", pontuacao: 0},
-                              {nome: "London", pontuacao: 10},
-                              {nome: "Ignacio", pontuacao: 10},
-                              {nome: "Karen", pontuacao: 10}
-                          ],
-                          [
-                              {nome: "Cary", pontuacao: 0},
-                              {nome: "London", pontuacao: 10},
-                              {nome: "Ignacio", pontuacao: 10},
-                              {nome: "Karen", pontuacao: 10}
-                          ],
-                          [
-                              {nome: "Cary", pontuacao: 0},
-                              {nome: "London", pontuacao: 10},
-                              {nome: "Ignacio", pontuacao: 10},
-                              {nome: "Karen", pontuacao: 10}
-                          ],
-                          [
-                              {nome: "Cary", pontuacao: 0},
-                              {nome: "London", pontuacao: 10},
-                              {nome: "Ignacio", pontuacao: 10},
-                              {nome: "Karen", pontuacao: 10}
-                          ],
-                          [
-                              {nome: "Cary", pontuacao: 0},
-                              {nome: "London", pontuacao: 10},
-                              {nome: "Ignacio", pontuacao: 10},
-                              {nome: "Karen", pontuacao: 10}
-                          ],
-                          [
-                              {nome: "Cary", pontuacao: 0},
-                              {nome: "London", pontuacao: 10},
-                              {nome: "Ignacio", pontuacao: 10},
-                              {nome: "Karen", pontuacao: 10}
-                          ],
-                          [
-                              {nome: "Cary", pontuacao: 0},
-                              {nome: "London", pontuacao: 10},
-                              {nome: "Ignacio", pontuacao: 10},
-                              {nome: "Karen", pontuacao: 10}
-                          ],
-                          [
-                              {nome: "Cary", pontuacao: 0},
-                              {nome: "London", pontuacao: 10},
-                              {nome: "Ignacio", pontuacao: 10},
-                              {nome: "Karen", pontuacao: 10}
-                          ],
-                          [
-                              {nome: "Cary", pontuacao: 0},
-                              {nome: "London", pontuacao: 10},
-                              {nome: "Ignacio", pontuacao: 10},
-                              {nome: "Karen", pontuacao: 10}
-                          ],
-                          [
-                              {nome: "Cary", pontuacao: 0},
-                              {nome: "London", pontuacao: 10},
-                              {nome: "Ignacio", pontuacao: 10},
-                              {nome: "Karen", pontuacao: 10}
-                          ],
-                      ]
-                  },
-                  {
-                      nome: "Adulto",
-                      descricao: "Adulto",
-                      equipes: [
-                          [
-                              {nome: "Cary", pontuacao: 0},
-                              {nome: "London", pontuacao: 10},
-                              {nome: "Ignacio", pontuacao: 10},
-                              {nome: "Karen", pontuacao: 10}
-                          ],
-                          [
-                              {nome: "Cary", pontuacao: 0},
-                              {nome: "London", pontuacao: 10},
-                              {nome: "Ignacio", pontuacao: 10},
-                              {nome: "Karen", pontuacao: 10}
-                          ],
-                          [
-                              {nome: "Cary", pontuacao: 0},
-                              {nome: "London", pontuacao: 10},
-                              {nome: "Ignacio", pontuacao: 10},
-                              {nome: "Karen", pontuacao: 10}
-                          ],
-                          [
-                              {nome: "Cary", pontuacao: 0},
-                              {nome: "London", pontuacao: 10},
-                              {nome: "Ignacio", pontuacao: 10},
-                              {nome: "Karen", pontuacao: 10}
-                          ],
-                          [
-                              {nome: "Cary", pontuacao: 0},
-                              {nome: "London", pontuacao: 10},
-                              {nome: "Ignacio", pontuacao: 10},
-                              {nome: "Karen", pontuacao: 10}
-                          ],
-                          [
-                              {nome: "Cary", pontuacao: 0},
-                              {nome: "London", pontuacao: 10},
-                              {nome: "Ignacio", pontuacao: 10},
-                              {nome: "Karen", pontuacao: 10}
-                          ],
-                          [
-                              {nome: "Cary", pontuacao: 0},
-                              {nome: "London", pontuacao: 10},
-                              {nome: "Ignacio", pontuacao: 10},
-                              {nome: "Karen", pontuacao: 10}
-                          ],
-                          [
-                              {nome: "Cary", pontuacao: 0},
-                              {nome: "London", pontuacao: 10},
-                              {nome: "Ignacio", pontuacao: 10},
-                              {nome: "Karen", pontuacao: 10}
-                          ],
-                          [
-                              {nome: "Cary", pontuacao: 0},
-                              {nome: "London", pontuacao: 10},
-                              {nome: "Ignacio", pontuacao: 10},
-                              {nome: "Karen", pontuacao: 10}
-                          ],
-                          [
-                              {nome: "Cary", pontuacao: 0},
-                              {nome: "London", pontuacao: 10},
-                              {nome: "Ignacio", pontuacao: 10},
-                              {nome: "Karen", pontuacao: 10}
-                          ],
-                      ]
-                  },
-              ]
-            },
-            dialog: true,
+            dialog: false,
             notifications: false,
             sound: true,
             widgets: false,
@@ -414,18 +214,24 @@
                         this.Helper.exibirMensagem(msg, 'error', 3000);
                     });
             },
-            getColor(pontuacao) {
-                return pontuacao === 50 ? 'orange' : '';
+
+            getColor(pontos) {
+                return pontos === 10 ? 'green' : '';
             },
+
             getColorCategoria(index) {
                 const colors = {
-                    0: () => 'light-green lighten-3',
+                    0: () => 'yellow lighten-3',
                     1: () => 'red lighten-3',
                     2: () => 'light-blue lighten-3',
                 };
                 return (colors[index])();
-            }
+            },
 
+            nomeParticipante(nome){
+                let name =  nome.split(" ", 1).toString().toUpperCase();
+                return name.substr(0, 6);
+            }
         },
 
         computed: {
@@ -470,8 +276,12 @@
                 query: gql`
                   query getPontuacaoEquipesByResposta($pergunta_id: Int!) {
                     getPontuacaoEquipesByResposta(pergunta_id: $pergunta_id) {
-                        nome
-                        pontuacao
+                    nome
+                    descricao
+                    equipes {
+                      nome
+                      pontuacao
+                    }
                     }
                   }
                 `,
@@ -504,10 +314,14 @@
                 getPontuacaoEquipesByResposta: {
                     query: gql`
                     subscription {
-                          getPontuacaoEquipesByResposta{
+                      getPontuacaoEquipesByResposta{
+                          nome
+                          descricao
+                          equipes {
                             nome
                             pontuacao
                           }
+                        }
                     }
                     `,
                     result(data) {
