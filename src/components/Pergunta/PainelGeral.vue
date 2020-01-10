@@ -1,8 +1,5 @@
 <template>
     <div>
-
-
-
         <v-row justify="center">
             <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
                 <template v-slot:activator="{ on }">
@@ -10,42 +7,38 @@
                 </template>
                 <v-card>
                     <v-toolbar dark color="primary">
+                            <v-toolbar-title >PAINEL GERAL</v-toolbar-title>
+                        <v-spacer></v-spacer>
                         <v-btn icon dark @click="dialog = false">
                             <v-icon>mdi-close</v-icon>
                         </v-btn>
-                        <v-toolbar-title>Settings</v-toolbar-title>
-                        <v-spacer></v-spacer>
-                        <v-toolbar-items>
-                            <v-btn dark text @click="dialog = false">Fechar</v-btn>
-                        </v-toolbar-items>
                     </v-toolbar>
 
 
-                    <v-row>
-                        <v-col>
-                            <v-card >
-                                <div class="text-center">
-                                    <h1 class="pa-2 display-1">
-                                        <b>Painel Geral</b>
-                                    </h1>
-                                    <v-divider></v-divider>
-                                </div>
-                            </v-card>
-                        </v-col>
-                    </v-row>
+<!--                    <v-row>-->
+<!--                        <v-col>-->
+<!--                            <v-card >-->
+<!--                                <div class="text-center">-->
+<!--                                    <h1 class="headline">-->
+<!--                                        <b>Painel Geral</b>-->
+<!--                                    </h1>-->
+<!--                                    <v-divider></v-divider>-->
+<!--                                </div>-->
+<!--                            </v-card>-->
+<!--                        </v-col>-->
+<!--                    </v-row>-->
 
-                    <v-row>
-                        <v-col>
+                    <v-row class="mb-0">
+                        <v-col md="12" class="mb-0">
 
-                            <v-card >
+                            <v-card elevation="5">
                                 <div class="text-center">
-                                    <h1 class="pa-2 headline">
+                                    <h1 class="headline">
                                         Perguntas
                                     </h1>
-                                    <v-divider></v-divider>
                                 </div>
 
-                                <v-row dense class="pa-4" v-if="!perguntaAtual">
+                                <v-row no-gutters v-if="!perguntaAtual">
                                     <v-col sm="12">
                                         <v-alert
                                                 color="primary"
@@ -61,33 +54,33 @@
                                     </v-col>
                                 </v-row>
 
-                                <v-row dense v-if="perguntaAtual">
-                                    <v-col cols="4">
-                                        <v-card class="pa-2 grey lighten-2 grey--text subtitle-1 text-center" tile>
-                                            <div class="mb-2">
-                                                <span>Anterior</span>
+                                <v-row dense v-if="perguntaAtual" justify="center">
+                                    <v-col cols="3">
+                                        <v-card class=" grey lighten-3  headline text-center" elevation="4">
+                                            <div class="mb-1 pt-2">
+                                                <span>ANTERIOR</span>
                                             </div>
                                             <div class="mb-2">
                                                 <span> {{ perguntaAnterior }} </span>
                                             </div>
                                         </v-card>
                                     </v-col>
-                                    <v-col cols="4">
-                                        <v-card class="pa-2 headline" tile>
-                                            <div class="mb-2 text-center">
-                                                <span >Atual</span>
+                                    <v-col cols="3">
+                                        <v-card class="headline text-center" tile elevation="4">
+                                            <div class="mb-1 pt-2">
+                                                <span >ATUAL</span>
                                             </div>
-                                            <div class="mb-2 text-center">
+                                            <div class="text-center">
                                                 <span> {{ perguntaAtual }} </span>
                                             </div>
                                         </v-card>
                                     </v-col>
-                                    <v-col cols="4">
-                                        <v-card class="pa-2 grey lighten-2 grey--text subtitle-1 text-center" tile>
-                                            <div class="mb-2 ">
-                                                <span>Próxima</span>
+                                    <v-col cols="3">
+                                        <v-card class="grey lighten-3  headline text-center" tile elevation="4">
+                                            <div class="mb-1 pt-2">
+                                                <span>PRÓXIMA</span>
                                             </div>
-                                            <div class="mb-2">
+                                            <div class="">
                                                 <span> {{ proximaPergunta }} </span>
                                             </div>
                                         </v-card>
@@ -101,13 +94,13 @@
                     </v-row>
 
 
-                    <v-row v-if="perguntaAtual">
+                    <v-row v-if="perguntaAtual" class="mt-0">
 
 
                         <v-col>
-                            <v-card>
+                            <v-card elevation="5 ">
 
-                                <v-row class="pa-5" >
+                                <v-row class="" >
                                     <v-col
                                             v-for="(categoria, index) in pontuacao"
                                             sm="4"
@@ -124,7 +117,7 @@
 
                                         <v-row  v-for="equipe in categoria.equipes">
                                             <v-col
-                                                :class="`${getColor(participante.pontuacao)}  text-center body-2 font-weight-black `"
+                                                :class="`${getColor(participante.pontuacao)}  text-center body-2 font-weight-bold`"
                                                 cols="3"
                                                 v-for="participante in equipe"
                                             style="font-family: 'monospace'">
@@ -159,7 +152,7 @@
             perguntaEspecifica: null,
             primeiraPerguntaNaoRespondida: null,
             pontuacao: [],
-            dialog: false,
+            dialog: true,
             notifications: false,
             sound: true,
             widgets: false,
@@ -192,9 +185,9 @@
 
             getColorCategoria(index) {
                 const colors = {
-                    0: () => 'yellow lighten-3',
-                    1: () => 'red lighten-3',
-                    2: () => 'light-blue lighten-3',
+                    0: () => 'yellow ',
+                    1: () => 'orange lighten-1',
+                    2: () => 'blue lighten-1',
                 };
                 return (colors[index])();
             },
