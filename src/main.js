@@ -31,6 +31,7 @@ Vue.use(VueApollo);
 const link = new WebSocketLink({
   // uri: 'wss://learn.hasura.io/graphql',
   // uri: `ws://192.168.108.14:4000/graphql`,
+  // uri: `ws://192.168.0.192:4000/graphql`,
   // uri: `ws://192.168.1.19:4000/graphql`,
   uri: `ws://localhost:4000/graphql`,
   options: {
