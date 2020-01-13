@@ -2,6 +2,9 @@ import Vue from 'vue'
 import App from './App.vue'
 import vuetify from './plugins/vuetify';
 import acl from './plugins/acl';
+import { HttpLink } from 'apollo-link-http'
+import { split } from 'apollo-link'
+import { getMainDefinition } from 'apollo-utilities'
 // import VueRouter from "vue-router";
 import router  from './routes';
 import store from './store';
@@ -23,12 +26,12 @@ Vue.use(VueApollo);
 
 // Create a new HttpLink to connect to your GraphQL API.
 // According to the Apollo docs, this should be an absolute URI.
-// const httpLink = new HttpLink({
-//   uri: `http://localhost:4000/`
-// });
+const httpLink = new HttpLink({
+  uri: `http://localhost:4000/`
+});
 
 // Create a WebSocket link:
-const link = new WebSocketLink({
+const wsLink = new WebSocketLink({
   // uri: 'wss://learn.hasura.io/graphql',
   // uri: `ws://192.168.108.14:4000/graphql`,
   // uri: `ws://192.168.0.192:4000/graphql`,
@@ -42,6 +45,18 @@ const link = new WebSocketLink({
     // },
   }
 });
+
+const link = split(
+    // split based on operation type
+    ({ query }) => {
+      const definition = getMainDefinition(query)
+      return definition.kind === 'OperationDefinition' &&
+          definition.operation === 'subscription'
+    },
+    wsLink,
+    httpLink
+)
+
 
 
 // I'm creating another variable here just because it makes it easier to add more links in the future.

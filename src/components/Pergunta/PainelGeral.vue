@@ -103,23 +103,23 @@
                                 <v-row class="" >
                                     <v-col
                                             v-for="(categoria, index) in pontuacao"
+                                            :key="index"
                                             sm="4"
                                             :class="getColorCategoria(index)"
                                     >
 
                                         <div class="text-center mb-4">
-                                            <span
-                                                class="title"
-                                            >
+                                            <span class="title">
                                                 {{ categoria.descricao }}
                                             </span>
                                         </div>
 
-                                        <v-row  v-for="equipe in categoria.equipes">
+                                        <v-row  v-for="(equipe, index) in categoria.equipes"  :key="index">
                                             <v-col
                                                 :class="`${getColor(participante.pontuacao)}  text-center body-2 font-weight-bold`"
                                                 cols="3"
-                                                v-for="participante in equipe"
+                                                v-for="(participante, index) in equipe"
+                                                :key="index"
                                             style="font-family: 'monospace'">
                                                 {{ nomeParticipante(participante.nome) }}
                                             </v-col>
