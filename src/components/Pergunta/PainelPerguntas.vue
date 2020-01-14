@@ -1,22 +1,41 @@
 <template>
     <v-card outlined >
         <div class="text-center">
-            <h1  class="display-1 pa-2">
+            <h1  class="headline pa-2">
                 Painel de Perguntas
             </h1>
             <v-divider></v-divider>
         </div>
 
-        <v-row dense class="pa-4"   v-if="!perguntaAtual">
-            <v-col sm="6">
-                <v-alert  type="info">
+        <v-row dense class="pa-4" v-if="!perguntaAtual">
+            <v-col sm="12">
+                <v-alert
+                        color="primary"
+                        dark
+                        type="info"
+                        border="left"
+                        class="body-1"
+                >
                     Não há perguntas disponíveis.
                 </v-alert>
             </v-col>
-            <v-col sm="6">
-                <v-btn  @click="setPergunta(primeiraPerguntaNaoRespondida)" x-large block color="success" dark>Iniciar</v-btn>
+        </v-row>
+
+        <v-row  class="pa-4" v-if="!perguntaAtual">
+
+            <v-col cols="12" md="6">
+                <span class="title">Irá iniciar na pergunta:  {{ primeiraPerguntaNaoRespondida }}</span>
+            </v-col>
+
+            <v-col cols="12" md="6">
+                <span class="title mr-2">Iniciar Copa: </span>
+                <v-btn
+                        @click="setPergunta(primeiraPerguntaNaoRespondida)"
+                          color="success" dark outlined
+                >Iniciar</v-btn>
             </v-col>
         </v-row>
+
 
         <v-row dense v-if="perguntaAtual" justify="center">
             <v-col cols="3">
