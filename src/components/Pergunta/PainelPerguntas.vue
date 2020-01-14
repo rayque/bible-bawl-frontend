@@ -18,37 +18,34 @@
             </v-col>
         </v-row>
 
-        <v-row dense  v-if="perguntaAtual" class="pa-4">
-            <v-col cols="4">
-                <v-card class="pa-2 grey lighten-2 grey--text headline text-center" tile>
-                    <div class="mb-2 text-center" >
-                        <span class="headline">Anterior</span>
+        <v-row dense v-if="perguntaAtual" justify="center">
+            <v-col cols="3">
+                <v-card class=" grey lighten-3  subtitle-1  text-center" elevation="4">
+                    <div class="mb-1 pt-2">
+                        <span>Anterior</span>
                     </div>
-                    <div class="mb-2 text-center" >
-                        <span class="headline"> {{ perguntaAnterior }} </span>
-                    </div>
-                </v-card>
-            </v-col>
-            <v-col cols="4">
-                <v-card
-                    class="pa-2"
-                    tile
-                >
-                    <div class="mb-2 text-center" >
-                        <span class="headline">Atual</span>
-                    </div>
-                    <div class="mb-2 text-center" >
-                        <span class="display-2"> {{ perguntaAtual }} </span>
+                    <div class="mb-2">
+                        <span> {{ perguntaAnterior }} </span>
                     </div>
                 </v-card>
             </v-col>
-            <v-col cols="4">
-                <v-card class="pa-2 grey lighten-2 grey--text headline text-center" tile>
-                    <div class="mb-2 text-center" >
-                        <span class="headline">Próxima</span>
+            <v-col cols="3">
+                <v-card class="subtitle-1  text-center" tile elevation="4">
+                    <div class="mb-1 pt-2">
+                        <span >Atual</span>
                     </div>
-                    <div class="mb-2 text-center" >
-                        <span class="headline"> {{ proximaPergunta }} </span>
+                    <div class="text-center">
+                        <span> {{ perguntaAtual }} </span>
+                    </div>
+                </v-card>
+            </v-col>
+            <v-col cols="3">
+                <v-card class="grey lighten-3 subtitle-1 text-center" tile elevation="4">
+                    <div class="mb-1 pt-2">
+                        <span>Próxima</span>
+                    </div>
+                    <div>
+                        <span> {{ proximaPergunta }} </span>
                     </div>
                 </v-card>
             </v-col>
@@ -56,31 +53,60 @@
 
         <v-divider></v-divider>
 
-        <v-row dense class="pa-4"  v-if="perguntaAtual" >
+        <v-row dense class="pa-4"  v-if="perguntaAtual">
             <v-col cols="4">
-                <v-btn  v-if="perguntaAnterior"  @click="setPergunta(perguntaAnterior)"  x-large block color="grey" >Anterior</v-btn>
-                <v-btn  v-if="!perguntaAnterior" disabled  x-large block color="grey" >Anterior</v-btn>
+                <v-btn  @click="setPergunta(0)" large outlined block color="red" title="Bloquear respostas">
+                    <v-icon class="mdi mdi-block-helper hidden-sm-and-up"></v-icon>
+                    <span class="hidden-sm-and-down">Bloquear respostas</span>
+                </v-btn>
             </v-col>
             <v-col cols="4">
-                <v-btn  @click="setPergunta(0)"  x-large block color="red" >Bloquear</v-btn>
+                <v-btn  v-if="perguntaAnterior"  @click="setPergunta(perguntaAnterior)" outlined large block title="Anterior">
+                    <v-icon class="mdi mdi-arrow-left-circle-outline hidden-sm-and-up"></v-icon>
+                    <span class="hidden-sm-and-down">Anterior</span>
+                </v-btn>
+                <v-btn  v-if="!perguntaAnterior" disabled outlined large block color="grey" title="Anterior">
+                    <v-icon class="mdi mdi-arrow-left-circle-outline hidden-sm-and-up"></v-icon>
+                    <span class="hidden-sm-and-down">Anterior</span>
+                </v-btn>
             </v-col>
             <v-col cols="4">
-                <v-btn  @click="setPergunta(proximaPergunta)" x-large block color="primary" dark>Próxima</v-btn>
+                <v-btn  @click="setPergunta(proximaPergunta)" large outlined block title="Próxima">
+                    <v-icon class="mdi mdi-arrow-right-circle-outline hidden-sm-and-up"></v-icon>
+                    <span class="hidden-sm-and-down">Próxima</span>
+                </v-btn>
             </v-col>
         </v-row>
 
-        <v-row dense class="pa-4"  v-if="perguntaAtual" >
-            <v-col md="2"  sm="12">
+        <v-row class="pa-4" dense v-if="perguntaAtual">
+            <v-col cols="12">
+                <span class="body-1">Ir para pergunta específica </span>
+            </v-col>
+
+            <v-col cols="8" md="2" >
                 <v-text-field
                     v-model="perguntaEspecifica"
-                    label="ir para pergunta específica"
-                    outlined
+                    label="Pergunta"
                     type="number"
+                    outlined
                 ></v-text-field>
             </v-col>
-            <v-col md="2"  sm="12">
-                <v-btn  v-if="perguntaEspecifica" @click="setPergunta(perguntaEspecifica)" x-large block color="primary" dark>Selecionar</v-btn>
-                <v-btn  disabled v-if="!perguntaEspecifica" x-large block >Selecionar</v-btn>
+            <v-col cols="4" md="2">
+                <v-btn
+                        outlined x-large block color="primary" dark
+                        v-if="perguntaEspecifica"
+                        @click="setPergunta(perguntaEspecifica)"
+                >
+                    <v-icon class="mdi mdi-send hidden-sm-and-up"></v-icon>
+                    <span class="hidden-sm-and-down">Selecionar</span>
+                </v-btn>
+                <v-btn
+                        outlined disabled block x-large
+                        v-if="!perguntaEspecifica"
+                >
+                    <v-icon class="mdi mdi-send hidden-sm-and-up"></v-icon>
+                    <span class="hidden-sm-and-down">Selecionar</span>
+                </v-btn>
             </v-col>
         </v-row>
 
