@@ -97,7 +97,7 @@
             </v-col>
         </v-row>
 
-        <v-row class="pa-4" dense v-if="perguntaAtual">
+        <v-row class="pa-4"  v-if="perguntaAtual">
             <v-col cols="12">
                 <span class="body-1">Ir para pergunta específica </span>
             </v-col>
@@ -110,25 +110,30 @@
                     outlined
                 ></v-text-field>
             </v-col>
+
             <v-col cols="4" md="2">
                 <v-btn
-                        outlined x-large block color="primary" dark
-                        v-if="perguntaEspecifica"
+                        color="primary"
+                        outlined :disabled="!perguntaEspecifica" block x-large
                         @click="setPergunta(perguntaEspecifica)"
                 >
                     <v-icon class="mdi mdi-send hidden-sm-and-up"></v-icon>
                     <span class="hidden-sm-and-down">Selecionar</span>
                 </v-btn>
-                <v-btn
-                        outlined disabled block x-large
-                        v-if="!perguntaEspecifica"
-                >
-                    <v-icon class="mdi mdi-send hidden-sm-and-up"></v-icon>
-                    <span class="hidden-sm-and-down">Selecionar</span>
-                </v-btn>
+            </v-col>
+
+            <v-col cols="12" md="8">
+                <span>Status pergunta</span>
+                <v-radio-group v-model="statusSelecionado" row>
+                    <v-radio
+                        v-for="status in statusPergunta" :key="status.id"
+                        :label="status.descricao"
+                        :value="status.nome"
+                        :color="getColorStatus(status.nome)"
+                    ></v-radio>
+                </v-radio-group>
             </v-col>
         </v-row>
-
 
 
     </v-card>
@@ -143,6 +148,8 @@
             perguntaAtual: null,
             perguntaEspecifica: null,
             primeiraPerguntaNaoRespondida: null,
+            statusSelecionado: null,
+            statusPergunta: [],
         }),
         methods: {
           setPergunta(pergunta) {
@@ -163,7 +170,17 @@
                       const msg = e.graphQLErrors[0].message || "Ocorreu um erro. Tente novamente.";
                       this.Helper.exibirMensagem(msg, 'error', 3000);
                   });
-          }
+          },
+            getColorStatus(nome){
+              const colors = {
+                  'n_respondido': () => 'default',
+                  'respondido': () => 'green',
+                  'cancelado': () => 'red',
+              };
+              return (colors[nome])();
+              
+
+            }
 
         },
 
@@ -186,6 +203,25 @@
                 `,
                 result(res) {
                     this.perguntaAtual = res.data.getPerguntaAtual;
+                },
+                catch() {
+                    this.Helper.exibirMensagem("error", 'error', 3000);
+                }
+
+            },
+
+            getStatusPergunta: {
+                query: gql`
+                  query getStatusPergunta {
+                    getStatusPergunta {
+                        id
+                        nome
+                        descricao
+                      }
+                  }
+                `,
+                result(res) {
+                    this.statusPergunta = res.data.getStatusPergunta;
                 },
                 catch() {
                     this.Helper.exibirMensagem("error", 'error', 3000);
