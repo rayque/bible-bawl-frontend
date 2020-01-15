@@ -175,8 +175,6 @@
 
                 <v-app-bar
                         app
-                        color="blue darken-4"
-                        dark
                 >
 
                     <v-app-bar-nav-icon @click.stop="drawer = !drawer"/>
@@ -204,9 +202,9 @@
                         <router-view/>
                     </v-container>
                 </v-content>
-                <v-footer color="blue darken-4" app>
-                    <span class="white--text">&copy; 2019</span>
-                </v-footer>
+<!--                <v-footer color="blue darken-4" app>-->
+<!--                    <span class="white&#45;&#45;text">&copy; 2019</span>-->
+<!--                </v-footer>-->
             </v-app>
         </div>
 

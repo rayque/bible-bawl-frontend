@@ -57,7 +57,6 @@
                                             v-for="participante in dadosEquipe.participantes"
                                             :key="participante.id"
                                     >
-
                                         <v-list-item-content>
                                             <v-list-item-title v-text="participante.nome"></v-list-item-title>
                                         </v-list-item-content>
