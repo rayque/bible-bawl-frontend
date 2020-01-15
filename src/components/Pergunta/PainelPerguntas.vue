@@ -98,43 +98,65 @@
         </v-row>
 
         <v-row class="pa-4"  v-if="perguntaAtual">
-            <v-col cols="12">
-                <span class="body-1">Ir para pergunta específica </span>
+
+            <v-col cols="12" md="4" >
+                <v-row>
+                    <v-col cols="12">
+                        <span class="body-1">Ir para pergunta específica </span>
+                    </v-col>
+                </v-row>
+
+                <v-row>
+
+                    <v-col cols="12" md="5">
+                        <v-text-field
+                                v-model="perguntaEspecifica"
+                                label="Pergunta"
+                                type="number"
+                                outlined
+                        ></v-text-field>
+                    </v-col>
+
+                    <v-col cols="12" md="7">
+                        <v-btn
+                                color="primary"
+                                outlined :disabled="!perguntaEspecifica" block x-large
+                                @click="setPergunta(perguntaEspecifica)"
+                        >
+                            <v-icon class="mdi mdi-send hidden-sm-and-up"></v-icon>
+                            <span class="hidden-sm-and-down">Selecionar</span>
+                        </v-btn>
+                    </v-col>
+
+                </v-row>
+
             </v-col>
 
-            <v-col cols="8" md="2" >
-                <v-text-field
-                    v-model="perguntaEspecifica"
-                    label="Pergunta"
-                    type="number"
-                    outlined
-                ></v-text-field>
+            <v-col cols="12" md="8" >
+
+                <v-row >
+                    <v-col cols="12">
+                        <span class="body-1">Status da pergunta</span>
+                    </v-col>
+                </v-row>
+
+                <v-row >
+                    <v-col cols="12">
+                        <v-radio-group v-model="statusSelecionado" row>
+                            <v-radio
+                                    v-for="status in statusPergunta" :key="status.id"
+                                    :label="status.descricao"
+                                    :value="status.nome"
+                                    :color="getColorStatus(status.nome)"
+                            ></v-radio>
+                        </v-radio-group>
+                    </v-col>
+
+                </v-row>
+
             </v-col>
 
-            <v-col cols="4" md="2">
-                <v-btn
-                        color="primary"
-                        outlined :disabled="!perguntaEspecifica" block x-large
-                        @click="setPergunta(perguntaEspecifica)"
-                >
-                    <v-icon class="mdi mdi-send hidden-sm-and-up"></v-icon>
-                    <span class="hidden-sm-and-down">Selecionar</span>
-                </v-btn>
-            </v-col>
-
-            <v-col cols="12" md="8">
-                <span>Status pergunta</span>
-                <v-radio-group v-model="statusSelecionado" row>
-                    <v-radio
-                        v-for="status in statusPergunta" :key="status.id"
-                        :label="status.descricao"
-                        :value="status.nome"
-                        :color="getColorStatus(status.nome)"
-                    ></v-radio>
-                </v-radio-group>
-            </v-col>
         </v-row>
-
 
     </v-card>
 </template>
@@ -178,7 +200,7 @@
                   'cancelado': () => 'red',
               };
               return (colors[nome])();
-              
+
 
             }
 
