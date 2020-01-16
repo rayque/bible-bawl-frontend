@@ -7,7 +7,7 @@
                 </template>
                 <v-card>
                     <v-toolbar dark color="primary">
-                            <v-toolbar-title >PAINEL GERAL</v-toolbar-title>
+                        <v-toolbar-title>PAINEL GERAL</v-toolbar-title>
                         <v-spacer></v-spacer>
                         <v-btn icon dark @click="dialog = false">
                             <v-icon>mdi-close</v-icon>
@@ -15,18 +15,18 @@
                     </v-toolbar>
 
 
-<!--                    <v-row>-->
-<!--                        <v-col>-->
-<!--                            <v-card >-->
-<!--                                <div class="text-center">-->
-<!--                                    <h1 class="headline">-->
-<!--                                        <b>Painel Geral</b>-->
-<!--                                    </h1>-->
-<!--                                    <v-divider></v-divider>-->
-<!--                                </div>-->
-<!--                            </v-card>-->
-<!--                        </v-col>-->
-<!--                    </v-row>-->
+                    <!--                    <v-row>-->
+                    <!--                        <v-col>-->
+                    <!--                            <v-card >-->
+                    <!--                                <div class="text-center">-->
+                    <!--                                    <h1 class="headline">-->
+                    <!--                                        <b>Painel Geral</b>-->
+                    <!--                                    </h1>-->
+                    <!--                                    <v-divider></v-divider>-->
+                    <!--                                </div>-->
+                    <!--                            </v-card>-->
+                    <!--                        </v-col>-->
+                    <!--                    </v-row>-->
 
                     <v-row class="mb-0">
                         <v-col md="12" class="mb-0">
@@ -68,10 +68,14 @@
                                     <v-col cols="3">
                                         <v-card class="headline text-center" tile elevation="4">
                                             <div class="mb-1 pt-2">
-                                                <span >ATUAL</span>
+                                                <span>ATUAL</span>
                                             </div>
                                             <div class="text-center">
-                                                <span> {{ perguntaAtual.id }} </span>
+                                                <div class="subtitle-1 "> {{ perguntaAtual.id }}</div>
+                                                <span title="Status da pergunta atual"
+                                                      :class="`${getColorStatus(perguntaAtual.status.nome)}--text body-2  font-weight-medium text-uppercase`">
+                                                    {{ perguntaAtual.status.descricao }}
+                                                </span>
                                             </div>
                                         </v-card>
                                     </v-col>
@@ -100,7 +104,7 @@
                         <v-col>
                             <v-card elevation="5 ">
 
-                                <v-row class="" >
+                                <v-row class="">
                                     <v-col
                                             v-for="(categoria, index) in pontuacao" :key="index"
                                             sm="4"
@@ -109,18 +113,18 @@
 
                                         <div class="text-center mb-4">
                                             <span
-                                                class="title"
+                                                    class="title"
                                             >
                                                 {{ categoria.descricao }}
                                             </span>
                                         </div>
 
-                                        <v-row  v-for="(equipe, index) in categoria.equipes" :key="index">
+                                        <v-row v-for="(equipe, index) in categoria.equipes" :key="index">
                                             <v-col
-                                                :class="`${getColor(participante.pontuacao)}  text-center body-2 font-weight-bold`"
-                                                cols="3"
-                                                v-for="(participante, index) in equipe" :key="index"
-                                            style="font-family: 'monospace'">
+                                                    :class="`${getColor(participante.pontuacao)}  text-center body-2 font-weight-bold`"
+                                                    cols="3"
+                                                    v-for="(participante, index) in equipe" :key="index"
+                                                    style="font-family: 'monospace'">
                                                 {{ nomeParticipante(participante.nome) }}
                                             </v-col>
                                         </v-row>
@@ -131,7 +135,6 @@
                             </v-card>
                         </v-col>
                     </v-row>
-
 
 
                 </v-card>
@@ -192,10 +195,19 @@
                 return (colors[index])();
             },
 
-            nomeParticipante(nome){
-                let name =  nome.split(" ", 1).toString().toUpperCase();
+            nomeParticipante(nome) {
+                let name = nome.split(" ", 1).toString().toUpperCase();
                 return name.substr(0, 6);
-            }
+            },
+
+            getColorStatus(nome) {
+                const colors = {
+                    'n_respondido': 'grey',
+                    'respondido': 'green',
+                    'cancelado': 'red',
+                };
+                return colors[nome];
+            },
         },
 
         computed: {
@@ -265,8 +277,8 @@
                   }
                 `,
                 variables() {
-                    return  {pergunta_id: this.perguntaAtual.id}
-                } ,
+                    return {pergunta_id: this.perguntaAtual.id}
+                },
                 skip() {
                     return !this.perguntaAtual
                 },
