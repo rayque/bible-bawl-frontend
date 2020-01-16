@@ -71,7 +71,7 @@
                                                 <span >ATUAL</span>
                                             </div>
                                             <div class="text-center">
-                                                <span> {{ perguntaAtual }} </span>
+                                                <span> {{ perguntaAtual.id }} </span>
                                             </div>
                                         </v-card>
                                     </v-col>
@@ -185,9 +185,9 @@
 
             getColorCategoria(index) {
                 const colors = {
-                    0: () => 'yellow ',
-                    1: () => 'orange lighten-1',
-                    2: () => 'blue lighten-1',
+                    0: () => 'yellow lighten-1',
+                    1: () => 'orange lighten-2',
+                    2: () => 'light-blue lighten-2',
                 };
                 return (colors[index])();
             },
@@ -200,18 +200,26 @@
 
         computed: {
             perguntaAnterior() {
-                return this.perguntaAtual - 1;
+                return parseInt(this.perguntaAtual.id) - 1;
             },
             proximaPergunta() {
-                return this.perguntaAtual + 1;
-            }
+                return parseInt(this.perguntaAtual.id) + 1;
+            },
         },
 
         apollo: {
             getPerguntaAtual: {
                 query: gql`
                   query getPerguntaAtual {
-                    getPerguntaAtual
+                    getPerguntaAtual{
+                        id
+                        pergunta_atual
+                        status {
+                          id
+                          nome
+                          descricao
+                        }
+                    }
                   }
                 `,
                 result(res) {
@@ -226,7 +234,14 @@
             getPrimeiraPerguntaNaoRespondida: {
                 query: gql`
                   query getPrimeiraPerguntaNaoRespondida {
-                    getPrimeiraPerguntaNaoRespondida
+                    getPrimeiraPerguntaNaoRespondida{
+                        id
+                        status {
+                          id
+                          nome
+                          descricao
+                        }
+                    }
                   }
                 `,
                 result(res) {
@@ -250,7 +265,7 @@
                   }
                 `,
                 variables() {
-                    return  {pergunta_id: this.perguntaAtual}
+                    return  {pergunta_id: this.perguntaAtual.id}
                 } ,
                 skip() {
                     return !this.perguntaAtual
@@ -268,7 +283,14 @@
                 novaPerguntaAtual: {
                     query: gql`
                     subscription {
-                          novaPerguntaAtual
+                          novaPerguntaAtual {
+                            id
+                            status {
+                              id
+                              nome
+                              descricao
+                            }
+                          }
                     }
                     `,
                     result(data) {

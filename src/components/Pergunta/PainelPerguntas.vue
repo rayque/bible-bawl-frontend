@@ -238,7 +238,7 @@
                     })
                     .then(() => {
                         this.$apollo.queries.getPrimeiraPerguntaNaoRespondida.refetch();
-                        this.setPergunta(this.proximaPergunta);
+                        // this.setPergunta(this.proximaPergunta);
                     })
                     .catch(e => {
                         const msg = e.graphQLErrors[0].message || "Ocorreu um erro. Tente novamente.";

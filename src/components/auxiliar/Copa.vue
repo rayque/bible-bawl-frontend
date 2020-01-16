@@ -10,7 +10,7 @@
         <v-row v-if="perguntaAtual">
             <v-col cols="12">
                 <v-card>
-                    <v-card-title class="headline">Pergunta {{perguntaAtual}}</v-card-title>
+                    <v-card-title class="headline">Pergunta {{perguntaAtual.id}}</v-card-title>
                 </v-card>
             </v-col>
         </v-row>
@@ -27,7 +27,6 @@
                                 <v-btn
                                         class="mt-2 primary"
                                         v-on="on"
-
                                         @click="showEquipe(equipe)"
                                 >
                                     Equipe {{equipe.sigla}}
@@ -160,7 +159,7 @@
                         variables: {
                             dados: {
                                 participante_id: id,
-                                pergunta_id: this.perguntaAtual,
+                                pergunta_id: this.perguntaAtual.id,
                                 resposta: resposta
                             }
                         }
@@ -255,7 +254,14 @@
             getPerguntaAtual: {
                 query: gql`
                   query getPerguntaAtual {
-                    getPerguntaAtual
+                      getPerguntaAtual {
+                        id
+                        status {
+                          id
+                          nome
+                          descricao
+                        }
+                      }
                   }
                 `,
                 result(res) {
@@ -270,7 +276,14 @@
                 novaPerguntaAtual: {
                     query: gql`
                     subscription {
-                          novaPerguntaAtual
+                      novaPerguntaAtual {
+                        id
+                        status {
+                          id
+                          nome
+                          descricao
+                        }
+                      }
                     }
                     `,
                     result(data) {
