@@ -24,41 +24,20 @@
         <v-row class="pa-4" v-if="!perguntaAtual">
 
             <v-col cols="12" md="6">
-                <span class="title">Irá iniciar na pergunta:  {{ primeiraPerguntaNaoRespondida }}</span>
+                <span class="title">Irá iniciar na pergunta:  {{ primeiraPerguntaNaoRespondidaId }}</span>
             </v-col>
 
             <v-col cols="12" md="6">
                 <span class="title mr-2">Iniciar Copa: </span>
                 <v-btn
-                        @click="setPergunta(primeiraPerguntaNaoRespondida)"
+                        @click="setPergunta(primeiraPerguntaNaoRespondidaId)"
                         color="success" dark outlined
                 >Iniciar
                 </v-btn>
             </v-col>
         </v-row>
 
-
-        <!--        <v-row>-->
-        <!--            <v-col cols="12">-->
-        <!--                <v-carousel height="100%" hide-delimiters :show-arrows="false">-->
-        <!--                    <v-carousel-item-->
-        <!--                            v-for="(slide, i) in 120"-->
-        <!--                            :key="i"-->
-        <!--                    >-->
-        <!--                        <v-sheet :color="colors[i]">-->
-        <!--                            <v-row-->
-        <!--                                    align="center"-->
-        <!--                                    justify="center"-->
-        <!--                            >-->
-        <!--                                <div class="display-3">{{ slide }}</div>-->
-        <!--                            </v-row>-->
-        <!--                        </v-sheet>-->
-        <!--                    </v-carousel-item>-->
-        <!--                </v-carousel>-->
-        <!--            </v-col>-->
-        <!--        </v-row>-->
-
-        <v-row dense v-if="perguntaAtual" justify="center">
+        <v-row  v-if="perguntaAtual" justify="center">
 
             <v-col cols="3">
                 <v-card class=" grey lighten-3  subtitle-1  text-center" elevation="4">
@@ -71,13 +50,17 @@
                 </v-card>
             </v-col>
 
-            <v-col cols="3">
-                <v-card class="subtitle-1  text-center" tile elevation="4">
-                    <div class="mb-1 pt-2">
+            <v-col cols="4">
+                <v-card class="text-center" tile elevation="4">
+                    <div class="subtitle-1  mb-1 pt-2">
                         <span>Atual</span>
                     </div>
                     <div class="text-center">
-                        <span> {{ perguntaAtual.id }} </span>
+                        <div class="subtitle-1 "> {{ perguntaAtual.id }}</div>
+                        <span title="Status da pergunta atual"
+                              :class="`${getColorStatus(perguntaAtual.status.nome)}--text body-2  font-weight-medium text-uppercase`">
+                            {{ perguntaAtual.status.descricao }}
+                        </span>
                     </div>
                 </v-card>
             </v-col>
@@ -98,22 +81,14 @@
         <v-divider></v-divider>
 
         <v-row dense class="pa-4" v-if="perguntaAtual">
-            <v-col cols="4">
+            <v-col cols="3">
                 <v-btn @click="setPergunta(0)" large outlined block color="red" title="Bloquear respostas">
                     <v-icon class="mdi mdi-block-helper hidden-sm-and-up"></v-icon>
                     <span class="hidden-sm-and-down">Bloquear respostas</span>
                 </v-btn>
             </v-col>
-<!--            <v-col cols="4">-->
-<!--                <v-btn @click="setPergunta(primeiraPerguntaNaoRespondida)" large outlined block color="success"-->
-<!--                       title="Definir com Respondido">-->
-<!--                    <v-icon class="mdi mdi-check-circle hidden-sm-and-up"></v-icon>-->
-<!--                    <span class="hidden-sm-and-down">Responder</span>-->
-<!--                </v-btn>-->
-<!--            </v-col>-->
 
-
-            <v-col cols="4">
+            <v-col cols="3">
                 <v-btn v-if="perguntaAnterior" @click="setPergunta(perguntaAnterior)" outlined large block
                        color="primary"
                        title="Anterior">
@@ -125,12 +100,21 @@
                     <span class="hidden-sm-and-down">Anterior</span>
                 </v-btn>
             </v-col>
-            <v-col cols="4">
+            <v-col cols="3">
                 <v-btn @click="setPergunta(proximaPergunta)" large outlined block
                        title="Próxima"
                        color="primary">
                     <v-icon class="mdi mdi-arrow-right-circle-outline hidden-sm-and-up"></v-icon>
                     <span class="hidden-sm-and-down">Próxima</span>
+                </v-btn>
+            </v-col>
+            <v-col cols="3">
+                <v-btn @click="setPergunta(primeiraPerguntaNaoRespondidaId)"
+                       large outlined block  title="Bloquear respostas"
+                       :disabled="showBtnPerguntaNaoRespondida"
+                >
+                    <span class="mdi mdi-chevron-triple-right hidden-sm-and-up"> {{ primeiraPerguntaNaoRespondidaId }}  </span>
+                    <span class="hidden-sm-and-down">1ª não respondida: {{ primeiraPerguntaNaoRespondidaId }}</span>
                 </v-btn>
             </v-col>
 
@@ -139,28 +123,56 @@
 
         <v-row class="pa-4" v-if="perguntaAtual">
 
+            <v-col cols="12" md="8">
+
+                    <v-row>
+                        <v-col cols="12 text-center ">
+                            <span class="body-1">Mudar Status</span>
+                        </v-col>
+                    </v-row>
+
+                    <v-row>
+
+                        <v-col cols="4" v-for="status in statusPergunta" :key="status.id">
+
+                            <v-btn
+                                    @click="setStatusPergunta(perguntaAtual.id, status.nome)"
+                                    large block
+                                    outlined
+                                    :color="getColorStatus(status.nome)"
+                            >
+
+                                <v-icon :class="getIcon(status.nome)"></v-icon>
+                                <span class="hidden-sm-and-down">{{ status.descricao }}</span>
+                            </v-btn>
+                        </v-col>
+
+                    </v-row>
+
+            </v-col>
+
             <v-col cols="12" md="4">
+
                 <v-row>
-                    <v-col cols="12">
+                    <v-col cols="12" class="text-center" >
                         <span class="body-1">Ir para pergunta específica </span>
                     </v-col>
                 </v-row>
 
                 <v-row>
 
-                    <v-col cols="12" md="5">
+                    <v-col cols="7" md="7">
                         <v-text-field
                                 v-model="perguntaEspecifica"
                                 label="Pergunta"
                                 type="number"
-                                outlined
                         ></v-text-field>
                     </v-col>
 
-                    <v-col cols="12" md="7">
+                    <v-col cols="5" md="5">
                         <v-btn
                                 color="primary"
-                                outlined :disabled="!perguntaEspecifica" block x-large
+                                outlined :disabled="!perguntaEspecifica" block large
                                 @click="setPergunta(perguntaEspecifica)"
                         >
                             <v-icon class="mdi mdi-send hidden-sm-and-up"></v-icon>
@@ -170,35 +182,6 @@
 
                 </v-row>
 
-            </v-col>
-
-            <v-col cols="12" md="8">
-
-                <v-row>
-                    <v-col cols="12">
-                        <span class="body-1">Status da pergunta: {{ statusAtual.descricao }}</span>
-                    </v-col>
-                </v-row>
-
-                <v-row>
-
-                    <v-col cols="6" v-for="status in statusPergunta" :key="status.id"
-                           v-if="status.nome !== 'n_respondido'"
-                    >
-
-                        <v-btn
-                                @click="setPergunta(primeiraPerguntaNaoRespondida)"
-                               large block
-                               outlined
-                               :color="getColorStatus(status.nome)"
-                        >
-                            <v-icon class="mdi mdi-check-circle hidden-sm-and-up"></v-icon>
-                            <span class="hidden-sm-and-down">{{ status.descricao }}</span>
-                        </v-btn>
-                    </v-col>
-
-
-                </v-row>
 
             </v-col>
 
@@ -216,6 +199,7 @@
             perguntaAtual: null,
             perguntaEspecifica: null,
             primeiraPerguntaNaoRespondida: null,
+            primeiraPerguntaNaoRespondidaId: null,
             statusSelecionado: null,
             statusPergunta: [],
         }),
@@ -239,20 +223,50 @@
                         this.Helper.exibirMensagem(msg, 'error', 3000);
                     });
             },
+            setStatusPergunta(pergunta, status) {
+                this.$apollo
+                    .mutate({
+                        mutation: gql`
+                      mutation ($pergunta: Int!, $status: String!) {
+                         setStatusPergunta(pergunta: $pergunta, status: $status)
+                      }
+                  `,
+                        variables: {
+                            pergunta: parseInt(pergunta),
+                            status
+                        }
+                    })
+                    .then(() => {
+                        this.$apollo.queries.getPrimeiraPerguntaNaoRespondida.refetch();
+                        this.setPergunta(this.proximaPergunta);
+                    })
+                    .catch(e => {
+                        const msg = e.graphQLErrors[0].message || "Ocorreu um erro. Tente novamente.";
+                        this.Helper.exibirMensagem(msg, 'error', 3000);
+                    });
+            },
             getColorStatus(nome) {
                 const colors = {
                     'n_respondido': 'grey',
                     'respondido': 'green',
-                    'cancelado':'red',
+                    'cancelado': 'red',
                 };
                 return colors[nome];
+            },
+            getIcon(status) {
+                const colors = {
+                    'n_respondido': 'mdi mdi-checkbox-blank-circle  hidden-sm-and-up',
+                    'respondido': 'mdi mdi-check-circle hidden-sm-and-up',
+                    'cancelado': 'mdi mdi-close-circle hidden-sm-and-up',
+                };
+                return colors[status];
             }
 
         },
 
         watch: {
-          perguntaAtual() {
-              this.statusSelecionado = this.perguntaAtual.status.nome;
+            perguntaAtual() {
+                this.statusSelecionado = this.perguntaAtual.status.nome;
             }
         },
 
@@ -268,7 +282,9 @@
                     return s.nome === this.statusSelecionado;
                 });
                 return status[0] || [];
-
+            },
+            showBtnPerguntaNaoRespondida(){
+                return this.primeiraPerguntaNaoRespondidaId === this.perguntaAtual.id;
             }
         },
 
@@ -319,11 +335,20 @@
             getPrimeiraPerguntaNaoRespondida: {
                 query: gql`
                   query getPrimeiraPerguntaNaoRespondida {
-                    getPrimeiraPerguntaNaoRespondida
+                    getPrimeiraPerguntaNaoRespondida {
+                     id
+                    pergunta_atual
+                    status {
+                      id
+                      nome
+                      descricao
+                    }
+                    }
                   }
                 `,
                 result(res) {
                     this.primeiraPerguntaNaoRespondida = res.data.getPrimeiraPerguntaNaoRespondida;
+                    this.primeiraPerguntaNaoRespondidaId = this.primeiraPerguntaNaoRespondida.id || null;
                 },
                 catch() {
                     this.Helper.exibirMensagem("error", 'error', 3000);
