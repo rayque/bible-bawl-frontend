@@ -83,7 +83,7 @@
         <v-row dense class="pa-4" v-if="perguntaAtual">
             <v-col cols="3">
                 <v-btn @click="setPergunta(0)" large outlined block color="red" title="Bloquear respostas">
-                    <v-icon class="mdi mdi-block-helper hidden-sm-and-up"></v-icon>
+                    <v-icon class="mdi mdi-block-helper hidden-md-and-up"></v-icon>
                     <span class="hidden-sm-and-down">Bloquear respostas</span>
                 </v-btn>
             </v-col>
@@ -92,11 +92,11 @@
                 <v-btn v-if="perguntaAnterior" @click="setPergunta(perguntaAnterior)" outlined large block
                        color="primary"
                        title="Anterior">
-                    <v-icon class="mdi mdi-arrow-left-circle-outline hidden-sm-and-up"></v-icon>
+                    <v-icon class="mdi mdi-arrow-left-circle-outline hidden-md-and-up"></v-icon>
                     <span class="hidden-sm-and-down">Anterior</span>
                 </v-btn>
                 <v-btn v-if="!perguntaAnterior" disabled outlined large block color="grey" title="Anterior">
-                    <v-icon class="mdi mdi-arrow-left-circle-outline hidden-sm-and-up"></v-icon>
+                    <v-icon class="mdi mdi-arrow-left-circle-outline hidden-md-and-up"></v-icon>
                     <span class="hidden-sm-and-down">Anterior</span>
                 </v-btn>
             </v-col>
@@ -104,7 +104,7 @@
                 <v-btn @click="setPergunta(proximaPergunta)" large outlined block
                        title="Próxima"
                        color="primary">
-                    <v-icon class="mdi mdi-arrow-right-circle-outline hidden-sm-and-up"></v-icon>
+                    <v-icon class="mdi mdi-arrow-right-circle-outline hidden-md-and-up"></v-icon>
                     <span class="hidden-sm-and-down">Próxima</span>
                 </v-btn>
             </v-col>
@@ -113,7 +113,7 @@
                        large outlined block  title="Bloquear respostas"
                        :disabled="showBtnPerguntaNaoRespondida"
                 >
-                    <span class="mdi mdi-chevron-triple-right hidden-sm-and-up"> {{ primeiraPerguntaNaoRespondidaId }}  </span>
+                    <span class="mdi mdi-chevron-triple-right hidden-md-and-up"> {{ primeiraPerguntaNaoRespondidaId }}  </span>
                     <span class="hidden-sm-and-down">1ª não respondida: {{ primeiraPerguntaNaoRespondidaId }}</span>
                 </v-btn>
             </v-col>
@@ -175,7 +175,7 @@
                                 outlined :disabled="!perguntaEspecifica" block large
                                 @click="setPergunta(perguntaEspecifica)"
                         >
-                            <v-icon class="mdi mdi-send hidden-sm-and-up"></v-icon>
+                            <v-icon class="mdi mdi-send hidden-md-and-up"></v-icon>
                             <span class="hidden-sm-and-down">Selecionar</span>
                         </v-btn>
                     </v-col>
@@ -183,6 +183,7 @@
                 </v-row>
 
 
+            </v-col>
             </v-col>
 
         </v-row>
@@ -255,9 +256,9 @@
             },
             getIcon(status) {
                 const colors = {
-                    'n_respondido': 'mdi mdi-checkbox-blank-circle  hidden-sm-and-up',
-                    'respondido': 'mdi mdi-check-circle hidden-sm-and-up',
-                    'cancelado': 'mdi mdi-close-circle hidden-sm-and-up',
+                    'n_respondido': 'mdi mdi-checkbox-blank-circle  hidden-md-and-up',
+                    'respondido': 'mdi mdi-check-circle hidden-md-and-up',
+                    'cancelado': 'mdi mdi-close-circle hidden-md-and-up',
                 };
                 return colors[status];
             }
