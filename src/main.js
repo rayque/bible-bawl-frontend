@@ -10,7 +10,6 @@ import * as Helper from './Helpers';
 Vue.prototype.Helper = Helper;
 
 
-
 // This is everything we need to work with Apollo 2.0.
 import { ApolloClient } from 'apollo-client';
 import { HttpLink } from 'apollo-link-http';
@@ -20,14 +19,21 @@ import VueApollo from 'vue-apollo';
 // New Imports
 import { split } from 'apollo-link'
 import { getMainDefinition } from 'apollo-utilities'
+import jwt from "jsonwebtoken";
 
 // Register the VueApollo plugin with Vue.
 Vue.use(VueApollo);
 
+
+const dados = localStorage.token;
+
 // Create a new HttpLink to connect to your GraphQL API.
 // According to the Apollo docs, this should be an absolute URI.
 const httpLink = new HttpLink({
-  uri: `http://localhost:4000/`
+  uri: `http://localhost:4000/`,
+  headers: {
+    authorization: `Bearer ${dados}`
+  }
 });
 
 // Create a WebSocket link:
@@ -40,9 +46,11 @@ const wsLink = new WebSocketLink({
   options: {
     reconnect: true,
     timeout: 30000,
-    // connectionParams: () => {
-    //   return { headers: getHeaders() };
-    // },
+    connectionParams: () => {
+      return { headers: {
+          authorization: `Bearer ${dados}`
+        } };
+    },
   }
 });
 
