@@ -9,7 +9,7 @@ Vue.use(AclInstaller)
 export default new AclCreate({
     initial: 'public',
     notfound: {
-        path: '/'
+        path: '/login'
     },
     router,
     acceptLocalRules: true,

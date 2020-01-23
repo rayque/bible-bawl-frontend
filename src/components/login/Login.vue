@@ -1,232 +1,196 @@
 <template>
     <div>
-        <Header titulo="Administrar Respondedores"/>
 
-        <v-container fluid class="grey lighten-5">
-            <v-row>
-                <v-col>
+        <v-row
+                justify="center"
+        >
+            <v-col
+                    cols="12"
+                    sm="6"
+                    md="4"
+            >
+                <v-card class="elevation-12 mb-4">
+                    <v-card-text>
+                        <h1 class="text-center font-weight-bold head">
+                            <v-icon color="orange">mdi-trophy mdi-36px
+                            </v-icon>
+                            System
+                            <v-icon color="orange">mdi-trophy mdi-36px
+                            </v-icon>
+                        </h1>
+                    </v-card-text>
+                </v-card>
+                <v-card class="elevation-12">
+                    <v-toolbar
+                            color="primary"
+                            dark
+                            flat
+                    >
+                        <v-toolbar-title>Login</v-toolbar-title>
+                        <v-spacer/>
 
+                    </v-toolbar>
+                    <v-card-text>
+                        <v-form>
 
-                </v-col>
-            </v-row>
-        </v-container>
+                            <p class="mb-0 text-center font-weight-bold subtitle-1 elevation-2">
+                                Administrador
+                            </p>
 
+                            <v-text-field
+                                    class="mt-3 mb-0"
+                                    label="Email"
+                                    name="email"
+                                    prepend-icon="mdi-email-outline"
+                                    type="email"
+                                    v-model="email"
+                                    :disabled="cod_acesso ? true : false"
+                            />
+
+                            <v-text-field
+                                    class="mt-0 mb-0"
+                                    id="password"
+                                    label="Senha"
+                                    name="password"
+                                    prepend-icon="mdi-lock-outline"
+                                    type="password"
+                                    v-model="password"
+                                    :disabled="cod_acesso ? true : false"
+                            />
+
+                            <p class="mt-0 mb-0  text-center font-weight-bold subtitle-1 elevation-2">
+                                Auxiliar
+                            </p>
+
+                            <v-text-field
+                                    class="mt-3 mb-0"
+                                    id="cod_acesso"
+                                    label="Código de acesso"
+                                    name="cod_acesso"
+                                    prepend-icon="mdi-numeric"
+                                    type="number"
+                                    v-model="cod_acesso"
+                                    :disabled="password || email ? true : false"
+                            />
+
+                        </v-form>
+                    </v-card-text>
+
+                    <v-card-actions class="mt-0 mb-0">
+                        <v-spacer/>
+                        <v-btn color="primary" @click="login">Enviar
+                        </v-btn>
+                    </v-card-actions>
+
+                </v-card>
+            </v-col>
+        </v-row>
     </div>
+
 </template>
+
 <script>
-    import Header from "./../layouts/Header"
-    import gql from 'graphql-tag'
+    import {mapActions, mapGetters} from "vuex";
+    import gql from "graphql-tag";
 
     export default {
-        components: {
-            Header
-        },
         data: () => ({
-            dialog: false,
-            dialogSetEquipe: false,
-            equipes: [],
-            desserts: [],
-            editedIndex: -1,
-            editedItem: {
-                name: '',
-                calories: 0,
-                fat: 0,
-                carbs: 0,
-                protein: 0,
-            },
-            defaultItem: {
-                name: '',
-                calories: 0,
-                fat: 0,
-                carbs: 0,
-                protein: 0,
-            },
-            equipesSelecionadas: [],
-            respondedorSelecionado: [],
-
-            // nome: '',
-            // campoObrigadorio: [v => !!v || "Campo obrigatório"],
-            respondedores: [],
-            headers: [
-                {
-                    text: 'Nome',
-                    align: 'left',
-                    value: 'nome',
-                },
-                {text: 'Codigo de Acesso', value: 'cod_acesso'},
-                {text: 'Actions', value: 'action', sortable: false},
-
-            ],
+            logged: null,
+            email: null,
+            password: null,
+            cod_acesso: null,
+            dados: null,
+            isAuth: false,
         }),
+        mounted() {
+            if (localStorage.token) {
+                this.isAuth = true;
+                this.setAuth(localStorage.token);
+                this.setLogin(localStorage.token);
+            }
+        },
         methods: {
-            salvarRespondedor() {
-                if (this.$refs.cadastroRespondedor.validate()) {
-                    this.$apollo
-                        .mutate({
-                            mutation: gql`
-                  mutation ($nome: String!) {
-                    novoRespondedor(nome: $nome) {
-                    id nome cod_acesso
-                    }
-                  }
-              `,
-                            variables: {nome: this.nome}
-                        })
-                        .then(() => {
-                            this.Helper.exibirMensagem("Respondedor cadastrado com sucesso!", 'success', 3000);
-                            this.$apollo.queries.getRespondedores.refetch();
-                            this.$refs.cadastroRespondedor.reset()
-                        })
-                        .catch(e => {
-                            const msg = e.graphQLErrors[0].message || "Ocorreu um erro. Tente novamente.";
-                            this.Helper.exibirMensagem(msg, 'error', 3000);
-                        });
-                }
-            },
-            limiter(e) {
-                if(e.length > 2) {
-                    e.pop()
-                }
-            },
-            salvarEquipes(){
-                this.dialogSetEquipe = false;
-                // if (this.$refs.cadastroRespondedor.validate()) {
-                this.$apollo
-                    .mutate({
-                        mutation: gql`
-                  mutation ($dados: setEquipesRespondedorInput!) {
-                    setEquipesRespondedor(dados: $dados) {
-                      respondedor {
-                        id
-                      }
-                      equipes {
-                        id
-                      }
-                    }
-                  }
-              `,
-                        variables: {dados: {
-                                idRespondedor: this.respondedorSelecionado,
-                                idsEquipes: this.equipesSelecionadas
-                            }}
-                    })
-                    .then(() => {
-                        this.Helper.exibirMensagem("Equipes selecionadas com sucesso!", 'success', 3000);
-                        this.$apollo.queries.getRespondedores.refetch();
-                        // this.$refs.cadastroRespondedor.reset()
-                    })
-                    .catch(e => {
-                        const msg = e.graphQLErrors[0].message || "Ocorreu um erro. Tente novamente.";
-                        this.Helper.exibirMensagem(msg, 'error', 3000);
-                    });
-                // }
-
-
-            },
-            setEquipe(respondedor) {
-                this.respondedorSelecionado = respondedor.id;
-                this.equipesSelecionadas = respondedor.equipes.map(equipe => {
-                    return equipe.id
-                });
-                this.dialogSetEquipe = true;
-            },
-
-            editItem(item) {
-                this.editedIndex = this.desserts.indexOf(item);
-                this.editedItem = Object.assign({}, item);
-                this.dialog = true
-            },
-
-            deleteItem(item) {
-                const index = this.desserts.indexOf(item);
-                confirm('Are you sure you want to delete this item?') && this.desserts.splice(index, 1)
-            },
-
-            close() {
-                this.dialog = false
-                setTimeout(() => {
-                    this.editedItem = Object.assign({}, this.defaultItem);
-                    this.editedIndex = -1
-                }, 300)
-            },
-
-            save() {
-                if (this.editedIndex > -1) {
-                    Object.assign(this.desserts[this.editedIndex], this.editedItem)
+            ...mapActions(['setAuth']),
+            login() {
+                if (this.cod_acesso) {
+                    this.dados = {cod_acesso: this.cod_acesso};
                 } else {
-                    this.desserts.push(this.editedItem)
+                    this.dados = {
+                        email: this.email,
+                        password: this.password,
+                    };
                 }
-                this.close()
+
+                this.$apollo.queries.login.refetch();
             },
 
-
-        },
-
-
-        computed: {
-            formTitle() {
-                return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
-            },
-            listEquipes() {
-                let equipesRespondedores = [];
-                this.respondedores.forEach(respondedor => {
-                    respondedor.equipes.forEach(equipe => {
-                        equipesRespondedores.push(equipe.id);
-                    });
-                });
-                const equipesDisponiveis = this.equipes.filter(equipe => {
-                    return !equipesRespondedores.includes(equipe.id) || this.equipesSelecionadas.includes(equipe.id);
-                });
-
-                return equipesDisponiveis;
-
+            setLogin(token) {
+                this.setAuth(token);
+                this.$router.push('/');
             }
         },
-
         watch: {
-            dialog(val) {
-                val || this.close()
+            cod_acesso(val) {
+                if (val) {
+                    this.email = null;
+                    this.password = null;
+                }
             },
+            email(val) {
+                if (val) {
+                    this.cod_acesso = null;
+                }
+            },
+            password(val) {
+                if (val) {
+                    this.cod_acesso = null;
+                }
+            }
         },
-
+        computed: {
+            ...mapGetters({
+                getNomeUser: 'getNomeUser',
+                getToken: 'getToken'
+            })
+        },
         apollo: {
-            // They key is the name of the data property
-            // on the component that you intend to populate.
-            getRespondedores: {
-                // Yes, this looks confusing.
-                // It's just normal GraphQL.
+            login: {
                 query: gql`
-          query getRespondedores {
-            getRespondedores {
-              id
-              nome
-              cod_acesso
-                equipes {
-                id
-                nome
-              }
-            }
-          }
-        `,
+                  query login(
+                    $dados: AuthInput!
+                  ) {
+                    login(
+                      dados: $dados
+                    ) {
+                        token
+                        tokenExpiration
+                    }
+                  }
+                `,
+                variables() {
+                    return {
+                        dados: this.dados
+                    };
+                },
+                skip() {
+                    return !this.dados;
+                },
                 result(res) {
-                    this.respondedores = res.data.getRespondedores || [];
-                }
-            },
-            getEquipes: {
-                // Yes, this looks confusing.
-                // It's just normal GraphQL.
-                query: gql`
-          query getEquipes {
-              getEquipes{
-              id
-              nome
-            }
-          }
-        `,
-                result(res) {
-                    this.equipes = res.data.getEquipes || [];
+                    const login = res.data && res.data.login || null;
+                    if (login) {
+                        this.setLogin(login.token);
+
+                        this.email = null;
+                        this.password = null;
+                        this.cod_acesso = null;
+                    }
+                },
+                error(e) {
+                    this.Helper.exibirMensagem(e.message, 'error', 3000);
                 }
             }
+
         }
+
     }
 </script>

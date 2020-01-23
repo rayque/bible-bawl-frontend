@@ -1,5 +1,4 @@
 import VueRouter from "vue-router";
-import {AclRule} from 'vue-acl'
 
 import Home from './components/HelloWorld'
 import Auxiliares from './components/admin/Auxiliares'
@@ -15,18 +14,19 @@ import PageNotFound from './components/views/PageNotFound'
 import Vue from "vue";
 
 const routes = [
-    // {
-    //     path: '/login',
-    //     component: Login,
-    //     meta: {
-    //         rule: 'isPublic'
-    //     }
-    // },
+    {
+        path: '/login',
+        component: Login,
+        name: 'login',
+        meta: {
+            rule: 'isPublic'
+        }
+    },
     {
         path: '/',
         component: Home,
         meta: {
-            rule: 'isPublic'
+            rule: 'isLogged'
         }
     },
     {
