@@ -26,6 +26,9 @@ Vue.use(VueApollo);
 
 
 const dados = localStorage.token;
+async function getToken() {
+  return  localStorage.token
+}
 
 // Create a new HttpLink to connect to your GraphQL API.
 // According to the Apollo docs, this should be an absolute URI.
@@ -44,13 +47,17 @@ const wsLink = new WebSocketLink({
   // uri: `ws://192.168.1.19:4000/graphql`,
   uri: `ws://localhost:4000/graphql`,
   options: {
+    lazy: true,
     reconnect: true,
-    timeout: 30000,
-    connectionParams: () => {
-      return { headers: {
-          authorization: `Bearer ${dados}`
-        } };
-    },
+    // timeout: 30000,
+    connectionParams: async () => {
+      const token = await getToken();
+      return {
+        headers: {
+          authorization: token ? `Bearer ${token}` : "",
+        },
+      }
+    }
   }
 });
 
