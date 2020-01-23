@@ -35,26 +35,20 @@ async function getToken() {
 const httpLink = new HttpLink({
   uri: `http://localhost:4000/`,
   headers: {
-    authorization: `Bearer ${dados}`
+    authorization: localStorage.token ? `Bearer ${localStorage.token}` : "",
   }
 });
 
 // Create a WebSocket link:
 const wsLink = new WebSocketLink({
-  // uri: 'wss://learn.hasura.io/graphql',
-  // uri: `ws://192.168.108.14:4000/graphql`,
-  // uri: `ws://192.168.0.192:4000/graphql`,
-  // uri: `ws://192.168.1.19:4000/graphql`,
   uri: `ws://localhost:4000/graphql`,
   options: {
     lazy: true,
     reconnect: true,
-    // timeout: 30000,
     connectionParams: async () => {
-      const token = await getToken();
       return {
         headers: {
-          authorization: token ? `Bearer ${token}` : "",
+          authorization: localStorage.token ? `Bearer ${localStorage.token}` : "",
         },
       }
     }
