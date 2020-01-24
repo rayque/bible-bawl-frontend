@@ -54,6 +54,7 @@ const actions = {
             localStorage.setItem('token', token)
         } else {
             localStorage.removeItem('token')
+            localStorage.removeItem('vuex')
         }
 
         let auth = {
@@ -77,7 +78,6 @@ const actions = {
         }
 
         commit("setAuth", auth);
-
     }
 };
 

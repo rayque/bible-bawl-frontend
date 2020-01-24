@@ -9,6 +9,8 @@
             :items="listaEquipes"
             sort-by="calories"
             class="elevation-1"
+            :loading="$apollo.queries.getEquipes.loading"
+            loading-text="Carregando.. por favor aguarde"
           >
             <template v-slot:top>
               <v-toolbar flat color="white">

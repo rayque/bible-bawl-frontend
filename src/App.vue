@@ -11,7 +11,20 @@
                         v-model="drawer"
                         app
                 >
-                    <v-list dense>
+                    <v-list dense >
+
+                        <div class="pa-2">
+
+                            <div>
+                                <v-icon>mdi-account</v-icon>
+                                {{ getAuth.nome }}
+                                <p class="ml-7 overline">
+                                    {{ $acl.get }}
+                                </p>
+                            </div>
+
+                        </div>
+
                         <v-list-item v-if="$acl.check('isLogged')" link to="/">
                             <v-list-item-action>
                                 <v-icon>mdi-home</v-icon>
@@ -46,7 +59,7 @@
                         </v-list-item>
 
 
-                        <v-list-item v-if="$acl.check('isLogged')" link
+                        <v-list-item link v-if="$acl.check('isLogged')"
                                      :to="{name: 'painel'}">
                             <v-list-item-action>
                                 <v-icon>mdi-view-dashboard</v-icon>
@@ -68,7 +81,7 @@
                         </v-list-item>
 
 
-                        <v-list-item v-if="$acl.check('isLogged')" link
+                        <v-list-item link v-if="$acl.check('isLogged')"
                                      :to="{name: 'equipes'}">
                             <v-list-item-action>
                                 <v-icon>mdi-account-group</v-icon>
@@ -78,7 +91,7 @@
                             </v-list-item-content>
                         </v-list-item>
 
-                        <v-list-item v-if="$acl.check('isLogged')" link
+                        <v-list-item  link v-if="$acl.check('isLogged')"
                                      :to="{name: 'copa'}">
                             <v-list-item-action>
                                 <v-icon>mdi-account-multiple-check</v-icon>
@@ -102,17 +115,12 @@
 
                 <v-app-bar-nav-icon @click.stop="drawer = !drawer"/>
                 <v-toolbar-title>
-<!--                                            <v-icon color="orange">mdi-trophy</v-icon>-->
+<!--                    <v-icon color="orange">mdi-trophy</v-icon>-->
                     System
                 </v-toolbar-title>
                 <v-spacer></v-spacer>
 
-                                    {{ $acl.get }}
-                                    {{ getAuth.nome }}
 
-<!--                                    <v-toolbar-items>-->
-<!--                                        <v-btn text>{{ getNomeUser }}</v-btn>-->
-<!--                                    </v-toolbar-items>-->
 
                 <v-btn icon @click="logout()">
                     <v-icon>mdi-logout</v-icon>

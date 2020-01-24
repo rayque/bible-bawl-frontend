@@ -17,6 +17,9 @@
                             :items="resultadoEquipeInfantil"
                             item-key="classifiacao"
                             class="elevation-10"
+                            dense
+                            :loading="$apollo.queries.getResultadoEquipeInfantil.loading"
+                            loading-text="Carregando.. por favor aguarde"
                     >
                         <template v-slot:top>
                             <v-toolbar flat>
@@ -35,6 +38,9 @@
                             :items="resultadoEquipeJuvenil"
                             item-key="classifiacao"
                             class="elevation-10"
+                            dense
+                            :loading="$apollo.queries.getResultadoEquipeJuvenil.loading"
+                            loading-text="Carregando.. por favor aguarde"
                     >
                         <template v-slot:top>
                             <v-toolbar flat>
@@ -53,6 +59,9 @@
                             :items="resultadoEquipeAdulto"
                             item-key="classifiacao"
                             class="elevation-10"
+                            dense
+                            :loading="$apollo.queries.getResultadoEquipeAdulto.loading"
+                            loading-text="Carregando.. por favor aguarde"
                     >
                         <template v-slot:top>
                             <v-toolbar flat>
@@ -80,6 +89,9 @@
                             :items="resultadoIndividualInfantil"
                             item-key="classificacao"
                             class="elevation-10"
+                            dense
+                            :loading="$apollo.queries.getResultadoIndividualInfantil.loading"
+                            loading-text="Carregando.. por favor aguarde"
                     >
                         <template v-slot:top>
                             <v-toolbar flat>
@@ -98,6 +110,9 @@
                             :items="resultadoIndividualJuvenil"
                             item-key="classificacao"
                             class="elevation-10"
+                            dense
+                            :loading="$apollo.queries.getResultadoIndividualJuvenil.loading"
+                            loading-text="Carregando.. por favor aguarde"
                     >
                         <template v-slot:top>
                             <v-toolbar flat>
@@ -116,6 +131,9 @@
                             :items="resultadoIndividualAdulto"
                             item-key="classificacao"
                             class="elevation-10"
+                            dense
+                            :loading="$apollo.queries.getResultadoIndividualAdulto.loading"
+                            loading-text="Carregando.. por favor aguarde"
                     >
                         <template v-slot:top>
                             <v-toolbar flat>

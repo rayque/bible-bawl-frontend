@@ -12,11 +12,8 @@
                 <v-card class="elevation-12 mb-4">
                     <v-card-text>
                         <h1 class="text-center font-weight-bold head">
-                            <v-icon color="orange">mdi-trophy mdi-36px
-                            </v-icon>
+                            <v-icon color="orange">mdi-trophy mdi-36px</v-icon>
                             System
-                            <v-icon color="orange">mdi-trophy mdi-36px
-                            </v-icon>
                         </h1>
                     </v-card-text>
                 </v-card>

@@ -1,7 +1,8 @@
 <template>
     <div>
         <v-row justify="center">
-            <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
+            <v-dialog v-model="dialog" fullscreen hide-overlay
+                      transition="dialog-bottom-transition">
                 <template v-slot:activator="{ on }">
                     <v-btn color="primary" dark v-on="on">Exibir Painel</v-btn>
                 </template>
@@ -13,20 +14,6 @@
                             <v-icon>mdi-close</v-icon>
                         </v-btn>
                     </v-toolbar>
-
-
-                    <!--                    <v-row>-->
-                    <!--                        <v-col>-->
-                    <!--                            <v-card >-->
-                    <!--                                <div class="text-center">-->
-                    <!--                                    <h1 class="headline">-->
-                    <!--                                        <b>Painel Geral</b>-->
-                    <!--                                    </h1>-->
-                    <!--                                    <v-divider></v-divider>-->
-                    <!--                                </div>-->
-                    <!--                            </v-card>-->
-                    <!--                        </v-col>-->
-                    <!--                    </v-row>-->
 
                     <v-row class="mb-0">
                         <v-col md="12" class="mb-0">
@@ -54,9 +41,11 @@
                                     </v-col>
                                 </v-row>
 
-                                <v-row dense v-if="perguntaAtual" justify="center">
+                                <v-row dense v-if="perguntaAtual"
+                                       justify="center">
                                     <v-col cols="3">
-                                        <v-card class=" grey lighten-3  headline text-center" elevation="4">
+                                        <v-card class=" grey lighten-3  headline text-center"
+                                                elevation="4">
                                             <div class="mb-1 pt-2">
                                                 <span>ANTERIOR</span>
                                             </div>
@@ -66,12 +55,15 @@
                                         </v-card>
                                     </v-col>
                                     <v-col cols="3">
-                                        <v-card class="headline text-center" tile elevation="4">
+                                        <v-card class="headline text-center"
+                                                tile elevation="4">
                                             <div class="mb-1 pt-2">
                                                 <span>ATUAL</span>
                                             </div>
                                             <div class="text-center">
-                                                <div class="subtitle-1 "> {{ perguntaAtual.id }}</div>
+                                                <div> {{
+                                                    perguntaAtual.id }}
+                                                </div>
                                                 <span title="Status da pergunta atual"
                                                       :class="`${getColorStatus(perguntaAtual.status.nome)}--text body-2  font-weight-medium text-uppercase`">
                                                     {{ perguntaAtual.status.descricao }}
@@ -80,7 +72,8 @@
                                         </v-card>
                                     </v-col>
                                     <v-col cols="3">
-                                        <v-card class="grey lighten-3  headline text-center" tile elevation="4">
+                                        <v-card class="grey lighten-3  headline text-center"
+                                                tile elevation="4">
                                             <div class="mb-1 pt-2">
                                                 <span>PRÓXIMA</span>
                                             </div>
@@ -104,28 +97,31 @@
                         <v-col>
                             <v-card elevation="5 ">
 
-                                <v-row class="">
+                                <v-row>
                                     <v-col
-                                            v-for="(categoria, index) in pontuacao" :key="index"
+                                            v-for="(categoria, index) in pontuacao"
+                                            :key="index"
                                             sm="4"
                                             :class="getColorCategoria(index)"
+                                            class="pa-5"
                                     >
-
                                         <div class="text-center mb-4">
-                                            <span
-                                                    class="title"
-                                            >
+                                            <span class="title">
                                                 {{ categoria.descricao }}
                                             </span>
                                         </div>
 
-                                        <v-row v-for="(equipe, index) in categoria.equipes" :key="index">
+                                        <v-row v-for="(equipe, index) in categoria.equipes"
+                                               :key="index">
                                             <v-col
                                                     :class="`${getColor(participante.pontuacao)}  text-center body-2 font-weight-bold`"
                                                     cols="3"
-                                                    v-for="(participante, index) in equipe" :key="index"
+                                                    v-for="(participante, index) in equipe"
+                                                    :key="index"
                                                     style="font-family: 'monospace'">
-                                                {{ nomeParticipante(participante.nome) }}
+                                                {{
+                                                nomeParticipante(participante.nome)
+                                                }}
                                             </v-col>
                                         </v-row>
 
