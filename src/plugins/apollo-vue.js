@@ -16,10 +16,12 @@ const authToken = () => {
     return  localStorage.token ? `Bearer ${localStorage.token}` : ""
 };
 
+const url = `${process.env.VUE_APP_HOST}:${process.env.VUE_APP_PORT}`
+
 // Create a new HttpLink to connect to your GraphQL API.
 // According to the Apollo docs, this should be an absolute URI.
 const httpLink = new HttpLink({
-    uri: `http://localhost:4000/`,
+    uri: `http://${url}/`,
     headers: {
         authorization: authToken(),
     }
@@ -27,7 +29,7 @@ const httpLink = new HttpLink({
 
 // Create a WebSocket link:
 const wsLink = new WebSocketLink({
-    uri: `ws://localhost:4000/graphql`,
+    uri: `ws://${url}/graphql`,
     options: {
         lazy: true,
         reconnect: true,

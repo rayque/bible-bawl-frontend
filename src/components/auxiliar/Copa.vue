@@ -63,7 +63,6 @@
                                     </v-list-item>
                                 </v-list>
 
-
                             </v-card-text>
 
                             <v-divider></v-divider>
@@ -87,7 +86,6 @@
                                v-for="(participante, indexParticipante) in equipe.participantes"
                                :key="indexParticipante">
 
-
                             <v-btn
                                     v-if="respostasCertas.indexOf(participante.id) === -1"
                                     @click="salvarRespota(participante.id)"
@@ -109,7 +107,6 @@
                                 <v-icon left>mdi-account-check-outline</v-icon> <span class="caption"> {{  getFirstName(participante.nome)}} </span>
                             </v-btn>
 
-
                         </v-col>
 
                     </v-row>
@@ -118,7 +115,6 @@
 
             </v-col>
         </v-row>
-
 
     </div>
 </template>
