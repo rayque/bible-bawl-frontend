@@ -31,9 +31,21 @@
                   </template>
                   <v-card>
                     <v-card-title>
-                      <span class="headline">Equipe</span>
+                      <span class="headline">{{ formTitle }}</span>
                     </v-card-title>
                     <v-card-text>
+
+                      <v-alert
+                              dense
+                              border="left"
+                              type="warning"
+                              v-if="perguntaAtual"
+                      >
+                        A competição já iniciou, portanto, os pontos do participante que for editado <strong> não contará
+                        para a classificação individual(Não receberá premiação individual).</strong> A pontuaçãodo participante editado valerá somente para classificação da equipe.
+                      </v-alert>
+
+
                       <v-container >
                         <v-form ref="formCadEquipes">
 
@@ -73,28 +85,30 @@
                     <v-card-actions>
                       <v-spacer></v-spacer>
                       <v-btn color="grey darken-1" text @click="dialog = false">Fechar</v-btn>
-                      <v-btn  color="primary"  @click.prevent="salvarEquipe">Salvar</v-btn>
+                      <v-btn  color="primary" v-if="editedIndex === -1"  @click.prevent="salvarEquipe">Salvar</v-btn>
+                      <v-btn  color="primary"  v-if="editedIndex !== -1" @click.prevent="salvarEdicao">Salvar Edição</v-btn>
+
                     </v-card-actions>
                   </v-card>
                 </v-dialog>
               </v-toolbar>
             </template>
 
-<!--            <template v-slot:item.action="{ item }">-->
-<!--              <v-icon-->
-<!--                small-->
-<!--                class="mr-2"-->
-<!--                @click="editItem(item)"-->
-<!--              >-->
-<!--                mdi-pencil-->
-<!--              </v-icon>-->
+            <template v-slot:item.action="{ item }">
+              <v-icon
+                small
+                class="mr-2"
+                @click="editItem(item)"
+              >
+                mdi-pencil
+              </v-icon>
 <!--              <v-icon-->
 <!--                small-->
 <!--                @click="deleteItem(item)"-->
 <!--              >-->
 <!--                mdi-delete-->
 <!--              </v-icon>-->
-<!--            </template>-->
+            </template>
 
 
           </v-data-table>
@@ -118,6 +132,7 @@
       equipes: [],
       dialog: false,
       novaEquipe: [],
+      perguntaAtual: null,
       headers: [
         {
           text: 'Equipe',
@@ -188,9 +203,19 @@
         }
       },
 
+      salvarEdicao() {
+        
+        this.Helper.exibirMensagem("Equipe editada com sucesso!", 'success', 3000);
+        this.$apollo.queries.getEquipes.refetch();
+        this.$refs.formCadEquipes.reset();
+
+        this.dialog = false;
+      },
+
 
       editItem (item) {
-        this.editedIndex = this.desserts.indexOf(item)
+        this.editedIndex = this.listaEquipes.indexOf(item)
+        this.novaEquipe = Object.assign({}, item.participantes)
         this.dialog = true
       },
 
@@ -201,6 +226,10 @@
 
       close () {
         this.dialog = false
+        setTimeout(() => {
+          this.novaEquipe = Object.assign({}, this.novaEquipe)
+          this.editedIndex = -1
+        }, 300)
       }
 
     },
@@ -213,21 +242,30 @@
     computed: {
       listaEquipes() {
         return this.equipes.map(equipe => {
-
           let categoria = equipe.categoria || null;
           if (categoria) {
             categoria = categoria.descricao;
           }
 
+          const participantes = equipe.participantes.map(participante => {
+
+            const data_nascimento = moment(participante.data_nascimento, 'YYYY-MM-DD').format('DD/MM/YYYY');
+            return {
+              ...participante,
+              data_nascimento,
+            }
+          });
+
           return {
             id: equipe.id,
             nome: equipe.nome,
             categoria: categoria,
+            participantes
           }
         })
       },
       formTitle () {
-        return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
+        return this.editedIndex === -1 ? 'Nova Equipe' : 'Editar Equipe'
       },
       rules() {
         return {
@@ -269,7 +307,50 @@
         result(res) {
           this.equipes = res.data.getEquipes || [];
         }
-      }
+      },
+
+      getPerguntaAtual: {
+        query: gql`
+                  query getPerguntaAtual {
+                    getPerguntaAtual{
+                        id
+                        pergunta_atual
+                        status {
+                          id
+                          nome
+                          descricao
+                        }
+                    }
+                  }
+                `,
+        result(res) {
+          this.perguntaAtual = res.data.getPerguntaAtual;
+        },
+        catch() {
+          this.Helper.exibirMensagem("error", 'error', 3000);
+        }
+
+      },
+      $subscribe: {
+        novaPerguntaAtual: {
+          query: gql`
+                    subscription {
+                      novaPerguntaAtual {
+                        id
+                        status {
+                          id
+                          nome
+                          descricao
+                        }
+                      }
+                    }
+                    `,
+          result(data) {
+            this.perguntaAtual = data.data.novaPerguntaAtual;
+
+          },
+        },
+      },
     }
   }
 </script>
