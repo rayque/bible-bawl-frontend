@@ -203,11 +203,15 @@
         }
       },
 
-      salvarEdicao() {
-        
+      async salvarEdicao() {
+
+
+        const dados = await this.formatarDataNascimento();
+        console.log(dados);
+
         this.Helper.exibirMensagem("Equipe editada com sucesso!", 'success', 3000);
         this.$apollo.queries.getEquipes.refetch();
-        this.$refs.formCadEquipes.reset();
+        // this.$refs.formCadEquipes.reset();
 
         this.dialog = false;
       },
@@ -215,7 +219,8 @@
 
       editItem (item) {
         this.editedIndex = this.listaEquipes.indexOf(item)
-        this.novaEquipe = Object.assign({}, item.participantes)
+        this.novaEquipe = Object.assign({}, item.participantes);
+
         this.dialog = true
       },
 
