@@ -306,7 +306,7 @@
                 `,
                 result(res) {
                     this.perguntaAtual = res.data.getPerguntaAtual;
-                    this.statusSelecionado = this.perguntaAtual.status.nome;
+                    this.statusSelecionado = this.perguntaAtual ? this.perguntaAtual.status.nome : null;
                 },
                 catch() {
                     this.Helper.exibirMensagem("error", 'error', 3000);

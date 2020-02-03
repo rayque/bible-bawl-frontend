@@ -23,7 +23,9 @@
                     >
                         <template v-slot:top>
                             <v-toolbar flat>
-                                <v-toolbar-title> Categoria: Infantil (de 6 até 12 anos)</v-toolbar-title>
+                                <v-toolbar-title> Categoria: Infantil (de 6 até
+                                    12 anos)
+                                </v-toolbar-title>
                             </v-toolbar>
                         </template>
                     </v-data-table>
@@ -44,7 +46,9 @@
                     >
                         <template v-slot:top>
                             <v-toolbar flat>
-                                <v-toolbar-title> Categoria: Juvenil (de 13 até 25 anos)</v-toolbar-title>
+                                <v-toolbar-title> Categoria: Juvenil (de 13 até
+                                    25 anos)
+                                </v-toolbar-title>
                             </v-toolbar>
                         </template>
                     </v-data-table>
@@ -65,7 +69,9 @@
                     >
                         <template v-slot:top>
                             <v-toolbar flat>
-                                <v-toolbar-title> Categoria: Adulto (acima de 25)</v-toolbar-title>
+                                <v-toolbar-title> Categoria: Adulto (acima de
+                                    25)
+                                </v-toolbar-title>
                             </v-toolbar>
                         </template>
                     </v-data-table>
@@ -87,7 +93,7 @@
                     <v-data-table
                             :headers="headersIndividual"
                             :items="resultadoIndividualInfantil"
-                            item-key="classificacao"
+                            item-key="classifiacao"
                             class="elevation-10"
                             dense
                             :loading="$apollo.queries.getResultadoIndividualInfantil.loading"
@@ -95,7 +101,9 @@
                     >
                         <template v-slot:top>
                             <v-toolbar flat>
-                                <v-toolbar-title> Categoria: Infantil (de 6 até 12 anos)</v-toolbar-title>
+                                <v-toolbar-title> Categoria: Infantil (de 6 até
+                                    12 anos)
+                                </v-toolbar-title>
                             </v-toolbar>
                         </template>
                     </v-data-table>
@@ -108,7 +116,7 @@
                     <v-data-table
                             :headers="headersIndividual"
                             :items="resultadoIndividualJuvenil"
-                            item-key="classificacao"
+                            item-key="classifiacao"
                             class="elevation-10"
                             dense
                             :loading="$apollo.queries.getResultadoIndividualJuvenil.loading"
@@ -116,7 +124,9 @@
                     >
                         <template v-slot:top>
                             <v-toolbar flat>
-                                <v-toolbar-title> Juvenil (de 13 até 25 anos) </v-toolbar-title>
+                                <v-toolbar-title> Categoria: Juvenil (de 13 até
+                                    25 anos)
+                                </v-toolbar-title>
                             </v-toolbar>
                         </template>
                     </v-data-table>
@@ -129,7 +139,7 @@
                     <v-data-table
                             :headers="headersIndividual"
                             :items="resultadoIndividualAdulto"
-                            item-key="classificacao"
+                            item-key="classifiacao"
                             class="elevation-10"
                             dense
                             :loading="$apollo.queries.getResultadoIndividualAdulto.loading"
@@ -137,14 +147,15 @@
                     >
                         <template v-slot:top>
                             <v-toolbar flat>
-                                <v-toolbar-title> Adulto (acima de 25) </v-toolbar-title>
+                                <v-toolbar-title> Categoria: Adulto (acima de
+                                    25)
+                                </v-toolbar-title>
                             </v-toolbar>
                         </template>
                     </v-data-table>
 
                 </v-col>
             </v-row>
-
 
         </v-card>
     </div>
@@ -372,19 +383,6 @@
                 catch() {
                     this.Helper.exibirMensagem("error", 'error', 3000);
                 }
-            },
-
-            $subscribe: {
-                novaPerguntaAtual: {
-                    query: gql`
-                    subscription {
-                          novaPerguntaAtual
-                    }
-                    `,
-                    result(data) {
-                        this.perguntaAtual = data.data.novaPerguntaAtual;
-                    },
-                },
             },
 
         }
