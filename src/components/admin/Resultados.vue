@@ -106,7 +106,12 @@
                                 </v-toolbar-title>
                             </v-toolbar>
                         </template>
+                        <template v-slot:item.status="{ item }">
+                            <v-chip color="red" v-if="item.status_participante.nome === 'substituto' " dark>{{ item.status_participante.descricao }}</v-chip>
+                            <span v-else  dark>{{ item.status_participante.descricao }}</span>
+                        </template>
                     </v-data-table>
+
 
                 </v-col>
             </v-row>
@@ -129,6 +134,10 @@
                                 </v-toolbar-title>
                             </v-toolbar>
                         </template>
+                        <template v-slot:item.status="{ item }">
+                            <v-chip color="red" v-if="item.status_participante.nome === 'substituto' " dark>{{ item.status_participante.descricao }}</v-chip>
+                            <span v-else  dark>{{ item.status_participante.descricao }}</span>
+                        </template>
                     </v-data-table>
 
                 </v-col>
@@ -147,10 +156,14 @@
                     >
                         <template v-slot:top>
                             <v-toolbar flat>
-                                <v-toolbar-title> Categoria: Adulto (acima de
-                                    25)
+                                <v-toolbar-title>
+                                    Categoria: Adulto (acima de 25)
                                 </v-toolbar-title>
                             </v-toolbar>
+                        </template>
+                        <template v-slot:item.status="{ item }">
+                            <v-chip color="red" v-if="item.status_participante.nome === 'substituto'">{{ item.status_participante.descricao }}</v-chip>
+                            <span v-else  dark>{{ item.status_participante.descricao }}</span>
                         </template>
                     </v-data-table>
 
@@ -198,6 +211,11 @@
                     {
                         text: 'Classificação',
                         value: 'classificacao',
+                        align: 'center'
+                    },
+                    {
+                        text: 'Status',
+                        value: 'status',
                         align: 'center'
                     },
                     {
@@ -315,6 +333,12 @@
                         pontuacao
                         acertos_consecutivos
                         acertos_bonus
+                          status_participante {
+                            id
+                            nome
+                            descricao
+
+                          }
                     }
                   }
                 `,
@@ -342,6 +366,12 @@
                         pontuacao
                         acertos_consecutivos
                         acertos_bonus
+                          status_participante {
+                            id
+                            nome
+                            descricao
+
+                          }
                     }
                   }
                 `,
@@ -368,6 +398,12 @@
                         pontuacao
                         acertos_consecutivos
                         acertos_bonus
+                          status_participante {
+                            id
+                            nome
+                            descricao
+
+                          }
                     }
                   }
                 `,
