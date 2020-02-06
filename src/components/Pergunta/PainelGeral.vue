@@ -114,7 +114,7 @@
                                         <v-row v-for="(equipe, index) in categoria.equipes"
                                                :key="index">
                                             <v-col
-                                                    :class="`${getColor(participante.pontuacao)}  text-center body-2 font-weight-bold`"
+                                                    :class="`${getColor(participante.pontuacao)}  text-center body-2 font-weight-regular`"
                                                     cols="3"
                                                     v-for="(participante, index) in equipe"
                                                     :key="index"
