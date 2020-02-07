@@ -21,10 +21,11 @@
                                     vertical
                             ></v-divider>
                             <v-spacer></v-spacer>
-                            <v-dialog v-model="dialog" persistent
+                            <v-dialog v-model="dialog"
                                       max-width="600px">
                                 <template v-slot:activator="{ on }">
                                     <v-btn color="primary" dark v-on="on"
+                                           outlined tile
                                            title="Cadastrar Equipe">
 
                                         <v-icon>mdi-plus-box-multiple</v-icon>
@@ -95,15 +96,15 @@
                                     </v-card-text>
                                     <v-card-actions>
                                         <v-spacer></v-spacer>
-                                        <v-btn color="grey darken-1" text
+                                        <v-btn color="grey darken-1" outlined tile
                                                @click="dialog = false">Fechar
                                         </v-btn>
-                                        <v-btn color="primary"
+                                        <v-btn color="primary" outlined tile
                                                v-if="editedIndex === -1"
                                                @click.prevent="salvarEquipe">
                                             Salvar
                                         </v-btn>
-                                        <v-btn color="primary"
+                                        <v-btn color="primary" outlined tile
                                                v-if="editedIndex !== -1"
                                                @click.prevent="salvarEdicao">
                                             Salvar Edição
@@ -116,24 +117,42 @@
                     </template>
 
                     <template v-slot:item.action="{ item }">
-                        <v-icon
-                                small
-                                class="mr-2"
+
+                        <v-btn class="ma-1" color="primary"  tile outlined
                                 @click="editItem(item)"
                         >
-                            mdi-pencil
-                        </v-icon>
-                        <!--              <v-icon-->
-                        <!--                small-->
-                        <!--                @click="deleteItem(item)"-->
-                        <!--              >-->
-                        <!--                mdi-delete-->
-                        <!--              </v-icon>-->
+                            <v-icon>mdi-pencil</v-icon>
+                        </v-btn>
+
+                        <v-btn class="ma-1" color="red" tile outlined
+                               @click="showModalDeleteItem(item)"
+                        >
+                            <v-icon>mdi-delete</v-icon>
+                        </v-btn>
                     </template>
+
+
 
 
                 </v-data-table>
 
+                <v-dialog v-model="dialogDelete" max-width="290">
+                    <v-card>
+                        <v-card-title class="body-1">Tem certeza que deseja exluir a equipe?</v-card-title>
+                        <v-card-actions>
+                            <v-spacer></v-spacer>
+                            <v-btn color="grey darken-1" tile outlined
+                                   @click="dialogDelete=false"
+                            >
+                                Não
+                            </v-btn>
+                            <v-btn color="red darken-1" tile outlined
+                                   @click="deleteItem">
+                                Sim
+                            </v-btn>
+                        </v-card-actions>
+                    </v-card>
+                </v-dialog>
 
             </v-col>
         </v-row>
@@ -153,6 +172,8 @@
         data: () => ({
             equipes: [],
             dialog: false,
+            dialogDelete: false,
+            deleteEquipeId : null,
             novaEquipe: [],
             perguntaAtual: null,
             headers: [
@@ -257,7 +278,7 @@
                         });
                 }
             },
-          
+
             editItem(item) {
                 this.editedIndex = this.listaEquipes.indexOf(item)
                 this.novaEquipe = Object.assign({}, item.participantes);
@@ -265,9 +286,30 @@
                 this.dialog = true
             },
 
-            deleteItem(item) {
-                const index = this.desserts.indexOf(item)
-                confirm('Are you sure you want to delete this team?') && this.desserts.splice(index, 1)
+            showModalDeleteItem(equipe_id){
+                this.dialogDelete = true;
+                this.deleteEquipeId = equipe_id;
+            },
+
+            deleteItem() {
+                this.$apollo
+                    .mutate({
+                        mutation: gql`
+                            mutation ($equipe_id: Int!) {
+                              excluirEquipe(equipe_id: $equipe_id)
+                            }
+                        `,
+                        variables: {equipe_id: this.deleteEquipeId}
+                    })
+                    .then(() => {
+                        this.Helper.exibirMensagem("Equipe excluida com sucesso!", 'success', 3000);
+                        this.$apollo.queries.getEquipes.refetch();
+                        this.dialogDelete = false;
+                    })
+                    .catch(e => {
+                        const msg = e.graphQLErrors[0].message || "Ocorreu um erro. Tente novamente.";
+                        this.Helper.exibirMensagem(msg, 'error', 3000);
+                    });
             },
 
             close() {

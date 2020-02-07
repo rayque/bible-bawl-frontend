@@ -31,7 +31,7 @@
                 <span class="title mr-2">Iniciar Copa: </span>
                 <v-btn
                         @click="setPergunta(primeiraPerguntaNaoRespondidaId)"
-                        color="success" dark outlined
+                        color="success" dark tile outlined
                 >Iniciar
                 </v-btn>
             </v-col>
@@ -82,7 +82,7 @@
 
         <v-row dense class="pa-4" v-if="perguntaAtual">
             <v-col cols="3">
-                <v-btn @click="setPergunta(0)" large outlined block color="red" title="Bloquear respostas">
+                <v-btn @click="setPergunta(0)" large tile outlined block color="red" title="Bloquear respostas">
                     <v-icon class="mdi mdi-block-helper hidden-md-and-up"></v-icon>
                     <span class="hidden-sm-and-down">Bloquear respostas</span>
                 </v-btn>
@@ -95,13 +95,13 @@
                     <v-icon class="mdi mdi-arrow-left-circle-outline hidden-md-and-up"></v-icon>
                     <span class="hidden-sm-and-down">Anterior</span>
                 </v-btn>
-                <v-btn v-if="!perguntaAnterior" disabled outlined large block color="grey" title="Anterior">
+                <v-btn v-if="!perguntaAnterior" disabled tile outlined large block color="grey" title="Anterior">
                     <v-icon class="mdi mdi-arrow-left-circle-outline hidden-md-and-up"></v-icon>
                     <span class="hidden-sm-and-down">Anterior</span>
                 </v-btn>
             </v-col>
             <v-col cols="3">
-                <v-btn @click="setPergunta(proximaPergunta)" large outlined block
+                <v-btn @click="setPergunta(proximaPergunta)" large tile outlined block
                        title="Próxima"
                        color="primary">
                     <v-icon class="mdi mdi-arrow-right-circle-outline hidden-md-and-up"></v-icon>
@@ -110,7 +110,7 @@
             </v-col>
             <v-col cols="3">
                 <v-btn @click="setPergunta(primeiraPerguntaNaoRespondidaId)"
-                       large outlined block  title="Bloquear respostas"
+                       large tile outlined block  title="Bloquear respostas"
                        :disabled="showBtnPerguntaNaoRespondida"
                 >
                     <span class="mdi mdi-chevron-triple-right hidden-md-and-up"> {{ primeiraPerguntaNaoRespondidaId }}  </span>
@@ -172,7 +172,7 @@
                     <v-col cols="5" md="5">
                         <v-btn
                                 color="primary"
-                                outlined :disabled="!perguntaEspecifica" block large
+                                tile outlined :disabled="!perguntaEspecifica" block large
                                 @click="setPergunta(perguntaEspecifica)"
                         >
                             <v-icon class="mdi mdi-send hidden-md-and-up"></v-icon>
@@ -183,7 +183,6 @@
                 </v-row>
 
 
-            </v-col>
             </v-col>
 
         </v-row>
