@@ -1,5 +1,5 @@
 <template>
-  <v-snackbar top v-model="ativo" :color="color" :timeout="timeout">
+  <v-snackbar right top vertical v-model="ativo" :color="color" :timeout="timeout">
     {{ mensagem }}
     <v-btn dark :color="color" @click="desabilitaSnackbar">Fechar</v-btn>
   </v-snackbar>

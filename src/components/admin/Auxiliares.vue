@@ -24,7 +24,7 @@
                                 <v-spacer></v-spacer>
                                 <v-dialog v-model="dialog" max-width="600px">
                                     <template v-slot:activator="{ on }">
-                                        <v-btn color="primary"  tile outlined
+                                        <v-btn color="primary" tile outlined
                                                v-on="on"
                                                title="Adicionar aixiliar"
                                         >
@@ -80,7 +80,7 @@
                                           max-width="600px">
                                     <v-card>
                                         <v-card-title>
-                                            <span class="headline">Equipes do respondedor</span>
+                                            <span class="headline">Equipes do auxiliar</span>
                                         </v-card-title>
                                         <v-card-text>
                                             <v-container>
@@ -194,18 +194,18 @@
                     this.$apollo
                         .mutate({
                             mutation: gql`
-                  mutation ($nome: String!) {
-                    novoRespondedor(nome: $nome) {
-                    id nome cod_acesso
-                    }
-                  }
-              `,
+                              mutation ($nome: String!) {
+                                novoRespondedor(nome: $nome) {
+                                id nome cod_acesso
+                                }
+                              }
+                          `,
                             variables: {nome: this.nome}
                         })
                         .then(() => {
                             this.Helper.exibirMensagem("Respondedor cadastrado com sucesso!", 'success', 3000);
                             this.$apollo.queries.getRespondedores.refetch();
-                            this.$refs.cadastroAuxiliar.reset()
+                            this.$refs.cadastroAuxiliar.reset();
                         })
                         .catch(e => {
                             const msg = e.graphQLErrors[0].message || "Ocorreu um erro. Tente novamente.";

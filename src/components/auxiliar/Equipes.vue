@@ -24,12 +24,11 @@
                             <v-dialog v-model="dialog"
                                       max-width="600px">
                                 <template v-slot:activator="{ on }">
-                                    <v-btn color="primary" dark v-on="on"
+                                    <v-btn color="primary"  v-on="on"
                                            outlined tile
-                                           title="Cadastrar Equipe">
-
+                                           title="Cadastrar Equipe"
+                                    >
                                         <v-icon>mdi-plus-box-multiple</v-icon>
-
                                     </v-btn>
                                 </template>
                                 <v-card>
@@ -236,7 +235,7 @@
                         .then(() => {
                             this.Helper.exibirMensagem("Equipe cadastrada com sucesso!", 'success', 3000);
                             this.$apollo.queries.getEquipes.refetch();
-                            this.$refs.formCadEquipes.reset()
+                            this.$refs.formCadEquipes.reset();
                         })
                         .catch(e => {
                             const msg = e.graphQLErrors[0].message || "Ocorreu um erro. Tente novamente.";
@@ -286,9 +285,9 @@
                 this.dialog = true
             },
 
-            showModalDeleteItem(equipe_id){
+            showModalDeleteItem(equipe){
                 this.dialogDelete = true;
-                this.deleteEquipeId = equipe_id;
+                this.deleteEquipeId = equipe.id;
             },
 
             deleteItem() {
@@ -313,11 +312,11 @@
             },
 
             close() {
-                this.dialog = false
-                setTimeout(() => {
-                    this.novaEquipe = Object.assign({}, this.novaEquipe)
+                if (!this.dialog) {
+                    this.$refs.formCadEquipes.reset();
+                    this.novaEquipe = this.setEquipe();
                     this.editedIndex = -1
-                }, 300)
+                }
             }
 
         },

@@ -59,7 +59,7 @@
                         </v-list-item>
 
 
-                        <v-list-item link v-if="$acl.check('isLogged')"
+                        <v-list-item link v-if="$acl.check('isAdmin')"
                                      :to="{name: 'painel'}">
                             <v-list-item-action>
                                 <v-icon>mdi-view-dashboard</v-icon>

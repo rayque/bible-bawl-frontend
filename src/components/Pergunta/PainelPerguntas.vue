@@ -138,7 +138,7 @@
                             <v-btn
                                     @click="setStatusPergunta(perguntaAtual.id, status.nome)"
                                     large block
-                                    outlined
+                                    tile outlined
                                     :color="getColorStatus(status.nome)"
                             >
 
