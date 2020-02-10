@@ -238,6 +238,11 @@
                         id: this.getAuth.respondedorId
                     };
                 },
+                skip() {
+                    return {
+                        id: this.getAuth.respondedorId
+                    };
+                },
                 result(res) {
                     this.respondedor = res.data.getRespondedor || [];
                     this.equipes = this.respondedor.equipes || [];

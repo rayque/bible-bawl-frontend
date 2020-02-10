@@ -30,7 +30,7 @@ const routes = [
         }
     },
     {
-        path: '/admin/auxiliares',
+        path: 'auxiliares',
         component: Auxiliares,
         name: 'auxiliares',
         meta: {
@@ -38,7 +38,7 @@ const routes = [
         }
     },
     {
-        path: '/admin/gerenciar-copa',
+        path: '/gerenciar-copa',
         component: GerenciarCopa,
         name: 'GerenciarCopa',
         meta: {
@@ -46,7 +46,7 @@ const routes = [
         }
     },
     {
-        path: '/admin/resultados',
+        path: '/resultados',
         component: Resultados,
         name: 'resultados',
         meta: {
@@ -62,7 +62,7 @@ const routes = [
         }
     },
     {
-        path: '/auxiliar/equipes',
+        path: '/equipes',
         component: Equipes,
         name: 'equipes',
         meta: {
