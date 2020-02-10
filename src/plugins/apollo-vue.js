@@ -18,9 +18,11 @@ const authToken = () => {
 
 const url = `${process.env.VUE_APP_HOST}:${process.env.VUE_APP_PORT}`
 
+
 // Create a new HttpLink to connect to your GraphQL API.
 // According to the Apollo docs, this should be an absolute URI.
 const httpLink = new HttpLink({
+    // uri: `http://192.168.108.14:4000/graphql`,
     uri: `http://${url}/`,
     headers: {
         authorization: authToken(),
@@ -29,6 +31,7 @@ const httpLink = new HttpLink({
 
 // Create a WebSocket link:
 const wsLink = new WebSocketLink({
+    // uri: `ws://192.168.108.14:4000/graphql`,
     uri: `ws://${url}/graphql`,
     options: {
         lazy: true,
@@ -56,8 +59,21 @@ const link = split(
     httpLink
 )
 
+
+
 // I'm creating another variable here just because it makes it easier to add more links in the future.
 // const link = httpLink;
+
+const defaultOptions = {
+    watchQuery: {
+        fetchPolicy: 'no-cache',
+        errorPolicy: 'ignore',
+    },
+    query: {
+        fetchPolicy: 'no-cache',
+        errorPolicy: 'all',
+    },
+}
 
 // Create the apollo client
 const apolloClient = new ApolloClient({
@@ -67,6 +83,7 @@ const apolloClient = new ApolloClient({
     cache: new InMemoryCache(),
     // Useful if you have the Apollo DevTools installed in your browser.
     connectToDevTools: true,
+    defaultOptions,
 });
 
 const apolloProvider = new VueApollo({

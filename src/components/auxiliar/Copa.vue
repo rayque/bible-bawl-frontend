@@ -239,9 +239,7 @@
                     };
                 },
                 skip() {
-                    return {
-                        id: this.getAuth.respondedorId
-                    };
+                    return !this.getAuth.respondedorId
                 },
                 result(res) {
                     this.respondedor = res.data.getRespondedor || [];

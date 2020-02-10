@@ -30,7 +30,7 @@ const routes = [
         }
     },
     {
-        path: 'auxiliares',
+        path: '/auxiliares',
         component: Auxiliares,
         name: 'auxiliares',
         meta: {
