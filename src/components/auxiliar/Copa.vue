@@ -101,7 +101,7 @@
                                    @click="salvarRespota(participante.id)"
                                    color="green darken-1"
                                    class="mt-3 mb-3"
-                                    outlined
+                                    outlined tile
                                    elevation="6"
                             >
                                 <v-icon left>mdi-account-check-outline</v-icon> <span class="caption"> {{  getFirstName(participante.nome)}} </span>

@@ -34,7 +34,7 @@ const wsLink = new WebSocketLink({
     // uri: `ws://192.168.108.14:4000/graphql`,
     uri: `ws://${url}/graphql`,
     options: {
-        lazy: true,
+        // lazy: true,
         reconnect: true,
         connectionParams: async () => {
             return {
@@ -67,7 +67,7 @@ const link = split(
 const defaultOptions = {
     watchQuery: {
         fetchPolicy: 'no-cache',
-        errorPolicy: 'ignore',
+        errorPolicy: 'all',
     },
     query: {
         fetchPolicy: 'no-cache',

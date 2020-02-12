@@ -74,9 +74,9 @@
                     </v-card-text>
 
                     <v-card-actions class="mt-0 mb-0">
+                        <v-btn  outlined tile color="grey darken-1" @click="limparCampos">Limpar campos</v-btn>
                         <v-spacer/>
-                        <v-btn color="primary" @click="login">Enviar
-                        </v-btn>
+                        <v-btn color="primary" outlined tile  @click="login">Enviar</v-btn>
                     </v-card-actions>
 
                 </v-card>
@@ -93,8 +93,10 @@
     export default {
         data: () => ({
             logged: null,
-            email: null,
-            password: null,
+            // email: null,
+            // password: null,
+            email: 'rayque@email.com',
+            password: 'bacon',
             cod_acesso: null,
             dados: null,
             isAuth: false,
@@ -123,7 +125,14 @@
 
             setLogin(token) {
                 this.setAuth(token);
-                this.$router.push('/');
+                this.$router.push({name: 'equipes'});
+                // location.reload();
+            },
+
+            limparCampos() {
+                this.email =  null;
+                this.password =  null;
+                this.cod_acesso =  null;
             }
         },
         watch: {

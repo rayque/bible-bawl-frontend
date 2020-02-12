@@ -89,7 +89,7 @@
             </v-col>
 
             <v-col cols="3">
-                <v-btn v-if="perguntaAnterior" @click="setPergunta(perguntaAnterior)" outlined large block
+                <v-btn v-if="perguntaAnterior" @click="setPergunta(perguntaAnterior)"  tile outlined large block
                        color="primary"
                        title="Anterior">
                     <v-icon class="mdi mdi-arrow-left-circle-outline hidden-md-and-up"></v-icon>
@@ -141,7 +141,6 @@
                                     tile outlined
                                     :color="getColorStatus(status.nome)"
                             >
-
                                 <v-icon :class="getIcon(status.nome)"></v-icon>
                                 <span class="hidden-sm-and-down">{{ status.descricao }}</span>
                             </v-btn>
