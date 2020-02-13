@@ -2,9 +2,16 @@
     <div>
         <Header titulo="Copa"/>
 
-
-        <v-alert v-if="!perguntaAtual" type="info">
-            Não há perguntas disponíveis.
+        <v-alert
+                v-if="!perguntaAtual"
+                tile
+                color="primary"
+                outlined
+                border="left"
+                text
+                type="info"
+        >
+            Não há perguntas disponíveis
         </v-alert>
 
         <v-row v-if="perguntaAtual">
@@ -25,7 +32,9 @@
                         <template v-slot:activator="{ on }">
                             <div class="text-center" >
                                 <v-btn
-                                        class="mt-2 primary"
+                                        outlined tile
+                                        class="mt-2"
+                                        color="primary"
                                         v-on="on"
                                         @click="showEquipe(equipe)"
                                 >
@@ -34,6 +43,7 @@
 
                             </div>
                         </template>
+                        <v-divider></v-divider>
 
                         <v-card v-if="dadosEquipe">
                             <v-card-title
@@ -70,8 +80,8 @@
                             <v-card-actions>
                                 <v-spacer></v-spacer>
                                 <v-btn
-                                        color="primary"
-                                        text
+                                        color="grey darken-1"
+                                        outlined tile
                                         @click="dialog = false"
                                 >
                                     fechar
@@ -91,7 +101,7 @@
                                     @click="salvarRespota(participante.id)"
                                     color="grey lighten-1"
                                     class="mt-3 mb-3"
-                                     outlined
+                                     outlined tile
 
                             >
                                 <v-icon left>mdi-account-remove-outline</v-icon> <span class="caption"> {{  getFirstName(participante.nome)}} </span>
@@ -145,6 +155,7 @@
                 const indexTemResposta = this.respostasCertas.indexOf(id);
                 const resposta = indexTemResposta === -1;
 
+                this.Helper.setLoadingAtivo();
                 this.$apollo
                     .mutate({
                         mutation: gql`
@@ -167,10 +178,14 @@
                         } else {
                             this.respostasCertas.splice(indexTemResposta, 1);
                         }
+
+                        this.Helper.setLoadingAtivo(false);
                     })
                     .catch(e => {
                         const msg = e.graphQLErrors[0].message || "Ocorreu um erro. Tente novamente.";
                         this.Helper.exibirMensagem(msg, 'error', 3000);
+
+                        this.Helper.setLoadingAtivo(false);
                     });
             },
             resetEquipes() {

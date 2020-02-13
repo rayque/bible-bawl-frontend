@@ -12,20 +12,16 @@
                     <v-card-text>
                         <h1 class="text-center font-weight-bold head">
                             <v-icon color="orange">mdi-trophy-outline mdi-36px</v-icon>
-                            System
+                           {{ nomeSys }}
                         </h1>
                     </v-card-text>
                 </v-card>
-                <v-card class="elevation-12" tile >
+                <v-card class="elevation-12" tile>
                     <v-toolbar
-
                             color="primary"
                             dark
-                            flat
                     >
                         <v-toolbar-title>Login</v-toolbar-title>
-                        <v-spacer/>
-
                     </v-toolbar>
                     <v-card-text>
                         <v-form>
@@ -105,7 +101,6 @@
         mounted() {
             if (localStorage.token) {
                 this.isAuth = true;
-                this.setAuth(localStorage.token);
                 this.setLogin(localStorage.token);
             }
         },
@@ -130,7 +125,7 @@
 
             setLogin(token) {
                 this.setAuth(token);
-                this.$router.push({name: 'equipes'});
+                this.$router.push({name: 'home'});
                 // location.reload();
             },
 
@@ -163,7 +158,11 @@
             ...mapGetters({
                 getNomeUser: 'getNomeUser',
                 getToken: 'getToken'
-            })
+            }),
+
+            nomeSys() {
+                return process.env.VUE_APP_SYS_NOME;
+            }
         },
         apollo: {
             login: {

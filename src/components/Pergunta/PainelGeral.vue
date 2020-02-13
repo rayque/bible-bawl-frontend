@@ -22,23 +22,21 @@
                         <v-col md="12" class="mb-0">
 
                             <v-card elevation="5">
-                                <div class="text-center">
-                                    <h1 class="headline">
-                                        Perguntas
-                                    </h1>
-                                </div>
 
                                 <v-row no-gutters v-if="!perguntaAtual">
-                                    <v-col sm="12">
+                                    <v-col sm="12" class="pa-12">
+
                                         <v-alert
+                                                class="display-2 "
+                                                tile
                                                 color="primary"
-                                                dark
-                                                type="info"
+                                                outlined
                                                 border="left"
+                                                text
+                                                type="info"
                                                 prominent
-                                                class="display-2"
                                         >
-                                            Não há perguntas disponíveis.
+                                            Não há perguntas disponíveis
                                         </v-alert>
 
                                     </v-col>

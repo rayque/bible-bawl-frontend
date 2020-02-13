@@ -12,14 +12,14 @@
                         v-model="drawer"
                         app
                 >
-                    <v-list dense >
+                    <v-list dense  class="primary--text">
 
                         <div class="pa-2">
 
-                            <div>
+                            <div class="grey--text text--darken-4">
                                 <v-icon>mdi-account-outline</v-icon>
                                 {{ getAuth.nome }}
-                                <p class="ml-7 overline">
+                                <p class="ml-7 overline"  >
                                     {{ $acl.get }}
                                 </p>
                             </div>
@@ -112,16 +112,16 @@
             <v-app-bar
                     v-if="$acl.check('isLogged')"
                     app
+                    color="primary"
+                    dark
             >
-
                 <v-app-bar-nav-icon @click.stop="drawer = !drawer"/>
-                <v-toolbar-title>
-<!--                    <v-icon color="orange">mdi-trophy</v-icon>-->
-                    System
+                <v-icon color="orange" class="mx-4">mdi-trophy-outline</v-icon>
+                <v-toolbar-title class="mr-12 align-center">
+                    <span class="title">{{ nomeSys }}</span>
                 </v-toolbar-title>
+
                 <v-spacer></v-spacer>
-
-
 
                 <v-btn icon @click="logout()">
                     <v-icon>mdi-logout</v-icon>
@@ -164,6 +164,9 @@
             dados: null,
             isAuth: false,
         }),
+        mounted() {
+            this.Helper.setLoadingAtivo(false);
+        },
         methods: {
             ...mapActions(['setAuth']),
 
@@ -180,7 +183,11 @@
             }
         },
         computed: {
-            ...mapGetters(['getAuth'])
+            ...mapGetters(['getAuth']),
+
+            nomeSys() {
+                return process.env.VUE_APP_SYS_NOME;
+            }
         }
     }
 </script>

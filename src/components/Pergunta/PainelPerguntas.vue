@@ -9,14 +9,16 @@
 
         <v-row dense class="pa-4" v-if="!perguntaAtual">
             <v-col sm="12">
+
                 <v-alert
+                        tile
                         color="primary"
-                        dark
-                        type="info"
+                        outlined
                         border="left"
-                        class="body-1"
+                        text
+                        type="info"
                 >
-                    Não há perguntas disponíveis.
+                    Não há perguntas disponíveis
                 </v-alert>
             </v-col>
         </v-row>
@@ -136,7 +138,6 @@
                                 @click="setPergunta(perguntaEspecifica)"
                                 title="ir para pergunta específica"
                         >
-<!--                            <v-icon class="mdi mdi-send hidden-md-and-up"></v-icon>-->
                             <v-icon class="mdi mdi-send"></v-icon>
 <!--                            <span class="hidden-sm-and-down">Selecionar</span>-->
                         </v-btn>
@@ -149,15 +150,13 @@
 
         </v-row>
 
-
-        <v-row >
+        <v-row v-if="perguntaAtual">
             <v-col cols="12" class="text-center" >
                 <span class="body-1"> Mudar pergunta atual </span>
             </v-col>
         </v-row>
 
         <v-row dense class="pa-4" v-if="perguntaAtual">
-
 
             <v-col cols="3">
                 <v-btn @click="setPergunta(0)" large tile outlined block color="red" title="Bloquear respostas">
@@ -327,7 +326,6 @@
                 `,
                 result(res) {
                     this.perguntaAtual = res.data.getPerguntaAtual;
-
                     this.statusSelecionado = this.perguntaAtual ? this.perguntaAtual.status.nome : null;
                 },
                 catch() {
