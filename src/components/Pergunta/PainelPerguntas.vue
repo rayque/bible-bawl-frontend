@@ -188,7 +188,7 @@
             </v-col>
             <v-col cols="3">
                 <v-btn @click="setPergunta(primeiraPerguntaNaoRespondidaId)"
-                       large tile outlined block  title="Bloquear respostas"
+                       large tile outlined block  title="Primeira pergunta que não foi respondida"
                        :disabled="showBtnPerguntaNaoRespondida"
                 >
                     <span class="mdi mdi-chevron-triple-right hidden-md-and-up"> {{ primeiraPerguntaNaoRespondidaId }}  </span>
@@ -217,8 +217,11 @@
             statusSelecionado: null,
             statusPergunta: [],
         }),
+        
         methods: {
             setPergunta(pergunta) {
+                this.Helper.setLoadingAtivo();
+                
                 this.$apollo
                     .mutate({
                         mutation: gql`
@@ -231,13 +234,16 @@
                     .then(() => {
                         this.perguntaEspecifica = null;
                         this.$apollo.queries.getPrimeiraPerguntaNaoRespondida.refetch();
+                        this.Helper.setLoadingAtivo(false);
                     })
                     .catch(e => {
+                        this.Helper.setLoadingAtivo(false);
                         const msg = e.graphQLErrors[0].message || "Ocorreu um erro. Tente novamente.";
                         this.Helper.exibirMensagem(msg, 'error', 3000);
                     });
             },
             setStatusPergunta(pergunta, status) {
+                this.Helper.setLoadingAtivo();
                 this.$apollo
                     .mutate({
                         mutation: gql`
@@ -252,9 +258,10 @@
                     })
                     .then(() => {
                         this.$apollo.queries.getPrimeiraPerguntaNaoRespondida.refetch();
-                        // this.setPergunta(this.proximaPergunta);
+                        this.Helper.setLoadingAtivo(false);
                     })
                     .catch(e => {
+                        this.Helper.setLoadingAtivo(false);
                         const msg = e.graphQLErrors[0].message || "Ocorreu um erro. Tente novamente.";
                         this.Helper.exibirMensagem(msg, 'error', 3000);
                     });
@@ -278,11 +285,11 @@
 
         },
 
-        watch: {
-            perguntaAtual() {
-                this.statusSelecionado = this.perguntaAtual.status.nome;
-            }
-        },
+        // watch: {
+        //     perguntaAtual() {
+        //         this.statusSelecionado = this.perguntaAtual.status.nome;
+        //     }
+        // },
 
         computed: {
             perguntaAnterior() {
@@ -291,18 +298,19 @@
             proximaPergunta() {
                 return parseInt(this.perguntaAtual.id) + 1;
             },
-            statusAtual() {
-                const status = this.statusPergunta.filter(s => {
-                    return s.nome === this.statusSelecionado;
-                });
-                return status[0] || [];
-            },
+            // statusAtual() {
+            //     const status = this.statusPergunta.filter(s => {
+            //         return s.nome === this.statusSelecionado;
+            //     });
+            //     return status[0] || [];
+            // },
             showBtnPerguntaNaoRespondida(){
                 return this.primeiraPerguntaNaoRespondidaId === this.perguntaAtual.id;
             }
         },
 
         apollo: {
+
 
             getPerguntaAtual: {
                 query: gql`
@@ -319,6 +327,7 @@
                 `,
                 result(res) {
                     this.perguntaAtual = res.data.getPerguntaAtual;
+
                     this.statusSelecionado = this.perguntaAtual ? this.perguntaAtual.status.nome : null;
                 },
                 catch() {
