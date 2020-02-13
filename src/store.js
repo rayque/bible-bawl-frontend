@@ -12,6 +12,9 @@ const getDefaultState = () => {
             color: '',
             timeout: 0
         },
+        loading: {
+          ativo: false
+        },
         auth: {
             token: '',
             nome: '',
@@ -25,11 +28,15 @@ const getDefaultState = () => {
 const state = getDefaultState();
 const getters = {
     getSnackBar: state => state.snackBar,
+    getLoading: state => state.loading,
     getNomeUser: state => state.auth.nome,
     getToken: state => state.auth.token,
     getAuth: state => state.auth,
 };
 const mutations = {
+    setLoadingAtivo(state, ativo) {
+        state.loading.ativo = ativo
+    },
     habilitarSnackBar(state, dados) {
         if (dados.mensagem !== "") {
             state.snackBar.mensagem = dados.mensagem;

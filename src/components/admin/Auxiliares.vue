@@ -184,7 +184,7 @@
                     value: 'nome',
                 },
                 {text: 'Codigo de Acesso', value: 'cod_acesso'},
-                {text: 'Actions', value: 'action', sortable: false},
+                {text: 'Ações', value: 'action', sortable: false},
 
             ],
         }),

@@ -1,6 +1,5 @@
 <template>
     <div>
-
         <v-row
                 justify="center"
         >
@@ -31,8 +30,8 @@
                     <v-card-text>
                         <v-form>
 
-                            <p class="mb-0 text-center font-weight-bold subtitle-1 elevation-2">
-                                Administrador
+                            <p  class="mb-0 text-center font-weight-bold subtitle-1 ">
+                                 <span class="elevation-3  pl-6 pr-6 pt-2 pb-1 ">Administrador</span>
                             </p>
 
                             <v-text-field
@@ -56,8 +55,8 @@
                                     :disabled="cod_acesso ? true : false"
                             />
 
-                            <p class="mt-0 mb-0  text-center font-weight-bold subtitle-1 elevation-2">
-                                Auxiliar
+                            <p class="mt-0 mb-0  text-center font-weight-bold subtitle-1">
+                                <span class="elevation-3 pl-12 pr-12 pt-2 pb-1">Auxiliar</span>
                             </p>
 
                             <v-text-field
@@ -101,6 +100,7 @@
             cod_acesso: null,
             dados: null,
             isAuth: false,
+            overlay: false,
         }),
         mounted() {
             if (localStorage.token) {
@@ -109,6 +109,8 @@
                 this.setLogin(localStorage.token);
             }
         },
+
+
         methods: {
             ...mapActions(['setAuth']),
             login() {
@@ -121,6 +123,8 @@
                     };
                 }
 
+
+                this.Helper.setLoadingAtivo();
                 this.$apollo.queries.login.refetch();
             },
 
@@ -152,7 +156,8 @@
                 if (val) {
                     this.cod_acesso = null;
                 }
-            }
+            },
+
         },
         computed: {
             ...mapGetters({
@@ -191,8 +196,10 @@
                         this.password = null;
                         this.cod_acesso = null;
                     }
+                    this.Helper.setLoadingAtivo(false);
                 },
                 error(e) {
+                    this.Helper.setLoadingAtivo(false);
                     this.Helper.exibirMensagem(e.message, 'error', 3000);
                 }
             }

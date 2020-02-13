@@ -8,6 +8,10 @@ export const exibirMensagem = (mensagem, color, timeout) => {
   store.commit("habilitarSnackBar", snackbar);
 };
 
+export const setLoadingAtivo = (ativo = true) => {
+  store.commit("setLoadingAtivo", ativo)
+}
+
 export const validarData = data => {
   if (!verificarTamanhoData(data)) {
     return false;

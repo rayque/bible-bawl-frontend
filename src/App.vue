@@ -3,6 +3,7 @@
         <v-app id="inspire">
 
             <snack-bar></snack-bar>
+            <loading></loading>
 
             <div v-if="$acl.check('isLogged')">
 
@@ -145,11 +146,13 @@
 
 <script>
     import SnackBar from "./components/utils/SnackBar"
+    import Loading from "./components/utils/Loading";
     import {mapActions, mapGetters} from "vuex";
     import jwt from "jsonwebtoken";
 
     export default {
         components: {
+            Loading,
             SnackBar
         },
         data: () => ({
