@@ -32,7 +32,8 @@
                 <v-btn
                         @click="setPergunta(primeiraPerguntaNaoRespondidaId)"
                         color="success" dark tile outlined
-                >Iniciar
+                >
+                    Iniciar
                 </v-btn>
             </v-col>
         </v-row>
@@ -78,9 +79,86 @@
 
         </v-row>
 
+
         <v-divider></v-divider>
 
+        <v-row  class="pa-4" v-if="perguntaAtual">
+
+            <v-col cols="12" md="9">
+
+                <v-row>
+                    <v-col cols="12 text-center ">
+                        <span class="body-1">Mudar status da pergunta atual</span>
+                    </v-col>
+                </v-row>
+
+                <v-row >
+
+                    <v-col cols="4" v-for="status in statusPergunta" :key="status.id">
+
+                        <v-btn
+                                @click="setStatusPergunta(perguntaAtual.id, status.nome)"
+                                large block
+                                tile outlined
+                                :color="getColorStatus(status.nome)"
+                        >
+                            <v-icon :class="getIcon(status.nome)"></v-icon>
+                            <span class="hidden-sm-and-down">{{ status.descricao }}</span>
+                        </v-btn>
+                    </v-col>
+
+                </v-row>
+
+            </v-col>
+
+            <v-col cols="12" md="3">
+
+                <v-row >
+                    <v-col cols="12" class="text-center" >
+                        <span class="body-1">Ir para pergunta específica </span>
+                    </v-col>
+                </v-row>
+
+                <v-row>
+
+                    <v-col cols="7" md="7">
+                        <v-text-field
+                                v-model="perguntaEspecifica"
+                                label="Pergunta"
+                                type="number"
+                        ></v-text-field>
+                    </v-col>
+
+                    <v-col cols="5" md="5">
+                        <v-btn
+                                color="primary"
+                                tile outlined :disabled="!perguntaEspecifica" block large
+                                @click="setPergunta(perguntaEspecifica)"
+                                title="ir para pergunta específica"
+                        >
+<!--                            <v-icon class="mdi mdi-send hidden-md-and-up"></v-icon>-->
+                            <v-icon class="mdi mdi-send"></v-icon>
+<!--                            <span class="hidden-sm-and-down">Selecionar</span>-->
+                        </v-btn>
+                    </v-col>
+
+                </v-row>
+
+
+            </v-col>
+
+        </v-row>
+
+
+        <v-row >
+            <v-col cols="12" class="text-center" >
+                <span class="body-1"> Mudar pergunta atual </span>
+            </v-col>
+        </v-row>
+
         <v-row dense class="pa-4" v-if="perguntaAtual">
+
+
             <v-col cols="3">
                 <v-btn @click="setPergunta(0)" large tile outlined block color="red" title="Bloquear respostas">
                     <v-icon class="mdi mdi-block-helper hidden-md-and-up"></v-icon>
@@ -121,70 +199,7 @@
 
         </v-row>
 
-        <v-row class="pa-4" v-if="perguntaAtual">
 
-            <v-col cols="12" md="8">
-
-                    <v-row>
-                        <v-col cols="12 text-center ">
-                            <span class="body-1">Mudar Status</span>
-                        </v-col>
-                    </v-row>
-
-                    <v-row>
-
-                        <v-col cols="4" v-for="status in statusPergunta" :key="status.id">
-
-                            <v-btn
-                                    @click="setStatusPergunta(perguntaAtual.id, status.nome)"
-                                    large block
-                                    tile outlined
-                                    :color="getColorStatus(status.nome)"
-                            >
-                                <v-icon :class="getIcon(status.nome)"></v-icon>
-                                <span class="hidden-sm-and-down">{{ status.descricao }}</span>
-                            </v-btn>
-                        </v-col>
-
-                    </v-row>
-
-            </v-col>
-
-            <v-col cols="12" md="4">
-
-                <v-row>
-                    <v-col cols="12" class="text-center" >
-                        <span class="body-1">Ir para pergunta específica </span>
-                    </v-col>
-                </v-row>
-
-                <v-row>
-
-                    <v-col cols="7" md="7">
-                        <v-text-field
-                                v-model="perguntaEspecifica"
-                                label="Pergunta"
-                                type="number"
-                        ></v-text-field>
-                    </v-col>
-
-                    <v-col cols="5" md="5">
-                        <v-btn
-                                color="primary"
-                                tile outlined :disabled="!perguntaEspecifica" block large
-                                @click="setPergunta(perguntaEspecifica)"
-                        >
-                            <v-icon class="mdi mdi-send hidden-md-and-up"></v-icon>
-                            <span class="hidden-sm-and-down">Selecionar</span>
-                        </v-btn>
-                    </v-col>
-
-                </v-row>
-
-
-            </v-col>
-
-        </v-row>
 
     </v-card>
 </template>
@@ -254,9 +269,9 @@
             },
             getIcon(status) {
                 const colors = {
-                    'n_respondido': 'mdi mdi-checkbox-blank-circle  hidden-md-and-up',
-                    'respondido': 'mdi mdi-check-circle hidden-md-and-up',
-                    'cancelado': 'mdi mdi-close-circle hidden-md-and-up',
+                    'n_respondido': 'mdi mdi-checkbox-blank-circle-outline  hidden-md-and-up',
+                    'respondido': 'mdi mdi-check-circle-outline hidden-md-and-up',
+                    'cancelado': 'mdi mdi-close-circle-outline hidden-md-and-up',
                 };
                 return colors[status];
             }

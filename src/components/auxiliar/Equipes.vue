@@ -28,7 +28,7 @@
                                            outlined tile
                                            title="Cadastrar Equipe"
                                     >
-                                        <v-icon>mdi-plus-box-multiple</v-icon>
+                                        <v-icon>mdi-plus-box-multiple-outline</v-icon>
                                     </v-btn>
                                 </template>
                                 <v-card>
@@ -120,13 +120,13 @@
                         <v-btn class="ma-1" color="primary"  tile outlined
                                 @click="editItem(item)"
                         >
-                            <v-icon>mdi-pencil</v-icon>
+                            <v-icon>mdi-pencil-outline</v-icon>
                         </v-btn>
 
                         <v-btn class="ma-1" color="red" tile outlined
                                @click="showModalDeleteItem(item)"
                         >
-                            <v-icon>mdi-delete</v-icon>
+                            <v-icon>mdi-delete-forever-outline</v-icon>
                         </v-btn>
                     </template>
 

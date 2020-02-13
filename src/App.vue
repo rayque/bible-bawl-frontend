@@ -16,7 +16,7 @@
                         <div class="pa-2">
 
                             <div>
-                                <v-icon>mdi-account</v-icon>
+                                <v-icon>mdi-account-outline</v-icon>
                                 {{ getAuth.nome }}
                                 <p class="ml-7 overline">
                                     {{ $acl.get }}
@@ -27,7 +27,7 @@
 
                         <v-list-item v-if="$acl.check('isLogged')" link to="/">
                             <v-list-item-action>
-                                <v-icon>mdi-home</v-icon>
+                                <v-icon>mdi-home-outline</v-icon>
                             </v-list-item-action>
                             <v-list-item-content>
                                 <v-list-item-title>HOME</v-list-item-title>
@@ -50,7 +50,7 @@
                         <v-list-item v-if="$acl.check('isAdmin')" link
                                      :to="{name: 'resultados'}">
                             <v-list-item-action>
-                                <v-icon>mdi-podium</v-icon>
+                                <v-icon>mdi-trophy-outline</v-icon>
                             </v-list-item-action>
                             <v-list-item-content>
                                 <v-list-item-title>Resultados
@@ -62,7 +62,7 @@
                         <v-list-item link v-if="$acl.check('isAdmin')"
                                      :to="{name: 'painel'}">
                             <v-list-item-action>
-                                <v-icon>mdi-view-dashboard</v-icon>
+                                <v-icon>mdi-view-dashboard-outline</v-icon>
                             </v-list-item-action>
                             <v-list-item-content>
                                 <v-list-item-title>Painel</v-list-item-title>
@@ -84,7 +84,7 @@
                         <v-list-item link v-if="$acl.check('isLogged')"
                                      :to="{name: 'equipes'}">
                             <v-list-item-action>
-                                <v-icon>mdi-account-group</v-icon>
+                                <v-icon>mdi-account-group-outline</v-icon>
                             </v-list-item-action>
                             <v-list-item-content>
                                 <v-list-item-title>Equipes</v-list-item-title>
@@ -94,7 +94,7 @@
                         <v-list-item  link v-if="$acl.check('isLogged')"
                                      :to="{name: 'copa'}">
                             <v-list-item-action>
-                                <v-icon>mdi-account-multiple-check</v-icon>
+                                <v-icon>mdi-account-multiple-check-outline</v-icon>
                             </v-list-item-action>
                             <v-list-item-content>
                                 <v-list-item-title>Responder Perguntas

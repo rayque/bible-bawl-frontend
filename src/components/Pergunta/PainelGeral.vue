@@ -4,7 +4,10 @@
             <v-dialog v-model="dialog" fullscreen hide-overlay
                       transition="dialog-bottom-transition">
                 <template v-slot:activator="{ on }">
-                    <v-btn color="primary" dark v-on="on">Exibir Painel</v-btn>
+                    <v-btn color="primary" dark v-on="on"
+                    outlined tile>
+                        Exibir Painel
+                    </v-btn>
                 </template>
                 <v-card>
                     <v-toolbar dark color="primary">

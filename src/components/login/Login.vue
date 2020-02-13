@@ -9,16 +9,17 @@
                     sm="6"
                     md="4"
             >
-                <v-card class="elevation-12 mb-4">
+                <v-card class="elevation-12 mb-4" tile  >
                     <v-card-text>
                         <h1 class="text-center font-weight-bold head">
-                            <v-icon color="orange">mdi-trophy mdi-36px</v-icon>
+                            <v-icon color="orange">mdi-trophy-outline mdi-36px</v-icon>
                             System
                         </h1>
                     </v-card-text>
                 </v-card>
-                <v-card class="elevation-12">
+                <v-card class="elevation-12" tile >
                     <v-toolbar
+
                             color="primary"
                             dark
                             flat
@@ -76,7 +77,7 @@
                     <v-card-actions class="mt-0 mb-0">
                         <v-btn  outlined tile color="grey darken-1" @click="limparCampos">Limpar campos</v-btn>
                         <v-spacer/>
-                        <v-btn color="primary" outlined tile  @click="login">Enviar</v-btn>
+                        <v-btn color="primary" outlined tile  @click="login">Entrar</v-btn>
                     </v-card-actions>
 
                 </v-card>

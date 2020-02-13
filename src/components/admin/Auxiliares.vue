@@ -28,7 +28,7 @@
                                                v-on="on"
                                                title="Adicionar aixiliar"
                                         >
-                                            <v-icon>mdi-plus-box-multiple
+                                            <v-icon>mdi-plus-box-multiple-outline
                                             </v-icon>
                                         </v-btn>
                                     </template>
@@ -136,7 +136,7 @@
                             <v-btn  class="ma-1"  tile outlined small
                                    color="primary" @click="setEquipe(item)"
                             >
-                                <v-icon >mdi mdi-account-group</v-icon>
+                                <v-icon>mdi-account-group-outline</v-icon>
                             </v-btn>
 
                         </template>
