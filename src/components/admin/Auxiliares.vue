@@ -28,7 +28,8 @@
                                                v-on="on"
                                                title="Adicionar aixiliar"
                                         >
-                                            <v-icon>mdi-plus-box-multiple-outline
+                                            <v-icon>
+                                                mdi-plus-box-multiple-outline
                                             </v-icon>
                                         </v-btn>
                                     </template>
@@ -132,8 +133,8 @@
                         </template>
 
                         <template v-slot:item.action="{ item }">
-                            <v-btn  class="ma-1"  tile outlined small
-                            <v-btn  class="ma-1"  tile outlined small
+                            <v-btn class="ma-1" tile outlined small
+                            <v-btn class="ma-1" tile outlined small
                                    color="primary" @click="setEquipe(item)"
                             >
                                 <v-icon>mdi-account-group-outline</v-icon>
@@ -191,6 +192,9 @@
         methods: {
             salvarRespondedor() {
                 if (this.$refs.cadastroAuxiliar.validate()) {
+
+                    this.Helper.setLoadingAtivo();
+
                     this.$apollo
                         .mutate({
                             mutation: gql`
@@ -203,11 +207,13 @@
                             variables: {nome: this.nome}
                         })
                         .then(() => {
+                            this.Helper.setLoadingAtivo(false);
                             this.Helper.exibirMensagem("Respondedor cadastrado com sucesso!", 'success', 3000);
                             this.$apollo.queries.getRespondedores.refetch();
                             this.$refs.cadastroAuxiliar.reset();
                         })
                         .catch(e => {
+                            this.Helper.setLoadingAtivo(false);
                             const msg = e.graphQLErrors[0].message || "Ocorreu um erro. Tente novamente.";
                             this.Helper.exibirMensagem(msg, 'error', 3000);
                         });

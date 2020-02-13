@@ -1,5 +1,5 @@
 <template>
-    <v-overlay :value="getLoading.ativo">
+    <v-overlay z-index="999" :value="getLoading.ativo">
         <v-progress-circular
                 :size="64"
                 color="primary"

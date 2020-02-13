@@ -215,6 +215,9 @@
 
                     const dados = await this.formatarDataNascimento();
 
+
+                    this.Helper.setLoadingAtivo();
+
                     this.$apollo
                         .mutate({
                             mutation: gql`
@@ -233,11 +236,13 @@
                             variables: {dados: dados}
                         })
                         .then(() => {
+                            this.Helper.setLoadingAtivo(false);
                             this.Helper.exibirMensagem("Equipe cadastrada com sucesso!", 'success', 3000);
                             this.$apollo.queries.getEquipes.refetch();
                             this.$refs.formCadEquipes.reset();
                         })
                         .catch(e => {
+                            this.Helper.setLoadingAtivo(false);
                             const msg = e.graphQLErrors[0].message || "Ocorreu um erro. Tente novamente.";
                             this.Helper.exibirMensagem(msg, 'error', 3000);
                         });
@@ -257,6 +262,8 @@
                         }
                     });
 
+                    this.Helper.setLoadingAtivo();
+
                     this.$apollo
                         .mutate({
                             mutation: gql`
@@ -267,11 +274,13 @@
                             variables: {participantes: dados}
                         })
                         .then(() => {
+                            this.Helper.setLoadingAtivo(false);
                             this.Helper.exibirMensagem("Equipe editada com sucesso!", 'success', 3000);
                             this.$apollo.queries.getEquipes.refetch();
                             this.dialog = false;
                         })
                         .catch(e => {
+                            this.Helper.setLoadingAtivo(false);
                             const msg = e.graphQLErrors[0].message || "Ocorreu um erro. Tente novamente.";
                             this.Helper.exibirMensagem(msg, 'error', 3000);
                         });
@@ -291,6 +300,7 @@
             },
 
             deleteItem() {
+                this.Helper.setLoadingAtivo();
                 this.$apollo
                     .mutate({
                         mutation: gql`
@@ -301,11 +311,13 @@
                         variables: {equipe_id: this.deleteEquipeId}
                     })
                     .then(() => {
+                        this.Helper.setLoadingAtivo(false);
                         this.Helper.exibirMensagem("Equipe excluida com sucesso!", 'success', 3000);
                         this.$apollo.queries.getEquipes.refetch();
                         this.dialogDelete = false;
                     })
                     .catch(e => {
+                        this.Helper.setLoadingAtivo(false);
                         const msg = e.graphQLErrors[0].message || "Ocorreu um erro. Tente novamente.";
                         this.Helper.exibirMensagem(msg, 'error', 3000);
                     });
