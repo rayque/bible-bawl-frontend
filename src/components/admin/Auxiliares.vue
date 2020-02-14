@@ -137,7 +137,7 @@
                             <v-btn class="ma-1" tile outlined small
                                    color="primary" @click="setEquipe(item)"
                             >
-                                <v-icon>mdi-account-group-outline</v-icon>
+                                <v-icon>mdi-account-group</v-icon>
                             </v-btn>
 
                         </template>

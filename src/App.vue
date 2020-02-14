@@ -85,7 +85,7 @@
                         <v-list-item link v-if="$acl.check('isLogged')"
                                      :to="{name: 'equipes'}">
                             <v-list-item-action>
-                                <v-icon>mdi-account-group-outline</v-icon>
+                                <v-icon>mdi-account-group</v-icon>
                             </v-list-item-action>
                             <v-list-item-content>
                                 <v-list-item-title>Equipes</v-list-item-title>
