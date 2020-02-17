@@ -125,7 +125,6 @@
 
             </v-col>
         </v-row>
-
     </div>
 </template>
 <script>
@@ -149,6 +148,7 @@
             respostasCertas: [],
             novaPerguntaAtual: '',
             dadosEquipe: null,
+            loading: false,
         }),
         methods: {
             salvarRespota(id) {
@@ -191,7 +191,12 @@
             resetEquipes() {
                 this.equipes.forEach(equipe => {
                     equipe.participantes.forEach(participante => {
-                        participante.resposta = false;
+                        /* Add participantes com resposta certa */
+                        if (participante.respostas[0].resposta) {
+                            this.respostasCertas.push(participante.id);
+                        }
+
+                        participante.resposta = participante.respostas[0].respota;
                     })
                 })
             },
@@ -208,14 +213,17 @@
 
         },
         watch: {
-            loader() {
-                const l = this.loader
-                this[l] = !this[l]
-
-                setTimeout(() => (this[l] = false), 3000)
-
-                this.loader = null
-            },
+            // loader() {
+            //     const l = this.loader
+            //     this[l] = !this[l]
+            //
+            //     setTimeout(() => (this[l] = false), 3000)
+            //
+            //     this.loader = null
+            // },
+            perguntaAtual(){
+                this.$apollo.queries.getRespondedor.refetch();
+            }
         },
         computed: {
             ...mapGetters(['getAuth']),
@@ -243,6 +251,10 @@
                             participantes {
                                 id
                                 nome
+                                respostas {
+                                    pergunta
+                                    resposta
+                              }
                             }
                         }
                     }
@@ -254,7 +266,7 @@
                     };
                 },
                 skip() {
-                    return !this.getAuth.respondedorId
+                    return !this.getAuth.respondedorId 
                 },
                 result(res) {
                     this.respondedor = res.data.getRespondedor || [];
@@ -343,39 +355,39 @@
         display: flex;
     }
 
-    @-moz-keyframes loader {
-        from {
-            transform: rotate(0);
-        }
-        to {
-            transform: rotate(360deg);
-        }
-    }
+    /*@-moz-keyframes loader {*/
+    /*    from {*/
+    /*        transform: rotate(0);*/
+    /*    }*/
+    /*    to {*/
+    /*        transform: rotate(360deg);*/
+    /*    }*/
+    /*}*/
 
-    @-webkit-keyframes loader {
-        from {
-            transform: rotate(0);
-        }
-        to {
-            transform: rotate(360deg);
-        }
-    }
+    /*@-webkit-keyframes loader {*/
+    /*    from {*/
+    /*        transform: rotate(0);*/
+    /*    }*/
+    /*    to {*/
+    /*        transform: rotate(360deg);*/
+    /*    }*/
+    /*}*/
 
-    @-o-keyframes loader {
-        from {
-            transform: rotate(0);
-        }
-        to {
-            transform: rotate(360deg);
-        }
-    }
+    /*@-o-keyframes loader {*/
+    /*    from {*/
+    /*        transform: rotate(0);*/
+    /*    }*/
+    /*    to {*/
+    /*        transform: rotate(360deg);*/
+    /*    }*/
+    /*}*/
 
-    @keyframes loader {
-        from {
-            transform: rotate(0);
-        }
-        to {
-            transform: rotate(360deg);
-        }
-    }
+    /*@keyframes loader {*/
+    /*    from {*/
+    /*        transform: rotate(0);*/
+    /*    }*/
+    /*    to {*/
+    /*        transform: rotate(360deg);*/
+    /*    }*/
+    /*}*/
 </style>

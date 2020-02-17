@@ -89,10 +89,10 @@
     export default {
         data: () => ({
             logged: null,
-            email: null,
-            password: null,
-            // email: 'rayque@email.com',
-            // password: 'bacon',
+            // email: null,
+            // password: null,
+            email: 'rayque@email.com',
+            password: 'bacon',
             cod_acesso: null,
             dados: null,
             isAuth: false,
