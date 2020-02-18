@@ -148,7 +148,6 @@
             respostasCertas: [],
             novaPerguntaAtual: '',
             dadosEquipe: null,
-            loading: false,
         }),
         methods: {
             salvarRespota(id) {
@@ -222,6 +221,7 @@
             //     this.loader = null
             // },
             perguntaAtual(){
+                this.Helper.setLoadingAtivo();
                 this.$apollo.queries.getRespondedor.refetch();
             }
         },
@@ -266,15 +266,20 @@
                     };
                 },
                 skip() {
-                    return !this.getAuth.respondedorId 
+                    return !this.getAuth.respondedorId
                 },
                 result(res) {
                     this.respondedor = res.data.getRespondedor || [];
                     this.equipes = this.respondedor.equipes || [];
-                    this.resetEquipes();
+                    if (this.perguntaAtual){
+                        this.resetEquipes();
+                    }
+                    this.Helper.setLoadingAtivo(false);
                 },
                 catch() {
+                    this.Helper.setLoadingAtivo(false);
                     this.Helper.exibirMensagem("error", 'error', 3000);
+
                 }
             },
             getPerguntaAtual: {
