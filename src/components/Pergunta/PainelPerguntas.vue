@@ -96,7 +96,9 @@
 
                 <v-row >
 
-                    <v-col cols="4" v-for="status in statusPergunta" :key="status.id">
+                    <v-col  v-for="status in statusPergunta" :key="status.id"
+                            :cols="status.nome === 'cancelado' ? 2: 5"
+                    >
 
                         <v-btn
                                 @click="setStatusPergunta(perguntaAtual.id, status.nome)"
