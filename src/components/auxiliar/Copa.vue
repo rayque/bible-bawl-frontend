@@ -222,7 +222,9 @@
             // },
             perguntaAtual(){
                 this.Helper.setLoadingAtivo();
-                this.$apollo.queries.getRespondedor.refetch();
+                if (this.getAuth.respondedorId) {
+                    this.$apollo.queries.getRespondedor.refetch();
+                }
             }
         },
         computed: {
@@ -266,7 +268,10 @@
                     };
                 },
                 skip() {
-                    return !this.getAuth.respondedorId
+                    if (!this.getAuth.respondedorId) {
+                        this.Helper.setLoadingAtivo(false);
+                    }
+                    return !this.getAuth.respondedorId;
                 },
                 result(res) {
                     this.respondedor = res.data.getRespondedor || [];
