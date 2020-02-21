@@ -128,6 +128,7 @@
                                 v-model="perguntaEspecifica"
                                 label="Pergunta"
                                 type="number"
+                                @keyup.enter="setPergunta(perguntaEspecifica)"
                         ></v-text-field>
                     </v-col>
 

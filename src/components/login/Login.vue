@@ -49,6 +49,7 @@
                                     type="password"
                                     v-model="password"
                                     :disabled="cod_acesso ? true : false"
+                                    @keyup.enter="login"
                             />
 
                             <p class="mt-0 mb-0  text-center font-weight-bold subtitle-1">
@@ -64,6 +65,7 @@
                                     type="number"
                                     v-model="cod_acesso"
                                     :disabled="password || email ? true : false"
+                                    @keyup.enter="login"
                             />
 
                         </v-form>
@@ -89,10 +91,10 @@
     export default {
         data: () => ({
             logged: null,
-            email: null,
-            password: null,
-            // email: 'rayque@email.com',
-            // password: 'bacon',
+            // email: null,
+            // password: null,
+            email: 'rayque@email.com',
+            password: 'bacon',
             cod_acesso: null,
             dados: null,
             isAuth: false,

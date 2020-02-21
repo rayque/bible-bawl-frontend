@@ -125,7 +125,6 @@
 
             </v-col>
         </v-row>
-
     </div>
 </template>
 <script>
@@ -191,7 +190,12 @@
             resetEquipes() {
                 this.equipes.forEach(equipe => {
                     equipe.participantes.forEach(participante => {
-                        participante.resposta = false;
+                        /* Add participantes com resposta certa */
+                        if (participante.respostas[0].resposta) {
+                            this.respostasCertas.push(participante.id);
+                        }
+
+                        participante.resposta = participante.respostas[0].respota;
                     })
                 })
             },
@@ -208,14 +212,18 @@
 
         },
         watch: {
-            loader() {
-                const l = this.loader
-                this[l] = !this[l]
-
-                setTimeout(() => (this[l] = false), 3000)
-
-                this.loader = null
-            },
+            // loader() {
+            //     const l = this.loader
+            //     this[l] = !this[l]
+            //
+            //     setTimeout(() => (this[l] = false), 3000)
+            //
+            //     this.loader = null
+            // },
+            perguntaAtual(){
+                this.Helper.setLoadingAtivo();
+                this.$apollo.queries.getRespondedor.refetch();
+            }
         },
         computed: {
             ...mapGetters(['getAuth']),
@@ -243,6 +251,10 @@
                             participantes {
                                 id
                                 nome
+                                respostas {
+                                    pergunta
+                                    resposta
+                              }
                             }
                         }
                     }
@@ -259,10 +271,15 @@
                 result(res) {
                     this.respondedor = res.data.getRespondedor || [];
                     this.equipes = this.respondedor.equipes || [];
-                    this.resetEquipes();
+                    if (this.perguntaAtual){
+                        this.resetEquipes();
+                    }
+                    this.Helper.setLoadingAtivo(false);
                 },
                 catch() {
+                    this.Helper.setLoadingAtivo(false);
                     this.Helper.exibirMensagem("error", 'error', 3000);
+
                 }
             },
             getPerguntaAtual: {
@@ -343,39 +360,39 @@
         display: flex;
     }
 
-    @-moz-keyframes loader {
-        from {
-            transform: rotate(0);
-        }
-        to {
-            transform: rotate(360deg);
-        }
-    }
+    /*@-moz-keyframes loader {*/
+    /*    from {*/
+    /*        transform: rotate(0);*/
+    /*    }*/
+    /*    to {*/
+    /*        transform: rotate(360deg);*/
+    /*    }*/
+    /*}*/
 
-    @-webkit-keyframes loader {
-        from {
-            transform: rotate(0);
-        }
-        to {
-            transform: rotate(360deg);
-        }
-    }
+    /*@-webkit-keyframes loader {*/
+    /*    from {*/
+    /*        transform: rotate(0);*/
+    /*    }*/
+    /*    to {*/
+    /*        transform: rotate(360deg);*/
+    /*    }*/
+    /*}*/
 
-    @-o-keyframes loader {
-        from {
-            transform: rotate(0);
-        }
-        to {
-            transform: rotate(360deg);
-        }
-    }
+    /*@-o-keyframes loader {*/
+    /*    from {*/
+    /*        transform: rotate(0);*/
+    /*    }*/
+    /*    to {*/
+    /*        transform: rotate(360deg);*/
+    /*    }*/
+    /*}*/
 
-    @keyframes loader {
-        from {
-            transform: rotate(0);
-        }
-        to {
-            transform: rotate(360deg);
-        }
-    }
+    /*@keyframes loader {*/
+    /*    from {*/
+    /*        transform: rotate(0);*/
+    /*    }*/
+    /*    to {*/
+    /*        transform: rotate(360deg);*/
+    /*    }*/
+    /*}*/
 </style>

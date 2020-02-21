@@ -130,9 +130,6 @@
                         </v-btn>
                     </template>
 
-
-
-
                 </v-data-table>
 
                 <v-dialog v-model="dialogDelete" max-width="290">
