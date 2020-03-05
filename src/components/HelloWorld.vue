@@ -3,7 +3,7 @@
     <v-row class="text-center">
 
       <v-col>
-        <v-icon color="orange" size="150" >mdi-trophy</v-icon>
+        <v-icon :color="iconColorSys" size="150" >{{ iconSys }}</v-icon>
       </v-col>
 
       <v-col md="12" sm="12" xs="12">
@@ -23,9 +23,27 @@
     export  default {
         computed:{
 
-        nomeSys() {
+          nomeSys() {
             return process.env.VUE_APP_SYS_NOME;
-        }
+          },
+
+          iconSys() {
+            return process.env.VUE_APP_SYS_ICON;
+          },
+
+          colorSys() {
+            return process.env.VUE_APP_SYS_COLOR;
+          },
+
+          darkSys() {
+            return process.env.VUE_APP_SYS_DARK === "true";
+          },
+
+          iconColorSys() {
+            return process.env.VUE_APP_SYS_ICON_COLOR;
+          },
+
+
         }
     }
 </script>

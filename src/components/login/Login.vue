@@ -11,15 +11,16 @@
                 <v-card class="elevation-12 mb-4" tile  >
                     <v-card-text>
                         <h1 class="text-center font-weight-bold head">
-                            <v-icon color="orange">mdi-trophy-outline mdi-36px</v-icon>
+                            <v-icon :color="iconColorSys">{{ iconSys }} mdi-36px</v-icon>
                            {{ nomeSys }}
                         </h1>
                     </v-card-text>
                 </v-card>
                 <v-card class="elevation-12" tile>
                     <v-toolbar
-                            color="primary"
-                            dark
+                            :color="colorSys"
+                            :dark="darkSys"
+
                     >
                         <v-toolbar-title>Login</v-toolbar-title>
                     </v-toolbar>
@@ -162,7 +163,26 @@
 
             nomeSys() {
                 return process.env.VUE_APP_SYS_NOME;
-            }
+            },
+
+            iconSys() {
+                return process.env.VUE_APP_SYS_ICON;
+            },
+
+            colorSys() {
+                return process.env.VUE_APP_SYS_COLOR;
+            },
+
+            darkSys() {
+                return process.env.VUE_APP_SYS_DARK === "true";
+            },
+
+            iconColorSys() {
+                return process.env.VUE_APP_SYS_ICON_COLOR;
+            },
+
+
+
         },
         apollo: {
             login: {

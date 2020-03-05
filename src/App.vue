@@ -11,6 +11,7 @@
                 <v-navigation-drawer
                         v-model="drawer"
                         app
+                        :dark="darkSys"
                 >
                     <v-list dense  class="primary--text">
 
@@ -51,7 +52,7 @@
                         <v-list-item v-if="$acl.check('isAdmin')" link
                                      :to="{name: 'resultados'}">
                             <v-list-item-action>
-                                <v-icon>mdi-trophy-outline</v-icon>
+                                <v-icon> {{ iconSys }} </v-icon>
                             </v-list-item-action>
                             <v-list-item-content>
                                 <v-list-item-title>Resultados
@@ -112,11 +113,11 @@
             <v-app-bar
                     v-if="$acl.check('isLogged')"
                     app
-                    color="primary"
-                    dark
+                    :color="colorSys"
+                    :dark="darkSys"
             >
                 <v-app-bar-nav-icon @click.stop="drawer = !drawer"/>
-                <v-icon color="orange" class="mx-4">mdi-trophy-outline</v-icon>
+                <v-icon :color="iconColorSys" class="mx-4">{{ iconSys }}</v-icon>
                 <v-toolbar-title class="mr-12 align-center">
                     <span class="title">{{ nomeSys }}</span>
                 </v-toolbar-title>
@@ -187,7 +188,25 @@
 
             nomeSys() {
                 return process.env.VUE_APP_SYS_NOME;
-            }
+            },
+
+            iconSys() {
+                return process.env.VUE_APP_SYS_ICON;
+            },
+
+            colorSys() {
+                return process.env.VUE_APP_SYS_COLOR;
+            },
+
+            darkSys() {
+                return process.env.VUE_APP_SYS_DARK === "true";
+            },
+
+            iconColorSys() {
+                return process.env.VUE_APP_SYS_ICON_COLOR;
+            },
+
+
         }
     }
 </script>
